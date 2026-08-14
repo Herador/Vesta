@@ -1,0 +1,17 @@
+{
+  "name": "Le garde-manger",
+  "short_name": "Garde-manger",
+  "description": "Ce qu'il y a dans le frigo, et quoi en faire ce soir.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#101E19",
+  "theme_color": "#101E19",
+  "lang": "fr",
+  "icons": [
+    { "src": "/icone-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icone-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

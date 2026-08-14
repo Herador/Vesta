@@ -1,0 +1,502 @@
+[
+ {
+  "titre": "Mafé de PST à l'arachide",
+  "categorie": "plat",
+  "cuisine": "senegalaise",
+  "portions_base": 2,
+  "temps_min": 45,
+  "description": "Le grand ragoût ouest-africain: sauce à la cacahuète riche et nappante, patate douce fondante, carottes sucrées.",
+  "note": "Délaie toujours le beurre de cacahuète dans du bouillon chaud avant de le verser, sinon il fait des grumeaux impossibles à rattraper.",
+  "tags": [
+   "PST",
+   "mijoté"
+  ],
+  "ingredients": [
+   {
+    "nom": "PST",
+    "quantite": 80,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 600,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "oignon",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "carotte",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "patate douce",
+    "quantite": 300,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "gingembre",
+    "quantite": 15,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "beurre de cacahuète",
+    "quantite": 3,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "tomate concassée",
+    "quantite": 200,
+    "unite": "g",
+    "partie": "sauce"
+   },
+   {
+    "nom": "concentré de tomate",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "sauce soja",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "piment",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce",
+    "essentiel": false
+   },
+   {
+    "nom": "riz",
+    "quantite": 160,
+    "unite": "g",
+    "partie": "accompagnement"
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Le riz et les PST",
+    "texte": "Lancer 160 g de riz. Verser 250 ml de bouillon chaud sur 80 g de PST avec 1 c. à soupe de sauce soja, 12 minutes, essorer. Garder le reste du bouillon.",
+    "secondes": 720
+   },
+   {
+    "titre": "La mise en place",
+    "texte": "Hacher l'oignon, couper les 2 carottes en gros tronçons et 300 g de patate douce en cubes. Hacher l'ail, râper 15 g de gingembre.",
+    "secondes": null
+   },
+   {
+    "titre": "La base",
+    "texte": "Faire croustiller les PST 5 minutes dans l'huile, ajouter l'oignon 4 minutes, puis ail, gingembre et 1 c. à soupe de concentré de tomate, 1 minute.",
+    "secondes": 600
+   },
+   {
+    "titre": "Les légumes",
+    "texte": "Ajouter carottes, patate douce, 200 g de tomates concassées et 300 ml de bouillon. Porter à frémissement.",
+    "secondes": null
+   },
+   {
+    "titre": "La sauce arachide",
+    "texte": "Prélever une louche de bouillon chaud et y délayer 3 c. à soupe de beurre de cacahuète jusqu'à obtenir une crème lisse, puis la reverser dans la cocotte en remuant.",
+    "secondes": null
+   },
+   {
+    "titre": "Mijoter",
+    "texte": "Couvrir et laisser 25 minutes à petit feu, jusqu'à ce que la patate douce s'écrase sous la fourchette.",
+    "secondes": 1500
+   },
+   {
+    "titre": "Servir",
+    "texte": "Saler, ajouter le piment si tu veux. La sauce doit napper une cuillère. Servir sur le riz.",
+    "secondes": null
+   }
+  ]
+ },
+ {
+  "titre": "Poulet yassa",
+  "categorie": "plat",
+  "cuisine": "senegalaise",
+  "portions_base": 2,
+  "temps_min": 45,
+  "description": "Le grand classique sénégalais: une montagne d'oignons fondus au citron, acidulée et sucrée à la fois, sur du poulet mariné puis rôti.",
+  "note": "La quantité d'oignons paraît absurde, elle ne l'est pas: ils réduisent de moitié et forment toute la sauce. N'en mets pas moins.",
+  "tags": [
+   "poulet",
+   "mijoté"
+  ],
+  "ingredients": [
+   {
+    "nom": "poulet",
+    "quantite": 400,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "oignon",
+    "quantite": 4,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "poivron rouge",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 200,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "citron",
+    "quantite": 3,
+    "unite": "",
+    "partie": "marinade"
+   },
+   {
+    "nom": "ail",
+    "quantite": 4,
+    "unite": "",
+    "partie": "marinade"
+   },
+   {
+    "nom": "moutarde",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "marinade"
+   },
+   {
+    "nom": "gingembre",
+    "quantite": 15,
+    "unite": "g",
+    "partie": "marinade"
+   },
+   {
+    "nom": "laurier",
+    "quantite": 2,
+    "unite": "",
+    "partie": "sauce",
+    "essentiel": false
+   },
+   {
+    "nom": "piment",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce",
+    "essentiel": false
+   },
+   {
+    "nom": "riz",
+    "quantite": 160,
+    "unite": "g",
+    "partie": "accompagnement"
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "La marinade",
+    "texte": "Mélanger le jus des 3 citrons, 2 c. à soupe de moutarde, 4 gousses d'ail écrasées et 15 g de gingembre râpé. Enrober 400 g de poulet et laisser 20 minutes au frais.",
+    "secondes": 1200
+   },
+   {
+    "titre": "Les oignons",
+    "texte": "Émincer finement les 4 oignons et le poivron. Les faire fondre 15 minutes à feu moyen dans 2 c. à soupe d'huile, en remuant: ils doivent devenir translucides et sucrés, sans brunir.",
+    "secondes": 900
+   },
+   {
+    "titre": "Saisir le poulet",
+    "texte": "Égoutter le poulet en gardant la marinade. Le colorer 6 minutes à feu vif dans une autre poêle, puis le réserver.",
+    "secondes": 360
+   },
+   {
+    "titre": "La sauce",
+    "texte": "Verser la marinade sur les oignons, ajouter 200 ml de bouillon, les 2 feuilles de laurier et le piment. Laisser réduire 5 minutes.",
+    "secondes": 300
+   },
+   {
+    "titre": "Mijoter",
+    "texte": "Remettre le poulet dans les oignons, couvrir et laisser 15 minutes à petit feu. Lancer 160 g de riz en parallèle.",
+    "secondes": 900
+   },
+   {
+    "titre": "Servir",
+    "texte": "Retirer le laurier, goûter: la sauce doit être franchement citronnée. Servir sur le riz.",
+    "secondes": null
+   }
+  ]
+ },
+ {
+  "titre": "Shakshuka",
+  "categorie": "plat",
+  "cuisine": "tunisienne",
+  "portions_base": 2,
+  "temps_min": 30,
+  "description": "Poivrons et tomates longuement compotés au cumin, avec des oeufs pochés directement dans la sauce.",
+  "note": "Tout se joue sur la réduction: la sauce doit être assez épaisse pour que les oeufs restent posés dessus au lieu de couler au fond.",
+  "tags": [
+   "oeufs",
+   "rapide"
+  ],
+  "ingredients": [
+   {
+    "nom": "oeuf",
+    "quantite": 4,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "poivron rouge",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "oignon",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 3,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile d'olive",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "tomate concassée",
+    "quantite": 400,
+    "unite": "g",
+    "partie": "sauce"
+   },
+   {
+    "nom": "concentré de tomate",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "cumin",
+    "quantite": 2,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "paprika",
+    "quantite": 2,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "sucre",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "feta",
+    "quantite": 60,
+    "unite": "g",
+    "partie": "garniture",
+    "essentiel": false
+   },
+   {
+    "nom": "persil",
+    "quantite": 15,
+    "unite": "g",
+    "partie": "garniture",
+    "essentiel": false
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Les légumes",
+    "texte": "Émincer l'oignon et couper les 2 poivrons en lanières. Les faire fondre 10 minutes à feu moyen dans 2 c. à soupe d'huile d'olive, jusqu'à ce que les poivrons soient vraiment tendres.",
+    "secondes": 600
+   },
+   {
+    "titre": "Les épices",
+    "texte": "Ajouter 3 gousses d'ail hachées, 1 c. à soupe de concentré de tomate, 2 c. à café de cumin et 2 c. à café de paprika. Remuer 1 minute.",
+    "secondes": 60
+   },
+   {
+    "titre": "Réduire",
+    "texte": "Verser 400 g de tomates concassées et 1 c. à café de sucre. Laisser réduire 10 minutes à découvert, jusqu'à ce qu'une spatule laisse une trace au fond de la poêle.",
+    "secondes": 600
+   },
+   {
+    "titre": "Les oeufs",
+    "texte": "Creuser 4 puits et y casser les oeufs. Couvrir et laisser 6 minutes à feu doux, jusqu'à ce que les blancs soient pris.",
+    "secondes": 360
+   },
+   {
+    "titre": "Servir",
+    "texte": "Émietter 60 g de feta et parsemer de persil ciselé. Se mange directement dans la poêle, avec du pain.",
+    "secondes": null
+   }
+  ]
+ },
+ {
+  "titre": "Tajine de kefta de PST",
+  "categorie": "plat",
+  "cuisine": "marocaine",
+  "portions_base": 2,
+  "temps_min": 40,
+  "description": "Boulettes de PST au cumin mijotées dans une sauce tomate parfumée, avec des oeufs cassés dessus en fin de cuisson.",
+  "note": "Casse les oeufs dans des creux formés à la cuillère, sinon ils glissent et se mélangent à la sauce.",
+  "tags": [
+   "PST",
+   "mijoté"
+  ],
+  "ingredients": [
+   {
+    "nom": "PST",
+    "quantite": 80,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 250,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "oeuf",
+    "quantite": 3,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "chapelure",
+    "quantite": 40,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "oignon",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 3,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile d'olive",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "tomate concassée",
+    "quantite": 400,
+    "unite": "g",
+    "partie": "sauce"
+   },
+   {
+    "nom": "concentré de tomate",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "cumin",
+    "quantite": 2,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "paprika",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "cannelle",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "coriandre",
+    "quantite": 15,
+    "unite": "g",
+    "partie": "garniture",
+    "essentiel": false
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Les PST",
+    "texte": "Verser 250 ml de bouillon chaud sur 80 g de PST, 12 minutes, puis essorer très fermement: la farce ne tiendra pas s'ils sont humides.",
+    "secondes": 720
+   },
+   {
+    "titre": "Les boulettes",
+    "texte": "Mélanger les PST avec 1 oeuf, 40 g de chapelure, la moitié de l'oignon râpé, 1 gousse d'ail pressée, 1 c. à café de cumin et du sel. Former 10 boulettes bien tassées.",
+    "secondes": null
+   },
+   {
+    "titre": "Dorer",
+    "texte": "Colorer les boulettes 6 minutes dans 2 c. à soupe d'huile d'olive en les roulant. Réserver.",
+    "secondes": 360
+   },
+   {
+    "titre": "La sauce",
+    "texte": "Faire revenir le reste de l'oignon haché 5 minutes, ajouter 2 gousses d'ail, 1 c. à soupe de concentré de tomate, 1 c. à café de cumin, 1 c. à café de paprika et une demi-cuillère de cannelle, 1 minute. Verser 400 g de tomates concassées.",
+    "secondes": 360
+   },
+   {
+    "titre": "Mijoter",
+    "texte": "Remettre les boulettes, couvrir et laisser 12 minutes à petit feu.",
+    "secondes": 720
+   },
+   {
+    "titre": "Les oeufs",
+    "texte": "Creuser 2 puits dans la sauce et y casser les 2 oeufs restants. Couvrir 5 minutes, le blanc doit être pris et le jaune coulant. Coriandre ciselée et pain pour saucer.",
+    "secondes": 300
+   }
+  ]
+ }
+]

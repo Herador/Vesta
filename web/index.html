@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="theme-color" content="#101E19">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Garde-manger">
+<title>Le garde-manger</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icone-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..800&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<!-- ============================================================ FRIGO -->
+<section class="page" id="page-stock">
+  <h1>Le garde-manger</h1>
+  <p class="sous" id="resume-stock">Ouverture des placards</p>
+
+  <div class="rangee defile" id="filtres"></div>
+  <div class="liste" id="liste-stock"><div class="charge"><span>Chargement</span></div></div>
+</section>
+
+<!-- ====================================================== SUGGESTIONS -->
+<section class="page" id="page-idees" hidden>
+  <h1>Au menu</h1>
+  <p class="sous" id="resume-idees">D'après ce qui presse dans ton frigo</p>
+  <div class="rangee defile" id="filtres-idees"></div>
+  <div id="liste-idees"><div class="charge"><span>Chargement</span></div></div>
+
+  <h2 style="margin-top:26px">Rien ne te tente ?</h2>
+  <p class="sous">L'assistant invente une recette avec ce que tu as, et rien d'autre.</p>
+  <div class="encart">
+    <label class="lab" for="ia-cuisine">Origine</label>
+    <select id="ia-cuisine"><option value="">Au hasard, surprends-moi</option></select>
+    <label class="lab" for="ia-temps">Temps devant moi</label>
+    <div class="rangee defile" id="ia-temps"></div>
+    <button class="btn" id="ia-lancer" style="width:100%;margin-top:6px">Invente-moi quelque chose</button>
+  </div>
+</section>
+
+<!-- =========================================================== CARNET -->
+<section class="page" id="page-carnet" hidden>
+  <h1>Le carnet</h1>
+  <p class="sous" id="resume-carnet"></p>
+  <div class="rangee defile" id="filtres-carnet"></div>
+  <div id="liste-carnet"><div class="charge"><span>Chargement</span></div></div>
+</section>
+
+<!-- ============================================================ BILAN -->
+<section class="page" id="page-bilan" hidden>
+  <h1>Le bilan</h1>
+  <p class="sous">Sur les sept derniers jours, par personne et par repas</p>
+  <div id="contenu-bilan"><div class="charge"><span>Chargement</span></div></div>
+  <button class="btn calme" id="btn-reglages" style="width:100%;margin:20px 0">Mes réglages</button>
+</section>
+
+<button class="flottant" id="ouvrir-saisie" aria-label="Ajouter un article">+</button>
+
+<!-- ============================================================ BARRE -->
+<nav class="onglets" id="onglets"></nav>
+
+<div id="modale"></div>
+<div id="vue-cuisine"></div>
+
+<script type="module" src="/js/app.js"></script>
+</body>
+</html>

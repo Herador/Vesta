@@ -1,0 +1,2451 @@
+[
+ {
+  "titre": "Bibimbap de PST",
+  "categorie": "plat",
+  "cuisine": "coreenne",
+  "portions_base": 2,
+  "temps_min": 40,
+  "description": "Le bol coréen: chaque légume cuit et assaisonné à part, PST laqués au gochujang, oeuf au plat au centre, et on mélange tout à table.",
+  "note": "Assaisonner chaque légume séparément est le principe même du plat. Un pot de gochujang tient des mois au frigo.",
+  "tags": [
+   "PST",
+   "légumes"
+  ],
+  "ingredients": [
+   {
+    "nom": "PST",
+    "quantite": 80,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 250,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "carotte",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "épinard",
+    "quantite": 150,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "champignon de Paris",
+    "quantite": 150,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "courgette",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat",
+    "essentiel": false
+   },
+   {
+    "nom": "oeuf",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile",
+    "quantite": 3,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile de sésame",
+    "quantite": 3,
+    "unite": "càc",
+    "partie": "plat"
+   },
+   {
+    "nom": "gochujang",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "sauce soja",
+    "quantite": 3,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "miel",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "ail",
+    "quantite": 2,
+    "unite": "",
+    "partie": "sauce"
+   },
+   {
+    "nom": "gingembre",
+    "quantite": 10,
+    "unite": "g",
+    "partie": "sauce"
+   },
+   {
+    "nom": "vinaigre de riz",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "riz",
+    "quantite": 160,
+    "unite": "g",
+    "partie": "accompagnement"
+   },
+   {
+    "nom": "graine de sésame",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "garniture",
+    "essentiel": false
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Le riz et les PST",
+    "texte": "Rincer et lancer 160 g de riz. Verser 250 ml de bouillon chaud sur 80 g de PST avec 1 c. à soupe de sauce soja, 12 minutes, puis essorer fermement.",
+    "secondes": 720
+   },
+   {
+    "titre": "La sauce",
+    "texte": "Mélanger 2 c. à soupe de gochujang, 1 c. à soupe de miel, les 2 c. à soupe de sauce soja restantes, l'ail haché, 10 g de gingembre râpé, 1 c. à café de vinaigre de riz et 2 c. à soupe d'eau.",
+    "secondes": null
+   },
+   {
+    "titre": "La mise en place",
+    "texte": "Carotte en julienne, courgette en demi-rondelles, champignons émincés, épinards lavés.",
+    "secondes": null
+   },
+   {
+    "titre": "Les légumes, un par un",
+    "texte": "Sauter chaque légume séparément à feu vif dans un peu d'huile, 2 à 3 minutes chacun. Saler et ajouter quelques gouttes d'huile de sésame sur chacun avant de le réserver dans un coin d'assiette.",
+    "secondes": 600
+   },
+   {
+    "titre": "Les épinards",
+    "texte": "Faire tomber les épinards 1 minute, les presser pour retirer l'eau, assaisonner de sésame et de sel.",
+    "secondes": 60
+   },
+   {
+    "titre": "Laquer les PST",
+    "texte": "Dorer les PST 5 minutes dans 1 c. à soupe d'huile, verser la sauce et laisser laquer 2 minutes jusqu'à ce qu'ils brillent.",
+    "secondes": 420
+   },
+   {
+    "titre": "Les oeufs",
+    "texte": "Cuire 2 oeufs au plat, le jaune coulant.",
+    "secondes": 180
+   },
+   {
+    "titre": "Monter les bols",
+    "texte": "Riz au fond, légumes disposés en quartiers autour, PST au centre, oeuf par-dessus. Graines de sésame. Mélanger énergiquement tout le bol avant la première bouchée.",
+    "secondes": null
+   }
+  ]
+ },
+ {
+  "titre": "Chop suey de PST",
+  "categorie": "plat",
+  "cuisine": "chinoise",
+  "portions_base": 2,
+  "temps_min": 25,
+  "description": "Le sauté vide-frigo par excellence: beaucoup de légumes croquants, peu de matière grasse, une sauce légère qui lie l'ensemble.",
+  "note": "L'ordre d'entrée des légumes dans le wok suit leur temps de cuisson. Le chou en dernier, il ne demande qu'une minute.",
+  "tags": [
+   "PST",
+   "vide-frigo"
+  ],
+  "ingredients": [
+   {
+    "nom": "PST",
+    "quantite": 80,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 250,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "chou chinois",
+    "quantite": 200,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "carotte",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "poivron rouge",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "champignon de Paris",
+    "quantite": 150,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "germe de soja",
+    "quantite": 100,
+    "unite": "g",
+    "partie": "plat",
+    "essentiel": false
+   },
+   {
+    "nom": "ail",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "gingembre",
+    "quantite": 10,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "sauce soja",
+    "quantite": 3,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "sucre",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "fécule de maïs",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "huile de sésame",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "sauce d'huître",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "sauce",
+    "essentiel": true
+   },
+   {
+    "nom": "vin de riz",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce",
+    "essentiel": true
+   },
+   {
+    "nom": "poivre blanc",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce",
+    "essentiel": false
+   },
+   {
+    "nom": "riz",
+    "quantite": 150,
+    "unite": "g",
+    "partie": "accompagnement"
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Le riz et les PST",
+    "texte": "Lancer 150 g de riz. Verser 250 ml de bouillon chaud sur 80 g de PST, 12 minutes, essorer.",
+    "secondes": 720
+   },
+   {
+    "titre": "La sauce",
+    "texte": "Mélanger 3 c. à soupe de sauce soja, 2 c. à soupe de sauce d'huître, 1 c. à soupe de vin de riz, 1 c. à café de sucre, 1 c. à café de fécule, une pincée de poivre blanc et 5 c. à soupe d'eau.",
+    "secondes": null
+   },
+   {
+    "titre": "La mise en place",
+    "texte": "Carotte en fines lamelles, poivron en lanières, champignons émincés, chou chinois en larges morceaux. Ail haché, gingembre râpé.",
+    "secondes": null
+   },
+   {
+    "titre": "Les PST",
+    "texte": "Faire croustiller les PST 5 minutes dans 1 c. à soupe d'huile. Réserver.",
+    "secondes": 300
+   },
+   {
+    "titre": "Les légumes",
+    "texte": "Seconde cuillère d'huile, feu vif. Carotte 2 minutes, puis poivron et champignons 2 minutes, puis chou chinois et germes de soja 1 minute. Tout doit rester croquant.",
+    "secondes": 300
+   },
+   {
+    "titre": "Réunir",
+    "texte": "Ail et gingembre 1 minute, remettre les PST, verser la sauce et napper 1 minute. Huile de sésame hors du feu, servir sur le riz.",
+    "secondes": 120
+   }
+  ]
+ },
+ {
+  "titre": "Courgettes farcies façon gyoza",
+  "categorie": "defi",
+  "cuisine": "japonaise",
+  "portions_base": 2,
+  "temps_min": 50,
+  "description": "La courgette sert de barquette à une farce de gyoza au gingembre, avec un dessus de panko croustillant et un glaçage soja-miel.",
+  "note": "Bonne porte d'entrée pour la courgette, qui joue ici surtout le rôle de contenant. Excellent tiède le lendemain.",
+  "tags": [
+   "courgette",
+   "PST"
+  ],
+  "ingredients": [
+   {
+    "nom": "courgette",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "PST",
+    "quantite": 70,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 220,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "carotte",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "oignon nouveau",
+    "quantite": 3,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "gingembre",
+    "quantite": 12,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "oeuf",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "chapelure",
+    "quantite": 50,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "sauce soja",
+    "quantite": 4,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "huile de sésame",
+    "quantite": 2,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "miel",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "graine de sésame",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "garniture",
+    "essentiel": false
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Les PST",
+    "texte": "Verser 220 ml de bouillon chaud sur 70 g de PST avec 1 c. à soupe de sauce soja, 12 minutes, puis essorer très fermement.",
+    "secondes": 720
+   },
+   {
+    "titre": "Les courgettes",
+    "texte": "Four à 200°C. Couper les 2 courgettes en deux dans la longueur, les creuser à la cuillère en gardant un demi-centimètre de paroi. Hacher la chair récupérée.",
+    "secondes": null
+   },
+   {
+    "titre": "La garniture",
+    "texte": "Faire suer la chair de courgette et la carotte râpée 5 minutes dans 2 c. à soupe d'huile, ajouter l'ail haché, 12 g de gingembre râpé et les oignons nouveaux ciselés, 1 minute.",
+    "secondes": 360
+   },
+   {
+    "titre": "La farce",
+    "texte": "Hors du feu, mélanger avec les PST, l'oeuf, la moitié de la chapelure, 1 c. à soupe de sauce soja et 2 c. à café d'huile de sésame. Garnir les courgettes et parsemer du reste de chapelure.",
+    "secondes": null
+   },
+   {
+    "titre": "Cuire",
+    "texte": "Enfourner 25 minutes.",
+    "secondes": 1500
+   },
+   {
+    "titre": "Glacer",
+    "texte": "Mélanger les 2 c. à soupe de sauce soja restantes avec 1 c. à soupe de miel, en badigeonner les courgettes, parsemer de graines de sésame et remettre 5 minutes.",
+    "secondes": 300
+   }
+  ]
+ },
+ {
+  "titre": "Curry japonais de PST",
+  "categorie": "plat",
+  "cuisine": "japonaise",
+  "portions_base": 2,
+  "temps_min": 45,
+  "description": "Le curry réconfort japonais: doux, épais, légèrement sucré, avec un roux maison monté au beurre et au curry.",
+  "note": "La pomme râpée et le miel ne sont pas une fantaisie, c'est ce qui fait la douceur caractéristique du curry japonais. Meilleur réchauffé le lendemain.",
+  "tags": [
+   "PST",
+   "réconfort"
+  ],
+  "ingredients": [
+   {
+    "nom": "PST",
+    "quantite": 80,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 600,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "oignon",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "carotte",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "pomme de terre",
+    "quantite": 300,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "gingembre",
+    "quantite": 10,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "beurre",
+    "quantite": 30,
+    "unite": "g",
+    "partie": "sauce"
+   },
+   {
+    "nom": "farine",
+    "quantite": 3,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "curry",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "concentré de tomate",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "sauce soja",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "miel",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "pomme",
+    "quantite": 1,
+    "unite": "",
+    "partie": "sauce"
+   },
+   {
+    "nom": "riz",
+    "quantite": 160,
+    "unite": "g",
+    "partie": "accompagnement"
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Le riz et les PST",
+    "texte": "Lancer 160 g de riz. Verser 250 ml de bouillon chaud sur 80 g de PST avec 1 c. à soupe de sauce soja, 12 minutes, essorer. Garder le reste du bouillon.",
+    "secondes": 720
+   },
+   {
+    "titre": "Dorer les PST",
+    "texte": "Faire croustiller les PST 5 minutes dans 1 c. à soupe d'huile. Réserver.",
+    "secondes": 300
+   },
+   {
+    "titre": "Les légumes",
+    "texte": "Émincer l'oignon, couper les carottes en gros tronçons et 300 g de pommes de terre en cubes. Faire revenir l'oignon 5 minutes dans la seconde cuillère d'huile, ajouter ail et gingembre 1 minute.",
+    "secondes": 360
+   },
+   {
+    "titre": "Mijoter",
+    "texte": "Ajouter carottes, pommes de terre et 350 ml de bouillon. Couvrir et laisser 15 minutes, jusqu'à ce qu'une pointe de couteau traverse la pomme de terre.",
+    "secondes": 900
+   },
+   {
+    "titre": "Le roux",
+    "texte": "Pendant ce temps, fondre 30 g de beurre dans une petite casserole, ajouter 3 c. à soupe de farine et cuire 2 minutes en remuant jusqu'à couleur blonde. Ajouter 2 c. à soupe de curry, 1 minute de plus. Détendre avec une louche de bouillon chaud pris dans la cocotte.",
+    "secondes": 240
+   },
+   {
+    "titre": "Réunir",
+    "texte": "Verser le roux dans la cocotte, ajouter 1 c. à soupe de concentré de tomate, la dernière cuillère de sauce soja, 1 c. à soupe de miel, la pomme râpée et les PST. Laisser épaissir 8 minutes à découvert en remuant.",
+    "secondes": 480
+   },
+   {
+    "titre": "Servir",
+    "texte": "La sauce doit napper le dos d'une cuillère. Servir à côté du riz, pas dessus.",
+    "secondes": null
+   }
+  ]
+ },
+ {
+  "titre": "Dahl de lentilles corail",
+  "categorie": "plat",
+  "cuisine": "indienne",
+  "portions_base": 2,
+  "temps_min": 30,
+  "description": "Lentilles corail fondues en purée crémeuse, finies au lait de coco et à un tempérage d'épices grillées versé au dernier moment.",
+  "note": "Le tempérage, ces épices grillées dans l'huile chaude et versées sur le plat fini, est ce qui sépare un bon dahl d'une soupe de lentilles.",
+  "tags": [
+   "légumineuses",
+   "budget"
+  ],
+  "ingredients": [
+   {
+    "nom": "lentille corail",
+    "quantite": 150,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 400,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "oignon",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 3,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "gingembre",
+    "quantite": 15,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile",
+    "quantite": 3,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "tomate concassée",
+    "quantite": 200,
+    "unite": "g",
+    "partie": "sauce"
+   },
+   {
+    "nom": "lait de coco",
+    "quantite": 100,
+    "unite": "ml",
+    "partie": "sauce"
+   },
+   {
+    "nom": "curcuma",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "cumin",
+    "quantite": 2,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "garam masala",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "riz",
+    "quantite": 150,
+    "unite": "g",
+    "partie": "accompagnement"
+   },
+   {
+    "nom": "coriandre",
+    "quantite": 10,
+    "unite": "g",
+    "partie": "garniture",
+    "essentiel": false
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Le riz et les lentilles",
+    "texte": "Lancer 150 g de riz. Rincer 150 g de lentilles corail à l'eau claire jusqu'à ce qu'elle cesse d'être trouble.",
+    "secondes": 720
+   },
+   {
+    "titre": "La base",
+    "texte": "Hacher l'oignon et le faire revenir 5 minutes dans 2 c. à soupe d'huile. Ajouter 2 gousses d'ail hachées, 15 g de gingembre râpé, 1 c. à café de cumin et une demi-cuillère de curcuma, 1 minute.",
+    "secondes": 360
+   },
+   {
+    "titre": "Mijoter",
+    "texte": "Ajouter les lentilles, 400 ml de bouillon et 200 g de tomates concassées. Laisser 18 minutes à petit feu en remuant, jusqu'à ce que les lentilles se défassent complètement.",
+    "secondes": 1080
+   },
+   {
+    "titre": "Le lait de coco",
+    "texte": "Incorporer 100 ml de lait de coco et 1 c. à café de garam masala. Saler. La texture doit napper sans être liquide.",
+    "secondes": null
+   },
+   {
+    "titre": "Le tempérage",
+    "texte": "Dans une petite poêle, chauffer la dernière cuillère d'huile et y griller 1 c. à café de cumin et la gousse d'ail restante émincée, 40 secondes jusqu'à ce que ça crépite et embaume. Verser aussitôt sur le dahl.",
+    "secondes": null
+   },
+   {
+    "titre": "Servir",
+    "texte": "Avec le riz et la coriandre ciselée.",
+    "secondes": null
+   }
+  ]
+ },
+ {
+  "titre": "Gong bao de PST aux cacahuètes",
+  "categorie": "plat",
+  "cuisine": "chinoise",
+  "portions_base": 2,
+  "temps_min": 25,
+  "description": "Le classique du Sichuan: aigre-doux franc, cacahuètes grillées, sauce brillante qui enrobe sans couler.",
+  "note": "L'équilibre du gong bao tient à quatre choses en quantités égales ou presque: soja, vinaigre, sucre, eau. Retire l'une et le plat s'effondre.",
+  "tags": [
+   "PST",
+   "rapide"
+  ],
+  "ingredients": [
+   {
+    "nom": "PST",
+    "quantite": 80,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 250,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "cacahuète",
+    "quantite": 50,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "poivron rouge",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "oignon nouveau",
+    "quantite": 3,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "gingembre",
+    "quantite": 10,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "piment séché",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat",
+    "essentiel": false
+   },
+   {
+    "nom": "huile",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "sauce soja",
+    "quantite": 3,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "sucre",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "fécule de maïs",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "huile de sésame",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "vinaigre noir",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "sauce",
+    "essentiel": true
+   },
+   {
+    "nom": "vin de riz",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce",
+    "essentiel": true
+   },
+   {
+    "nom": "sauce soja foncée",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce",
+    "essentiel": true
+   },
+   {
+    "nom": "poivre de Sichuan",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "plat",
+    "essentiel": false
+   },
+   {
+    "nom": "riz",
+    "quantite": 150,
+    "unite": "g",
+    "partie": "accompagnement"
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Le riz",
+    "texte": "Rincer 150 g de riz et le lancer à cuire.",
+    "secondes": 720
+   },
+   {
+    "titre": "Réhydrater les PST",
+    "texte": "Verser 250 ml de bouillon chaud sur 80 g de PST. Laisser 12 minutes puis essorer fermement.",
+    "secondes": 720
+   },
+   {
+    "titre": "La sauce",
+    "texte": "Mélanger 3 c. à soupe de sauce soja, 2 c. à soupe de vinaigre noir de Chinkiang, 1 c. à soupe de vin de riz, 1 c. à café de sauce soja foncée, 1 c. à soupe de sucre, 1 c. à café de fécule et 3 c. à soupe d'eau. Goûter: ça doit piquer d'acidité puis retomber sur le sucre.",
+    "secondes": null
+   },
+   {
+    "titre": "La mise en place",
+    "texte": "Couper le poivron en dés de la taille des cacahuètes, séparer le blanc et le vert des 3 oignons nouveaux en tronçons, hacher 2 gousses d'ail, râper 10 g de gingembre.",
+    "secondes": null
+   },
+   {
+    "titre": "Griller les cacahuètes",
+    "texte": "Faire griller 50 g de cacahuètes à sec dans le wok 3 minutes jusqu'à ce qu'elles sentent, puis les réserver. Elles ramolliraient si elles cuisaient dans la sauce.",
+    "secondes": 180
+   },
+   {
+    "titre": "Dorer les PST",
+    "texte": "Chauffer 2 c. à soupe d'huile à feu vif avec les piments séchés et une demi-cuillère de poivre de Sichuan concassé, jusqu'à ce qu'ils embaument sans noircir. Ajouter les PST et les faire croustiller 6 minutes.",
+    "secondes": 360
+   },
+   {
+    "titre": "Les aromates",
+    "texte": "Ajouter le poivron, l'ail, le gingembre et les blancs d'oignon nouveau, sauter 2 minutes à feu vif.",
+    "secondes": 120
+   },
+   {
+    "titre": "Laquer",
+    "texte": "Remuer la sauce et la verser. Laisser bouillonner 1 minute jusqu'à ce qu'elle nappe, puis ajouter les cacahuètes et 1 c. à café d'huile de sésame hors du feu.",
+    "secondes": 60
+   },
+   {
+    "titre": "Servir",
+    "texte": "Parsemer du vert des oignons nouveaux, servir avec le riz.",
+    "secondes": null
+   }
+  ]
+ },
+ {
+  "titre": "Haricots verts sautés à la sichuanaise",
+  "categorie": "plat",
+  "cuisine": "chinoise",
+  "portions_base": 2,
+  "temps_min": 25,
+  "description": "Des haricots verts saisis jusqu'à ce que la peau se ride et cloque, puis enrobés d'une sauce salée-acidulée avec des PST croustillants.",
+  "note": "Avec des haricots en conserve déjà cuits, 3 minutes suffisent, uniquement pour les colorer. Avec des frais, va jusqu'à ce qu'ils fripent vraiment.",
+  "tags": [
+   "PST",
+   "haricot vert"
+  ],
+  "ingredients": [
+   {
+    "nom": "haricot vert",
+    "quantite": 400,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "PST",
+    "quantite": 70,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 220,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 3,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "gingembre",
+    "quantite": 10,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "sauce soja",
+    "quantite": 3,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "vinaigre de riz",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "sucre",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "huile de sésame",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "vin de riz",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce",
+    "essentiel": true
+   },
+   {
+    "nom": "sauce soja foncée",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce",
+    "essentiel": true
+   },
+   {
+    "nom": "riz",
+    "quantite": 150,
+    "unite": "g",
+    "partie": "accompagnement"
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Le riz et les PST",
+    "texte": "Lancer 150 g de riz. Verser 220 ml de bouillon chaud sur 70 g de PST, 12 minutes, essorer.",
+    "secondes": 720
+   },
+   {
+    "titre": "La sauce",
+    "texte": "Mélanger 3 c. à soupe de sauce soja, 1 c. à café de sauce soja foncée, 1 c. à soupe de vin de riz, 1 c. à café de vinaigre de riz et 1 c. à café de sucre. Pas de fécule ici: la sauce doit sécher sur les haricots, pas les napper.",
+    "secondes": null
+   },
+   {
+    "titre": "Les haricots verts",
+    "texte": "Équeuter 400 g de haricots. Les saisir à feu vif dans 1 c. à soupe d'huile 6 minutes sans presque les remuer, jusqu'à ce que la peau se ride et brunisse par endroits. Réserver.",
+    "secondes": 360
+   },
+   {
+    "titre": "Les PST",
+    "texte": "Ajouter la seconde cuillère d'huile et faire croustiller les PST 5 minutes.",
+    "secondes": 300
+   },
+   {
+    "titre": "Les aromates",
+    "texte": "Ajouter l'ail haché et le gingembre râpé, 1 minute, puis remettre les haricots verts.",
+    "secondes": 60
+   },
+   {
+    "titre": "Assaisonner",
+    "texte": "Verser la sauce, sauter 1 minute à feu vif jusqu'à ce que le liquide ait disparu. Huile de sésame hors du feu, servir avec le riz.",
+    "secondes": 60
+   }
+  ]
+ },
+ {
+  "titre": "Keema matar de PST",
+  "categorie": "plat",
+  "cuisine": "indienne",
+  "portions_base": 2,
+  "temps_min": 35,
+  "description": "Curry sec de PST et petits pois, parfumé sans piquer. Le goût vient de l'oignon longuement coloré et des épices grillées à sec.",
+  "note": "Ne bâcle pas la coloration de l'oignon: huit minutes minimum. C'est le seul endroit où ce plat prend sa profondeur.",
+  "tags": [
+   "PST"
+  ],
+  "ingredients": [
+   {
+    "nom": "PST",
+    "quantite": 80,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 250,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "oignon",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "petits pois",
+    "quantite": 150,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 3,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "gingembre",
+    "quantite": 20,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "tomate concassée",
+    "quantite": 300,
+    "unite": "g",
+    "partie": "sauce"
+   },
+   {
+    "nom": "cumin",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "coriandre moulue",
+    "quantite": 2,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "curcuma",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "garam masala",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "sauce soja",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "yaourt",
+    "quantite": 3,
+    "unite": "càs",
+    "partie": "garniture",
+    "essentiel": false
+   },
+   {
+    "nom": "riz",
+    "quantite": 150,
+    "unite": "g",
+    "partie": "accompagnement"
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Le riz et les PST",
+    "texte": "Lancer 150 g de riz. Verser 250 ml de bouillon chaud sur 80 g de PST avec 1 c. à soupe de sauce soja, 12 minutes, essorer.",
+    "secondes": 720
+   },
+   {
+    "titre": "L'oignon",
+    "texte": "Hacher finement l'oignon et le faire colorer 8 minutes dans 2 c. à soupe d'huile, jusqu'à ce qu'il soit vraiment doré aux bords. Ajouter l'ail haché et 20 g de gingembre râpé, 1 minute.",
+    "secondes": 540
+   },
+   {
+    "titre": "Les épices",
+    "texte": "Ajouter 1 c. à café de cumin, 2 de coriandre moulue et une demi-cuillère de curcuma. Remuer 30 secondes dans l'huile chaude: elles doivent embaumer sans noircir.",
+    "secondes": null
+   },
+   {
+    "titre": "La tomate",
+    "texte": "Verser 300 g de tomates concassées et laisser compoter 5 minutes, jusqu'à ce que l'huile remonte en surface.",
+    "secondes": 300
+   },
+   {
+    "titre": "Mijoter",
+    "texte": "Ajouter les PST et un fond de bouillon, mijoter 10 minutes à découvert. Le curry doit rester sec, pas soupeux.",
+    "secondes": 600
+   },
+   {
+    "titre": "Finir",
+    "texte": "Ajouter 150 g de petits pois, 4 minutes, puis 1 c. à café de garam masala et 3 c. à soupe de yaourt hors du feu. Servir avec le riz.",
+    "secondes": 240
+   }
+  ]
+ },
+ {
+  "titre": "Larb de PST, herbes fraîches",
+  "categorie": "plat",
+  "cuisine": "thaie",
+  "portions_base": 2,
+  "temps_min": 30,
+  "description": "Salade tiède du nord de la Thaïlande: PST croustillants, beaucoup d'herbes, citron vert franc, et la poudre de riz grillé qui donne sa texture au plat.",
+  "note": "Le riz grillé pilé n'est pas une décoration, c'est la signature du larb. Sans lui, c'est une salade de soja.",
+  "tags": [
+   "PST",
+   "frais"
+  ],
+  "ingredients": [
+   {
+    "nom": "PST",
+    "quantite": 70,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 220,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "riz",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "échalote",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "oignon nouveau",
+    "quantite": 3,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "menthe",
+    "quantite": 15,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "coriandre",
+    "quantite": 15,
+    "unite": "g",
+    "partie": "plat",
+    "essentiel": false
+   },
+   {
+    "nom": "huile",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "citron vert",
+    "quantite": 2,
+    "unite": "",
+    "partie": "sauce",
+    "essentiel": false
+   },
+   {
+    "nom": "sauce soja",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "sucre",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "piment",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce",
+    "essentiel": false
+   },
+   {
+    "nom": "laitue",
+    "quantite": 1,
+    "unite": "",
+    "partie": "accompagnement"
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Réhydrater les PST",
+    "texte": "Verser 220 ml de bouillon chaud sur 70 g de PST, 12 minutes, puis essorer très fermement.",
+    "secondes": 720
+   },
+   {
+    "titre": "Le riz grillé",
+    "texte": "Griller 2 c. à soupe de riz cru à sec dans une poêle, 5 minutes en remuant, jusqu'à couleur noisette. Piler grossièrement: il doit rester sableux, pas devenir farine.",
+    "secondes": 300
+   },
+   {
+    "titre": "L'assaisonnement",
+    "texte": "Mélanger le jus des 2 citrons verts, 2 c. à soupe de sauce soja, 1 c. à café de sucre et le piment. Goûter: acide d'abord, salé ensuite, sucré en fond.",
+    "secondes": null
+   },
+   {
+    "titre": "La mise en place",
+    "texte": "Émincer finement 2 échalotes et les 3 oignons nouveaux, effeuiller la menthe et la coriandre, séparer les feuilles de laitue.",
+    "secondes": null
+   },
+   {
+    "titre": "Les PST",
+    "texte": "Faire croustiller les PST 7 minutes à feu vif dans 2 c. à soupe d'huile.",
+    "secondes": 420
+   },
+   {
+    "titre": "Mélanger",
+    "texte": "Hors du feu, verser l'assaisonnement sur les PST encore chauds, ajouter échalotes, oignons nouveaux, herbes déchirées et deux tiers du riz grillé.",
+    "secondes": null
+   },
+   {
+    "titre": "Servir",
+    "texte": "Dans les feuilles de laitue, à rouler à la main, avec le reste de riz grillé par-dessus.",
+    "secondes": null
+   }
+  ]
+ },
+ {
+  "titre": "Mapo d'aubergines aux PST",
+  "categorie": "defi",
+  "cuisine": "chinoise",
+  "portions_base": 2,
+  "temps_min": 35,
+  "description": "L'aubergine fond dans une sauce profonde et fermentée, au point qu'on ne reconnaît plus sa texture. Le plat qui réconcilie.",
+  "note": "La pâte de haricots fermentés fait tout le goût, c'est elle qu'il ne faut pas remplacer. Un pot ouvert tient un an au frigo.",
+  "tags": [
+   "aubergine",
+   "PST"
+  ],
+  "ingredients": [
+   {
+    "nom": "aubergine",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "PST",
+    "quantite": 80,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 400,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 3,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "gingembre",
+    "quantite": 15,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "oignon nouveau",
+    "quantite": 3,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile",
+    "quantite": 3,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "pâte de haricots",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "sauce soja",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "sucre",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "vinaigre de riz",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "fécule de maïs",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "huile de sésame",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "haricot noir fermenté",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce",
+    "essentiel": false
+   },
+   {
+    "nom": "vin de riz",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce",
+    "essentiel": true
+   },
+   {
+    "nom": "sauce soja foncée",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce",
+    "essentiel": true
+   },
+   {
+    "nom": "poivre de Sichuan",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "garniture",
+    "essentiel": false
+   },
+   {
+    "nom": "riz",
+    "quantite": 150,
+    "unite": "g",
+    "partie": "accompagnement"
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Le riz et les PST",
+    "texte": "Lancer 150 g de riz. Verser 250 ml de bouillon chaud sur 80 g de PST, laisser 12 minutes, essorer. Garder les 150 ml de bouillon restants pour la sauce.",
+    "secondes": 720
+   },
+   {
+    "titre": "La sauce",
+    "texte": "Mélanger 1 c. à soupe de pâte de haricots fermentés (doubanjiang), 1 c. à soupe de haricots noirs fermentés rincés et écrasés, 2 c. à soupe de sauce soja, 1 c. à café de sauce soja foncée, 1 c. à soupe de vin de riz, 1 c. à café de sucre, 1 c. à café de vinaigre et 150 ml de bouillon. La fécule attend à part, délayée dans 2 c. à soupe d'eau froide.",
+    "secondes": null
+   },
+   {
+    "titre": "La mise en place",
+    "texte": "Couper les aubergines en gros bâtonnets de la taille d'un doigt. Hacher 3 gousses d'ail, râper 15 g de gingembre, ciseler les 3 oignons nouveaux en séparant blanc et vert.",
+    "secondes": null
+   },
+   {
+    "titre": "Les aubergines",
+    "texte": "Chauffer 2 c. à soupe d'huile à feu vif et saisir les aubergines 8 minutes sans les remuer sans cesse, jusqu'à ce qu'elles dorent et s'affaissent. Réserver.",
+    "secondes": 480
+   },
+   {
+    "titre": "Les PST",
+    "texte": "Ajouter la dernière cuillère d'huile, faire croustiller les PST 5 minutes.",
+    "secondes": 300
+   },
+   {
+    "titre": "Le fond de sauce",
+    "texte": "Ajouter ail, gingembre et blancs d'oignon nouveau, remuer 1 minute jusqu'à ce que ça sente fort, puis verser la sauce.",
+    "secondes": 60
+   },
+   {
+    "titre": "Mijoter",
+    "texte": "Remettre les aubergines et laisser mijoter 5 minutes à couvert pour qu'elles s'imprègnent.",
+    "secondes": 300
+   },
+   {
+    "titre": "Lier et servir",
+    "texte": "Verser la fécule délayée en remuant, la sauce épaissit en 30 secondes. Hors du feu, 1 c. à café d'huile de sésame, le vert des oignons et le poivre de Sichuan moulu. Servir sur le riz.",
+    "secondes": null
+   }
+  ]
+ },
+ {
+  "titre": "Poêlée de tofu et brocoli, sauce soja",
+  "categorie": "plat",
+  "cuisine": "chinoise",
+  "portions_base": 2,
+  "temps_min": 30,
+  "description": "Tofu doré sur toutes ses faces, brocoli croquant, sauce miel-soja qui caramélise légèrement en fin de cuisson.",
+  "note": "Éponger le tofu est l'étape qu'on saute et qu'on regrette: humide, il colle et bout au lieu de dorer.",
+  "tags": [
+   "tofu",
+   "rapide"
+  ],
+  "ingredients": [
+   {
+    "nom": "tofu",
+    "quantite": 250,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "brocoli",
+    "quantite": 300,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "gingembre",
+    "quantite": 12,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile",
+    "quantite": 3,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "sauce soja",
+    "quantite": 3,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "miel",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "vinaigre de riz",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "fécule de maïs",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "huile de sésame",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "sauce d'huître",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce",
+    "essentiel": true
+   },
+   {
+    "nom": "vin de riz",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce",
+    "essentiel": true
+   },
+   {
+    "nom": "riz",
+    "quantite": 150,
+    "unite": "g",
+    "partie": "accompagnement"
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Le riz",
+    "texte": "Lancer 150 g de riz.",
+    "secondes": 720
+   },
+   {
+    "titre": "Éponger le tofu",
+    "texte": "Couper 250 g de tofu en cubes de 2 cm et les presser 5 minutes entre deux torchons propres, avec une assiette dessus.",
+    "secondes": 300
+   },
+   {
+    "titre": "La sauce",
+    "texte": "Mélanger 3 c. à soupe de sauce soja, 1 c. à soupe de sauce d'huître, 1 c. à soupe de vin de riz, 1 c. à café de miel, 1 c. à café de vinaigre de riz, 1 c. à café de fécule et 4 c. à soupe d'eau.",
+    "secondes": null
+   },
+   {
+    "titre": "Dorer le tofu",
+    "texte": "Chauffer 2 c. à soupe d'huile et saisir les cubes 8 minutes en les retournant toutes les 2 minutes, jusqu'à ce que chaque face soit dorée. Réserver.",
+    "secondes": 480
+   },
+   {
+    "titre": "Le brocoli",
+    "texte": "Dernière cuillère d'huile, brocoli en fleurettes et 3 c. à soupe d'eau, à couvert 4 minutes. Ajouter ail haché et gingembre râpé, 1 minute.",
+    "secondes": 300
+   },
+   {
+    "titre": "Réunir",
+    "texte": "Remettre le tofu, verser la sauce, laisser napper et caraméliser 1 minute. Huile de sésame hors du feu.",
+    "secondes": 60
+   }
+  ]
+ },
+ {
+  "titre": "PST aux champignons et pak choï",
+  "categorie": "plat",
+  "cuisine": "chinoise",
+  "portions_base": 2,
+  "temps_min": 25,
+  "description": "Un sauté tout en umami: champignons bien colorés, pak choï fondant à la base et croquant en feuilles.",
+  "note": "Ne surcharge pas la poêle avec les champignons. Entassés, ils rendent leur eau et bouillent au lieu de dorer.",
+  "tags": [
+   "PST",
+   "rapide"
+  ],
+  "ingredients": [
+   {
+    "nom": "PST",
+    "quantite": 80,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 250,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "champignon de Paris",
+    "quantite": 250,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "pak choï",
+    "quantite": 3,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 3,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "gingembre",
+    "quantite": 12,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "sauce soja",
+    "quantite": 3,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "vinaigre de riz",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "sucre",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "fécule de maïs",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "huile de sésame",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "sauce d'huître",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "sauce",
+    "essentiel": true
+   },
+   {
+    "nom": "vin de riz",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce",
+    "essentiel": true
+   },
+   {
+    "nom": "poivre blanc",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce",
+    "essentiel": false
+   },
+   {
+    "nom": "riz",
+    "quantite": 150,
+    "unite": "g",
+    "partie": "accompagnement"
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Le riz et les PST",
+    "texte": "Lancer 150 g de riz. Verser 250 ml de bouillon chaud sur 80 g de PST, 12 minutes, puis essorer.",
+    "secondes": 720
+   },
+   {
+    "titre": "La sauce",
+    "texte": "Mélanger 3 c. à soupe de sauce soja, 2 c. à soupe de sauce d'huître, 1 c. à soupe de vin de riz, 1 c. à café de vinaigre de riz, 1 c. à café de sucre, 1 c. à café de fécule, une pincée de poivre blanc et 4 c. à soupe d'eau.",
+    "secondes": null
+   },
+   {
+    "titre": "La mise en place",
+    "texte": "Émincer 250 g de champignons, séparer les feuilles des 3 pak choï et couper les côtes en tronçons, hacher l'ail, râper le gingembre.",
+    "secondes": null
+   },
+   {
+    "titre": "Les PST",
+    "texte": "Faire croustiller les PST 5 minutes dans 1 c. à soupe d'huile à feu vif. Réserver.",
+    "secondes": 300
+   },
+   {
+    "titre": "Les champignons",
+    "texte": "Ajouter la seconde cuillère d'huile et saisir les champignons 4 minutes en une seule couche, sans les remuer les deux premières minutes, jusqu'à belle coloration.",
+    "secondes": 240
+   },
+   {
+    "titre": "Le pak choï",
+    "texte": "Ajouter les côtes 2 minutes, puis les feuilles 1 minute, avec l'ail et le gingembre.",
+    "secondes": 180
+   },
+   {
+    "titre": "Réunir",
+    "texte": "Remettre les PST, verser la sauce remuée, napper 1 minute. Huile de sésame hors du feu, servir sur le riz.",
+    "secondes": 60
+   }
+  ]
+ },
+ {
+  "titre": "PST et brocoli, sauce soja-gingembre",
+  "categorie": "plat",
+  "cuisine": "chinoise",
+  "portions_base": 2,
+  "temps_min": 25,
+  "description": "Le boeuf-brocoli revisité: PST croustillants, brocoli encore ferme, sauce liée à la fécule qui nappe sans noyer.",
+  "note": "La sauce doit être mélangée avant d'allumer le feu. Une fois le wok chaud, tout va trop vite pour doser quoi que ce soit.",
+  "tags": [
+   "PST",
+   "rapide"
+  ],
+  "ingredients": [
+   {
+    "nom": "PST",
+    "quantite": 80,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 250,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "brocoli",
+    "quantite": 400,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 3,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "gingembre",
+    "quantite": 15,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "sauce soja",
+    "quantite": 4,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "vinaigre de riz",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "sucre",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "fécule de maïs",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "huile de sésame",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "vin de riz",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce",
+    "essentiel": true
+   },
+   {
+    "nom": "sauce d'huître",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce",
+    "essentiel": true
+   },
+   {
+    "nom": "sauce soja foncée",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce",
+    "essentiel": true
+   },
+   {
+    "nom": "poivre blanc",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce",
+    "essentiel": false
+   },
+   {
+    "nom": "riz",
+    "quantite": 150,
+    "unite": "g",
+    "partie": "accompagnement"
+   },
+   {
+    "nom": "graine de sésame",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "garniture",
+    "essentiel": false
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Le riz",
+    "texte": "Rincer 150 g de riz et le lancer à cuire. Il sera prêt en même temps que le reste.",
+    "secondes": 720
+   },
+   {
+    "titre": "Réhydrater les PST",
+    "texte": "Verser 250 ml de bouillon chaud sur 80 g de PST avec 1 c. à soupe de sauce soja. Laisser gonfler 12 minutes, puis essorer fermement entre les mains: c'est ce qui leur permettra de croustiller.",
+    "secondes": 720
+   },
+   {
+    "titre": "La sauce",
+    "texte": "Dans un bol, mélanger les 3 c. à soupe de sauce soja restantes, 1 c. à soupe de sauce d'huître, 1 c. à soupe de vin de riz, 1 c. à café de sauce soja foncée pour la couleur, 1 c. à café de vinaigre de riz, 1 c. à café de sucre, 1 c. à café de fécule, une pincée de poivre blanc et 4 c. à soupe d'eau. Réserver à portée de main.",
+    "secondes": null
+   },
+   {
+    "titre": "La mise en place",
+    "texte": "Détailler le brocoli en petites fleurettes, hacher 3 gousses d'ail, râper 15 g de gingembre. Tout doit être coupé avant d'allumer le feu.",
+    "secondes": null
+   },
+   {
+    "titre": "Dorer les PST",
+    "texte": "Faire chauffer 1 c. à soupe d'huile à feu vif et saisir les PST 6 minutes sans trop remuer, jusqu'à ce qu'ils colorent et croustillent. Réserver.",
+    "secondes": 360
+   },
+   {
+    "titre": "Le brocoli",
+    "texte": "Ajouter la seconde cuillère d'huile, jeter le brocoli et 3 c. à soupe d'eau, couvrir 3 minutes. Découvrir, ajouter ail et gingembre et sauter 1 minute: le brocoli doit rester ferme et vert vif.",
+    "secondes": 240
+   },
+   {
+    "titre": "Réunir",
+    "texte": "Remettre les PST, remuer la sauce puis la verser d'un coup. Laisser napper 1 minute en mélangeant. Ajouter 1 c. à café d'huile de sésame hors du feu.",
+    "secondes": 60
+   },
+   {
+    "titre": "Servir",
+    "texte": "Sur le riz, avec les graines de sésame par-dessus.",
+    "secondes": null
+   }
+  ]
+ },
+ {
+  "titre": "Riz sauté aux oeufs",
+  "categorie": "plat",
+  "cuisine": "chinoise",
+  "portions_base": 2,
+  "temps_min": 15,
+  "description": "Le vide-frigo absolu: riz froid de la veille, oeufs brouillés, tout ce qui traîne en petits dés, sauce soja et feu maximum.",
+  "note": "Il faut du riz froid de la veille. Du riz chaud colle et bouillit, il ne saute pas.",
+  "tags": [
+   "oeufs",
+   "vide-frigo",
+   "rapide"
+  ],
+  "ingredients": [
+   {
+    "nom": "riz",
+    "quantite": 150,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "oeuf",
+    "quantite": 3,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "carotte",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "petits pois",
+    "quantite": 100,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "oignon nouveau",
+    "quantite": 3,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "sauce soja",
+    "quantite": 3,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "huile de sésame",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "vin de riz",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce",
+    "essentiel": true
+   },
+   {
+    "nom": "poivre blanc",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce",
+    "essentiel": true
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Préparer",
+    "texte": "Le riz doit avoir été cuit la veille et refroidi au frigo. L'égrener à la main. Couper la carotte en tout petits dés, ciseler les oignons nouveaux.",
+    "secondes": null
+   },
+   {
+    "titre": "Les oeufs",
+    "texte": "Battre les 3 oeufs, les brouiller 1 minute à feu vif dans 1 c. à soupe d'huile, les retirer encore baveux.",
+    "secondes": 60
+   },
+   {
+    "titre": "Les légumes",
+    "texte": "Seconde cuillère d'huile, feu maximum. Carotte 2 minutes, puis 100 g de petits pois et l'ail haché, 1 minute.",
+    "secondes": 180
+   },
+   {
+    "titre": "Le riz",
+    "texte": "Ajouter le riz froid et l'étaler dans le wok. Le laisser 1 minute sans remuer pour qu'il grille, puis sauter 3 minutes.",
+    "secondes": 240
+   },
+   {
+    "titre": "Finir",
+    "texte": "Remettre les oeufs, verser 1 c. à soupe de vin de riz puis 3 c. à soupe de sauce soja sur les bords brûlants du wok, ajouter une bonne pincée de poivre blanc, les oignons nouveaux et 1 c. à café d'huile de sésame. Servir aussitôt.",
+    "secondes": null
+   }
+  ]
+ },
+ {
+  "titre": "Shawarma de PST en pita",
+  "categorie": "plat",
+  "cuisine": "levantine",
+  "portions_base": 2,
+  "temps_min": 35,
+  "description": "Street food du Levant: PST marinés aux épices chaudes et poêlés jusqu'au croustillant, crudités, sauce yaourt à l'ail.",
+  "note": "La sauce yaourt-ail n'est pas un accompagnement, c'est elle qui lie tout le sandwich. Ne la saute pas.",
+  "tags": [
+   "PST",
+   "rapide"
+  ],
+  "ingredients": [
+   {
+    "nom": "PST",
+    "quantite": 80,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 250,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "marinade"
+   },
+   {
+    "nom": "cumin",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "marinade"
+   },
+   {
+    "nom": "coriandre moulue",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "marinade"
+   },
+   {
+    "nom": "paprika",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "marinade"
+   },
+   {
+    "nom": "curcuma",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "marinade"
+   },
+   {
+    "nom": "cannelle",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "marinade"
+   },
+   {
+    "nom": "ail",
+    "quantite": 3,
+    "unite": "",
+    "partie": "marinade"
+   },
+   {
+    "nom": "citron",
+    "quantite": 1,
+    "unite": "",
+    "partie": "marinade",
+    "essentiel": false
+   },
+   {
+    "nom": "yaourt",
+    "quantite": 4,
+    "unite": "càs",
+    "partie": "sauce",
+    "essentiel": false
+   },
+   {
+    "nom": "pain pita",
+    "quantite": 2,
+    "unite": "",
+    "partie": "accompagnement"
+   },
+   {
+    "nom": "tomate",
+    "quantite": 1,
+    "unite": "",
+    "partie": "garniture"
+   },
+   {
+    "nom": "oignon rouge",
+    "quantite": 1,
+    "unite": "",
+    "partie": "garniture"
+   },
+   {
+    "nom": "laitue",
+    "quantite": 1,
+    "unite": "",
+    "partie": "garniture"
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Réhydrater les PST",
+    "texte": "Verser 250 ml de bouillon chaud sur 80 g de PST, laisser 12 minutes, puis essorer fermement.",
+    "secondes": 720
+   },
+   {
+    "titre": "La marinade",
+    "texte": "Mélanger 1 c. à café de cumin, 1 de coriandre moulue, 1 de paprika, un quart de cuillère de curcuma et une pincée de cannelle avec 2 gousses d'ail écrasées, 2 c. à soupe d'huile et le jus d'un demi-citron. Enrober les PST et laisser 10 minutes.",
+    "secondes": 600
+   },
+   {
+    "titre": "La sauce à l'ail",
+    "texte": "Mélanger 4 c. à soupe de yaourt avec la dernière gousse d'ail pressée, une pincée de sel et un trait de citron.",
+    "secondes": null
+   },
+   {
+    "titre": "Les crudités",
+    "texte": "Couper la tomate en dés, émincer finement l'oignon rouge et le rincer 1 minute à l'eau froide pour l'adoucir, émincer la laitue.",
+    "secondes": null
+   },
+   {
+    "titre": "Poêler les PST",
+    "texte": "Feu vif, saisir les PST marinés 6 minutes sans trop remuer, jusqu'à ce que les bords noircissent légèrement.",
+    "secondes": 360
+   },
+   {
+    "titre": "Garnir",
+    "texte": "Chauffer les 2 pains pita, les ouvrir et garnir de PST, crudités et sauce. Rouler serré.",
+    "secondes": null
+   }
+  ]
+ },
+ {
+  "titre": "Tofu croustillant, sauce cacahuète",
+  "categorie": "plat",
+  "cuisine": "indonesienne",
+  "portions_base": 2,
+  "temps_min": 30,
+  "description": "Tofu enrobé de fécule et doré jusqu'au craquant, crudités croquantes, sauce satay onctueuse à la cacahuète et au citron vert.",
+  "note": "La fécule est ce qui fait la croûte. Enrobe le tofu juste avant de le poêler, sinon elle s'humidifie et colle.",
+  "tags": [
+   "tofu",
+   "rapide"
+  ],
+  "ingredients": [
+   {
+    "nom": "tofu",
+    "quantite": 250,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "fécule de maïs",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "carotte",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "concombre",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "chou chinois",
+    "quantite": 150,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile",
+    "quantite": 3,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "beurre de cacahuète",
+    "quantite": 3,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "sauce soja",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "citron vert",
+    "quantite": 1,
+    "unite": "",
+    "partie": "sauce",
+    "essentiel": false
+   },
+   {
+    "nom": "miel",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "ail",
+    "quantite": 1,
+    "unite": "",
+    "partie": "sauce"
+   },
+   {
+    "nom": "gingembre",
+    "quantite": 10,
+    "unite": "g",
+    "partie": "sauce"
+   },
+   {
+    "nom": "riz",
+    "quantite": 150,
+    "unite": "g",
+    "partie": "accompagnement"
+   },
+   {
+    "nom": "cacahuète",
+    "quantite": 20,
+    "unite": "g",
+    "partie": "garniture",
+    "essentiel": false
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Le riz",
+    "texte": "Lancer 150 g de riz.",
+    "secondes": 720
+   },
+   {
+    "titre": "Éponger le tofu",
+    "texte": "Couper 250 g de tofu en cubes de 2 cm et les presser 5 minutes entre deux torchons avec une assiette dessus.",
+    "secondes": 300
+   },
+   {
+    "titre": "La sauce",
+    "texte": "Fouetter 3 c. à soupe de beurre de cacahuète avec 2 c. à soupe de sauce soja, le jus d'un citron vert, 1 c. à café de miel, l'ail pressé, 10 g de gingembre râpé et 4 c. à soupe d'eau chaude, jusqu'à obtenir une crème nappante.",
+    "secondes": null
+   },
+   {
+    "titre": "Les crudités",
+    "texte": "Carotte et concombre en fins bâtonnets, chou chinois émincé.",
+    "secondes": null
+   },
+   {
+    "titre": "Dorer le tofu",
+    "texte": "Enrober les cubes de 2 c. à soupe de fécule juste avant cuisson. Saisir 8 minutes dans 3 c. à soupe d'huile bien chaude, en les retournant, jusqu'à ce qu'ils craquent sous la spatule.",
+    "secondes": 480
+   },
+   {
+    "titre": "Dresser",
+    "texte": "Riz au fond du bol, crudités à côté, tofu par-dessus, sauce versée en filet et cacahuètes concassées.",
+    "secondes": null
+   }
+  ]
+ },
+ {
+  "titre": "Émincé de poulet sauté aux légumes",
+  "categorie": "plat",
+  "cuisine": "chinoise",
+  "portions_base": 2,
+  "temps_min": 25,
+  "description": "Poulet en lanières saisi vif, légumes croquants, sauce soja-gingembre liée. Très protéiné, peu gras, prêt en vingt-cinq minutes.",
+  "note": "Le poulet coupé fin contre le sens des fibres cuit en cinq minutes et reste tendre. Coupé épais, il devient sec avant d'être cuit à coeur.",
+  "tags": [
+   "poulet",
+   "rapide"
+  ],
+  "ingredients": [
+   {
+    "nom": "poulet",
+    "quantite": 300,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "brocoli",
+    "quantite": 250,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "poivron rouge",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "carotte",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "gingembre",
+    "quantite": 12,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "sauce soja",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "marinade"
+   },
+   {
+    "nom": "fécule de maïs",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "marinade"
+   },
+   {
+    "nom": "sauce soja",
+    "quantite": 3,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "miel",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "vinaigre de riz",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "fécule de maïs",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "vin de riz",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "marinade",
+    "essentiel": true
+   },
+   {
+    "nom": "sauce d'huître",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce",
+    "essentiel": true
+   },
+   {
+    "nom": "poivre blanc",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce",
+    "essentiel": false
+   },
+   {
+    "nom": "riz",
+    "quantite": 150,
+    "unite": "g",
+    "partie": "accompagnement"
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Le riz",
+    "texte": "Lancer 150 g de riz.",
+    "secondes": 720
+   },
+   {
+    "titre": "Mariner le poulet",
+    "texte": "Couper 300 g de poulet en fines lanières contre le sens des fibres, mélanger avec 1 c. à soupe de sauce soja, 1 c. à soupe de vin de riz et 1 c. à café de fécule. Laisser 10 minutes: la fécule forme une pellicule qui garde la chair moelleuse, le vin de riz enlève le goût de volaille.",
+    "secondes": 600
+   },
+   {
+    "titre": "La sauce",
+    "texte": "Mélanger 3 c. à soupe de sauce soja, 1 c. à soupe de sauce d'huître, 1 c. à café de miel, 1 c. à café de vinaigre de riz, 1 c. à café de fécule, une pincée de poivre blanc et 4 c. à soupe d'eau.",
+    "secondes": null
+   },
+   {
+    "titre": "La mise en place",
+    "texte": "Brocoli en fleurettes, poivron en lanières, carotte en fines rondelles, ail haché, gingembre râpé.",
+    "secondes": null
+   },
+   {
+    "titre": "Saisir le poulet",
+    "texte": "Feu vif, 1 c. à soupe d'huile, étaler le poulet en une seule couche et le laisser colorer 2 minutes avant de le remuer. 5 à 6 minutes en tout. Réserver.",
+    "secondes": 360
+   },
+   {
+    "titre": "Les légumes",
+    "texte": "Seconde cuillère d'huile, carotte 2 minutes, puis brocoli et poivron avec 3 c. à soupe d'eau, 3 minutes à couvert. Ail et gingembre 1 minute.",
+    "secondes": 360
+   },
+   {
+    "titre": "Réunir",
+    "texte": "Remettre le poulet, verser la sauce remuée, napper 1 minute. Servir sur le riz.",
+    "secondes": 60
+   }
+  ]
+ }
+]

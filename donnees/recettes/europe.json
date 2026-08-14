@@ -1,0 +1,1106 @@
+[
+ {
+  "titre": "Bolognaise de PST",
+  "categorie": "plat",
+  "cuisine": "italienne",
+  "portions_base": 2,
+  "temps_min": 45,
+  "description": "Une vraie bolognaise mijotée, avec autant de légumes que de sauce et des PST dorés qui apportent le mordant de la viande.",
+  "note": "Meilleure le lendemain. Double les quantités et congèle la moitié, elle supporte très bien la congélation.",
+  "tags": [
+   "PST",
+   "mijoté"
+  ],
+  "ingredients": [
+   {
+    "nom": "PST",
+    "quantite": 80,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 250,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "oignon",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "carotte",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "champignon de Paris",
+    "quantite": 150,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile d'olive",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "tomate concassée",
+    "quantite": 400,
+    "unite": "g",
+    "partie": "sauce"
+   },
+   {
+    "nom": "concentré de tomate",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "sauce soja",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "origan",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "laurier",
+    "quantite": 1,
+    "unite": "",
+    "partie": "sauce",
+    "essentiel": false
+   },
+   {
+    "nom": "pâtes",
+    "quantite": 160,
+    "unite": "g",
+    "partie": "accompagnement"
+   },
+   {
+    "nom": "parmesan",
+    "quantite": 40,
+    "unite": "g",
+    "partie": "garniture",
+    "essentiel": false
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Réhydrater les PST",
+    "texte": "Verser 250 ml de bouillon chaud sur 80 g de PST avec 1 c. à soupe de sauce soja, 12 minutes, puis essorer. Garder le bouillon.",
+    "secondes": 720
+   },
+   {
+    "titre": "La mise en place",
+    "texte": "Hacher finement l'oignon, la carotte et 150 g de champignons, en dés de la taille d'un petit pois. Hacher l'ail.",
+    "secondes": null
+   },
+   {
+    "titre": "Dorer les PST",
+    "texte": "Faire croustiller les PST 5 minutes dans 2 c. à soupe d'huile d'olive. Réserver.",
+    "secondes": 300
+   },
+   {
+    "titre": "Le soffritto",
+    "texte": "Faire suer oignon, carotte et champignons 8 minutes à feu moyen, jusqu'à ce que tout ait rendu son eau. Ajouter l'ail et 2 c. à soupe de concentré de tomate, 1 minute.",
+    "secondes": 540
+   },
+   {
+    "titre": "Mijoter",
+    "texte": "Remettre les PST, verser 400 g de tomates concassées, 1 c. à café d'origan, la feuille de laurier et un fond de bouillon. Laisser 25 minutes à petit feu en remuant de temps en temps.",
+    "secondes": 1500
+   },
+   {
+    "titre": "Les pâtes",
+    "texte": "Cuire 160 g de pâtes al dente, les mélanger à la sauce avec une louche d'eau de cuisson. Sers plus de sauce que de pâtes. Parmesan par-dessus.",
+    "secondes": 600
+   }
+  ]
+ },
+ {
+  "titre": "Boulettes de dinde à la tomate",
+  "categorie": "plat",
+  "cuisine": "italienne",
+  "portions_base": 2,
+  "temps_min": 40,
+  "description": "Boulettes de dinde maigres et moelleuses, mijotées dans une sauce tomate maison à l'origan.",
+  "note": "L'oignon râpé dans la farce apporte l'humidité qui manque à la dinde. Sans lui, les boulettes sont sèches.",
+  "tags": [
+   "dinde"
+  ],
+  "ingredients": [
+   {
+    "nom": "dinde",
+    "quantite": 300,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "oeuf",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "chapelure",
+    "quantite": 40,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "oignon",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 3,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile d'olive",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "tomate concassée",
+    "quantite": 400,
+    "unite": "g",
+    "partie": "sauce"
+   },
+   {
+    "nom": "concentré de tomate",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "origan",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "sucre",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "pâtes",
+    "quantite": 160,
+    "unite": "g",
+    "partie": "accompagnement"
+   },
+   {
+    "nom": "parmesan",
+    "quantite": 30,
+    "unite": "g",
+    "partie": "garniture",
+    "essentiel": false
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "La farce",
+    "texte": "Râper la moitié de l'oignon, hacher l'autre moitié. Mélanger 300 g de dinde hachée avec l'oeuf, 40 g de chapelure, l'oignon râpé, 1 gousse d'ail pressée, du sel et du poivre. Former 12 boulettes.",
+    "secondes": null
+   },
+   {
+    "titre": "Dorer",
+    "texte": "Saisir les boulettes 6 minutes dans 2 c. à soupe d'huile d'olive, en les roulant pour colorer toutes les faces. Réserver: elles finiront de cuire dans la sauce.",
+    "secondes": 360
+   },
+   {
+    "titre": "La sauce",
+    "texte": "Dans la même poêle, faire revenir l'oignon haché 4 minutes, ajouter les 2 gousses d'ail restantes et 1 c. à soupe de concentré de tomate, 1 minute. Verser 400 g de tomates concassées, 1 c. à café d'origan et 1 c. à café de sucre.",
+    "secondes": 300
+   },
+   {
+    "titre": "Mijoter",
+    "texte": "Remettre les boulettes, couvrir et laisser 15 minutes à petit feu.",
+    "secondes": 900
+   },
+   {
+    "titre": "Les pâtes",
+    "texte": "Cuire 160 g de pâtes al dente et les servir avec les boulettes et le parmesan râpé.",
+    "secondes": 600
+   }
+  ]
+ },
+ {
+  "titre": "Goulash de PST au paprika",
+  "categorie": "plat",
+  "cuisine": "hongroise",
+  "portions_base": 2,
+  "temps_min": 50,
+  "description": "Ragoût hongrois généreux: oignons fondus, deux paprikas, pommes de terre qui s'effritent juste ce qu'il faut pour épaissir la sauce.",
+  "note": "Le paprika s'ajoute toujours hors du feu. Chauffé directement, il brûle en quelques secondes et rend tout le plat amer.",
+  "tags": [
+   "PST",
+   "mijoté"
+  ],
+  "ingredients": [
+   {
+    "nom": "PST",
+    "quantite": 80,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 500,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "oignon",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "poivron rouge",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "pomme de terre",
+    "quantite": 300,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "paprika",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "tomate concassée",
+    "quantite": 200,
+    "unite": "g",
+    "partie": "sauce"
+   },
+   {
+    "nom": "concentré de tomate",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "sauce soja",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "vinaigre de vin",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "crème",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "garniture",
+    "essentiel": false
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Réhydrater les PST",
+    "texte": "Verser 250 ml de bouillon chaud sur 80 g de PST avec 1 c. à soupe de sauce soja, laisser 12 minutes, puis essorer. Garder les 250 ml de bouillon restants.",
+    "secondes": 720
+   },
+   {
+    "titre": "La mise en place",
+    "texte": "Émincer les 2 oignons, couper les 2 poivrons en lanières et 300 g de pommes de terre en cubes de 3 cm. Hacher 2 gousses d'ail.",
+    "secondes": null
+   },
+   {
+    "titre": "Dorer les PST",
+    "texte": "Faire croustiller les PST 5 minutes dans 1 c. à soupe d'huile à feu vif. Réserver.",
+    "secondes": 300
+   },
+   {
+    "titre": "Les oignons",
+    "texte": "Seconde cuillère d'huile, feu moyen, faire fondre les oignons 8 minutes jusqu'à ce qu'ils deviennent translucides et sucrés. Ajouter les poivrons 4 minutes.",
+    "secondes": 720
+   },
+   {
+    "titre": "Le paprika",
+    "texte": "Retirer la cocotte du feu. Ajouter 2 c. à soupe de paprika, l'ail et 1 c. à soupe de concentré de tomate, mélanger 30 secondes hors du feu pour que les épices s'ouvrent sans brûler.",
+    "secondes": null
+   },
+   {
+    "titre": "Mijoter",
+    "texte": "Remettre sur le feu, ajouter les pommes de terre, 200 g de tomates concassées, les PST et 250 ml de bouillon. Couvrir et laisser 25 minutes à petit feu.",
+    "secondes": 1500
+   },
+   {
+    "titre": "Finir",
+    "texte": "Ajouter 1 c. à café de vinaigre de vin, saler. Servir avec 2 c. à soupe de crème par-dessus, et du pain pour saucer.",
+    "secondes": null
+   }
+  ]
+ },
+ {
+  "titre": "Hachis parmentier de PST",
+  "categorie": "plat",
+  "cuisine": "francaise",
+  "portions_base": 2,
+  "temps_min": 55,
+  "description": "Ragoût de PST bien assaisonné sous une purée maison gratinée. Le plat du dimanche soir de novembre.",
+  "note": "Rature la purée à la fourchette avant d'enfourner: les sillons dorent et croustillent, c'est la meilleure partie.",
+  "tags": [
+   "PST",
+   "réconfort"
+  ],
+  "ingredients": [
+   {
+    "nom": "PST",
+    "quantite": 80,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 250,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "oignon",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "carotte",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "tomate concassée",
+    "quantite": 200,
+    "unite": "g",
+    "partie": "sauce"
+   },
+   {
+    "nom": "concentré de tomate",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "sauce soja",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "thym",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce",
+    "essentiel": false
+   },
+   {
+    "nom": "pomme de terre",
+    "quantite": 600,
+    "unite": "g",
+    "partie": "accompagnement"
+   },
+   {
+    "nom": "lait",
+    "quantite": 100,
+    "unite": "ml",
+    "partie": "accompagnement"
+   },
+   {
+    "nom": "beurre",
+    "quantite": 20,
+    "unite": "g",
+    "partie": "accompagnement"
+   },
+   {
+    "nom": "fromage râpé",
+    "quantite": 40,
+    "unite": "g",
+    "partie": "garniture",
+    "essentiel": false
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Les PST",
+    "texte": "Verser 250 ml de bouillon chaud sur 80 g de PST avec 1 c. à soupe de sauce soja, 12 minutes, essorer.",
+    "secondes": 720
+   },
+   {
+    "titre": "La purée",
+    "texte": "Éplucher 600 g de pommes de terre, les couper en morceaux et les cuire 20 minutes à l'eau salée, jusqu'à ce qu'une pointe de couteau les traverse sans résistance.",
+    "secondes": 1200
+   },
+   {
+    "titre": "Le ragoût",
+    "texte": "Hacher l'oignon et la carotte. Faire croustiller les PST 5 minutes dans 2 c. à soupe d'huile, ajouter oignon et carotte 6 minutes, puis l'ail et 1 c. à soupe de concentré, 1 minute.",
+    "secondes": 720
+   },
+   {
+    "titre": "Mijoter",
+    "texte": "Verser 200 g de tomates concassées, la dernière cuillère de sauce soja et 1 c. à café de thym. Laisser 10 minutes jusqu'à ce que le mélange soit sec et se tienne.",
+    "secondes": 600
+   },
+   {
+    "titre": "Écraser",
+    "texte": "Égoutter les pommes de terre, les écraser au presse-purée avec 100 ml de lait chaud et 20 g de beurre. Saler généreusement.",
+    "secondes": null
+   },
+   {
+    "titre": "Gratiner",
+    "texte": "Four à 200°C. Étaler le ragoût dans un plat, couvrir de purée, rayer la surface à la fourchette et parsemer de 40 g de fromage râpé. Enfourner 20 minutes jusqu'à ce que le dessus soit doré.",
+    "secondes": 1200
+   }
+  ]
+ },
+ {
+  "titre": "Moussaka de PST",
+  "categorie": "defi",
+  "cuisine": "grecque",
+  "portions_base": 2,
+  "temps_min": 75,
+  "description": "Aubergines rôties, ragoût de PST à la cannelle et béchamel gratinée. L'aubergine y est transformée au point d'être méconnaissable.",
+  "note": "Le repos de quinze minutes après le four n'est pas facultatif: coupée trop chaude, la moussaka s'effondre dans l'assiette.",
+  "tags": [
+   "aubergine",
+   "PST"
+  ],
+  "ingredients": [
+   {
+    "nom": "aubergine",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "PST",
+    "quantite": 80,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 250,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "oignon",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 3,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile d'olive",
+    "quantite": 4,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "tomate concassée",
+    "quantite": 400,
+    "unite": "g",
+    "partie": "sauce"
+   },
+   {
+    "nom": "concentré de tomate",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "cannelle",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "origan",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "sauce soja",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "beurre",
+    "quantite": 30,
+    "unite": "g",
+    "partie": "garniture"
+   },
+   {
+    "nom": "farine",
+    "quantite": 30,
+    "unite": "g",
+    "partie": "garniture"
+   },
+   {
+    "nom": "lait",
+    "quantite": 350,
+    "unite": "ml",
+    "partie": "garniture"
+   },
+   {
+    "nom": "parmesan",
+    "quantite": 50,
+    "unite": "g",
+    "partie": "garniture",
+    "essentiel": false
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Les aubergines",
+    "texte": "Four à 220°C. Couper les 2 aubergines en tranches d'un centimètre, les badigeonner de 3 c. à soupe d'huile d'olive, saler et rôtir 20 minutes en les retournant à mi-parcours.",
+    "secondes": 1200
+   },
+   {
+    "titre": "Les PST",
+    "texte": "Verser 250 ml de bouillon chaud sur 80 g de PST avec 1 c. à soupe de sauce soja, 12 minutes, essorer.",
+    "secondes": 720
+   },
+   {
+    "titre": "Le ragoût",
+    "texte": "Faire croustiller les PST 5 minutes dans la dernière cuillère d'huile, ajouter l'oignon haché 4 minutes puis l'ail et 1 c. à soupe de concentré, 1 minute. Verser 400 g de tomates concassées, une demi-cuillère de cannelle et 1 c. à café d'origan. Mijoter 15 minutes.",
+    "secondes": 1500
+   },
+   {
+    "titre": "La béchamel",
+    "texte": "Fondre 30 g de beurre, ajouter 30 g de farine et cuire 1 minute en fouettant. Verser 350 ml de lait chaud petit à petit sans cesser de fouetter, jusqu'à épaississement. Ajouter la moitié du parmesan et une râpée de muscade.",
+    "secondes": 480
+   },
+   {
+    "titre": "Monter",
+    "texte": "Four à 180°C. Dans un plat: une couche d'aubergines, le ragoût, le reste des aubergines, la béchamel et le parmesan restant.",
+    "secondes": null
+   },
+   {
+    "titre": "Cuire et reposer",
+    "texte": "Enfourner 30 minutes jusqu'à ce que le dessus soit doré, puis laisser reposer 15 minutes avant de couper.",
+    "secondes": 1800
+   }
+  ]
+ },
+ {
+  "titre": "Omelette aux légumes",
+  "categorie": "plat",
+  "cuisine": "francaise",
+  "portions_base": 2,
+  "temps_min": 20,
+  "description": "Le vide-frigo express: légumes colorés à la poêle, oeufs versés dessus, cuisson douce pour garder le coeur baveux.",
+  "note": "Feu moyen et jamais fort. Une omelette qui cuit vite devient caoutchouteuse.",
+  "tags": [
+   "oeufs",
+   "vide-frigo"
+  ],
+  "ingredients": [
+   {
+    "nom": "oeuf",
+    "quantite": 5,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "champignon de Paris",
+    "quantite": 150,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "poivron rouge",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "oignon nouveau",
+    "quantite": 3,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile d'olive",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "laitue",
+    "quantite": 1,
+    "unite": "",
+    "partie": "accompagnement"
+   },
+   {
+    "nom": "huile d'olive",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "moutarde",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "vinaigre de vin",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Les légumes",
+    "texte": "Émincer 150 g de champignons, couper le poivron en dés, ciseler les 3 oignons nouveaux. Les saisir 5 minutes à feu vif dans 1 c. à soupe d'huile d'olive, saler.",
+    "secondes": 300
+   },
+   {
+    "titre": "La vinaigrette",
+    "texte": "Fouetter 1 c. à café d'huile d'olive, 1 c. à café de moutarde et 1 c. à café de vinaigre de vin.",
+    "secondes": null
+   },
+   {
+    "titre": "L'omelette",
+    "texte": "Battre les 5 oeufs avec du sel et du poivre, les verser sur les légumes. Baisser à feu moyen et laisser prendre 4 minutes sans remuer, le centre doit rester baveux.",
+    "secondes": 240
+   },
+   {
+    "titre": "Servir",
+    "texte": "Plier l'omelette en deux et servir avec la laitue assaisonnée.",
+    "secondes": null
+   }
+  ]
+ },
+ {
+  "titre": "Pâtes au saumon et brocoli",
+  "categorie": "plat",
+  "cuisine": "italienne",
+  "portions_base": 2,
+  "temps_min": 25,
+  "description": "Pâtes crémeuses au saumon et brocoli, avec une crème mesurée à la cuillère et un zeste de citron qui allège l'ensemble.",
+  "note": "L'eau de cuisson des pâtes est ce qui lie la sauce. Garde toujours une louche avant d'égoutter.",
+  "tags": [
+   "saumon",
+   "rapide"
+  ],
+  "ingredients": [
+   {
+    "nom": "saumon",
+    "quantite": 200,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "brocoli",
+    "quantite": 250,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile d'olive",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "crème",
+    "quantite": 3,
+    "unite": "càs",
+    "partie": "sauce",
+    "essentiel": false
+   },
+   {
+    "nom": "citron",
+    "quantite": 1,
+    "unite": "",
+    "partie": "sauce",
+    "essentiel": false
+   },
+   {
+    "nom": "pâtes",
+    "quantite": 160,
+    "unite": "g",
+    "partie": "accompagnement"
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Les pâtes et le brocoli",
+    "texte": "Cuire 160 g de pâtes al dente. Jeter le brocoli en petites fleurettes dans la même eau pour les 4 dernières minutes. Prélever une louche d'eau de cuisson avant d'égoutter.",
+    "secondes": 600
+   },
+   {
+    "titre": "Le saumon",
+    "texte": "Pendant ce temps, couper 200 g de saumon en cubes de 3 cm et les saisir 4 minutes dans 1 c. à soupe d'huile d'olive avec l'ail haché. Saler et réserver: il finira de cuire dans la sauce.",
+    "secondes": 240
+   },
+   {
+    "titre": "Lier",
+    "texte": "Remettre pâtes et brocoli dans la poêle, ajouter 3 c. à soupe de crème et un peu d'eau de cuisson jusqu'à obtenir une sauce qui nappe. Poivrer.",
+    "secondes": null
+   },
+   {
+    "titre": "Finir",
+    "texte": "Ajouter le saumon délicatement pour ne pas l'émietter, râper le zeste du citron et ajouter un trait de son jus. Servir aussitôt.",
+    "secondes": null
+   }
+  ]
+ },
+ {
+  "titre": "Salade de pois chiches à la feta",
+  "categorie": "plat",
+  "cuisine": "mediterraneenne",
+  "portions_base": 2,
+  "temps_min": 15,
+  "description": "Un vrai repas sans cuisson: pois chiches, crudités croquantes, feta, herbes et vinaigrette au citron.",
+  "note": "Rince l'oignon rouge émincé une minute à l'eau froide, ça enlève son agressivité sans lui retirer son goût.",
+  "tags": [
+   "légumineuses",
+   "sans cuisson"
+  ],
+  "ingredients": [
+   {
+    "nom": "pois chiche",
+    "quantite": 240,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "concombre",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "tomate cerise",
+    "quantite": 200,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "poivron rouge",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "oignon rouge",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "feta",
+    "quantite": 60,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "persil",
+    "quantite": 15,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile d'olive",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "citron",
+    "quantite": 1,
+    "unite": "",
+    "partie": "sauce",
+    "essentiel": false
+   },
+   {
+    "nom": "moutarde",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Les légumes",
+    "texte": "Couper le concombre en dés, les 200 g de tomates cerises en deux, le poivron en dés. Émincer finement la moitié de l'oignon rouge et le rincer à l'eau froide.",
+    "secondes": null
+   },
+   {
+    "titre": "La vinaigrette",
+    "texte": "Fouetter 2 c. à soupe d'huile d'olive avec le jus d'un citron, 1 c. à café de moutarde, du sel et du poivre.",
+    "secondes": null
+   },
+   {
+    "titre": "Assembler",
+    "texte": "Mélanger 240 g de pois chiches égouttés avec les légumes, 60 g de feta émiettée et le persil ciselé.",
+    "secondes": null
+   },
+   {
+    "titre": "Assaisonner",
+    "texte": "Verser la vinaigrette, mélanger et laisser reposer 5 minutes avant de servir: les pois chiches s'imprègnent.",
+    "secondes": 300
+   }
+  ]
+ },
+ {
+  "titre": "Saumon rôti aux légumes",
+  "categorie": "plat",
+  "cuisine": "francaise",
+  "portions_base": 2,
+  "temps_min": 40,
+  "description": "Tout sur une seule plaque: légumes rôtis d'abord, saumon posé dessus à mi-cuisson pour qu'il reste juste nacré.",
+  "note": "Le saumon ne va au four que douze minutes. Plus longtemps, il devient sec et blanchit.",
+  "tags": [
+   "saumon"
+  ],
+  "ingredients": [
+   {
+    "nom": "saumon",
+    "quantite": 300,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "pomme de terre",
+    "quantite": 300,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "poivron rouge",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "brocoli",
+    "quantite": 250,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile d'olive",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "citron",
+    "quantite": 1,
+    "unite": "",
+    "partie": "sauce",
+    "essentiel": false
+   },
+   {
+    "nom": "thym",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce",
+    "essentiel": false
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Les légumes",
+    "texte": "Four à 200°C. Couper 300 g de pommes de terre en cubes et le poivron en lanières. Les enrober de 2 c. à soupe d'huile d'olive, de l'ail écrasé et de sel, puis rôtir 20 minutes sur une plaque.",
+    "secondes": 1200
+   },
+   {
+    "titre": "Le brocoli",
+    "texte": "Ajouter le brocoli en fleurettes sur la plaque, mélanger et remettre 5 minutes.",
+    "secondes": 300
+   },
+   {
+    "titre": "Le saumon",
+    "texte": "Poser les 300 g de saumon parmi les légumes, arroser d'un trait de citron, parsemer de thym et remettre 12 minutes.",
+    "secondes": 720
+   },
+   {
+    "titre": "Servir",
+    "texte": "Le saumon doit s'effeuiller mais rester translucide au centre. Trait de citron et service direct sur la plaque.",
+    "secondes": null
+   }
+  ]
+ },
+ {
+  "titre": "Soupe-repas de lentilles vertes",
+  "categorie": "plat",
+  "cuisine": "francaise",
+  "portions_base": 2,
+  "temps_min": 45,
+  "description": "Un bol complet et chaud: lentilles vertes, carottes et tomate mijotées jusqu'à ce que tout se tienne sans être une purée.",
+  "note": "Ne sale qu'en fin de cuisson. Salées trop tôt, les lentilles gardent une peau dure.",
+  "tags": [
+   "légumineuses",
+   "réconfort"
+  ],
+  "ingredients": [
+   {
+    "nom": "lentille verte",
+    "quantite": 150,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 800,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "carotte",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "oignon",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile d'olive",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "tomate concassée",
+    "quantite": 200,
+    "unite": "g",
+    "partie": "sauce"
+   },
+   {
+    "nom": "thym",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce",
+    "essentiel": false
+   },
+   {
+    "nom": "laurier",
+    "quantite": 1,
+    "unite": "",
+    "partie": "sauce",
+    "essentiel": false
+   },
+   {
+    "nom": "vinaigre de vin",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "La base",
+    "texte": "Hacher l'oignon, couper les 2 carottes en rondelles. Les faire revenir 6 minutes dans 2 c. à soupe d'huile d'olive, ajouter l'ail haché 1 minute.",
+    "secondes": 420
+   },
+   {
+    "titre": "Mijoter",
+    "texte": "Ajouter 150 g de lentilles vertes rincées, 800 ml de bouillon, 200 g de tomates concassées, 1 c. à café de thym et la feuille de laurier. Porter à frémissement.",
+    "secondes": null
+   },
+   {
+    "titre": "Cuire",
+    "texte": "Laisser 30 minutes à couvert et à petit feu, jusqu'à ce que les lentilles soient tendres mais entières.",
+    "secondes": 1800
+   },
+   {
+    "titre": "Finir",
+    "texte": "Retirer le laurier, saler maintenant et ajouter 1 c. à café de vinaigre de vin qui réveille l'ensemble. Servir avec du pain.",
+    "secondes": null
+   }
+  ]
+ }
+]

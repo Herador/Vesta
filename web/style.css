@@ -1,0 +1,460 @@
+/* Le garde-manger — feuille de style unique.
+   Direction: l'étiquetage de cuisine professionnelle. Bandes de couleur,
+   dates au marqueur, chiffres lisibles à un mètre sur un plan de travail. */
+
+:root {
+  --nuit: #101E19;
+  --ardoise: #1A2E27;
+  --ardoise-clair: #223A32;
+  --craie: #EDF2EC;
+  --craie-douce: #9DB0A6;
+  --ambre: #E8A72B;
+  --signal: #E4572E;
+  --menthe: #6FD08C;
+  --trait: rgba(237, 242, 236, .10);
+  --r: 12px;
+  --barre: 66px;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--nuit);
+  color: var(--craie);
+  font-family: "Figtree", system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.45;
+  padding-bottom: calc(var(--barre) + env(safe-area-inset-bottom));
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: contain;
+}
+
+.page { max-width: 620px; margin: 0 auto; padding: 0 14px; }
+.page[hidden] { display: none; }
+
+/* ---------------------------------------------------------- typographie */
+
+h1 {
+  font-family: "Archivo", system-ui, sans-serif;
+  font-weight: 800;
+  font-stretch: 75%;
+  font-size: 30px;
+  letter-spacing: -.02em;
+  line-height: 1;
+  margin: 22px 0 3px;
+  text-transform: uppercase;
+}
+
+h2 {
+  font-family: "Archivo", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: -.01em;
+  margin: 0 0 8px;
+}
+
+.sous { color: var(--craie-douce); font-size: 13px; margin: 0 0 16px; }
+
+.etiquette {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--craie-douce);
+}
+
+/* ------------------------------------------------------------ contrôles */
+
+button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+
+.btn {
+  background: var(--ambre);
+  color: var(--nuit);
+  border-radius: 999px;
+  padding: 12px 20px;
+  font-weight: 700;
+  font-size: 14.5px;
+  letter-spacing: .01em;
+}
+.btn:active { transform: scale(.97); }
+.btn:disabled { opacity: .4; }
+.btn.calme { background: transparent; color: var(--craie); box-shadow: inset 0 0 0 1.5px var(--trait); }
+.btn.danger { background: transparent; color: var(--signal); box-shadow: inset 0 0 0 1.5px currentColor; }
+
+input, select, textarea {
+  font: inherit;
+  color: var(--craie);
+  background: var(--ardoise);
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  width: 100%;
+  outline: none;
+}
+input::placeholder { color: var(--craie-douce); opacity: .7; }
+:focus-visible { outline: 2px solid var(--ambre); outline-offset: 2px; }
+
+.puce {
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--craie-douce);
+  box-shadow: inset 0 0 0 1.5px var(--trait);
+  white-space: nowrap;
+  flex: none;
+}
+.puce[aria-pressed="true"] { background: var(--craie); color: var(--nuit); box-shadow: none; }
+
+.rangee { display: flex; gap: 8px; }
+.rangee.defile { overflow-x: auto; padding: 2px 0 14px; scrollbar-width: none; }
+.rangee.defile::-webkit-scrollbar { display: none; }
+
+/* ------------------------------------------------- la bande de datage */
+
+.liste { display: flex; flex-direction: column; gap: 7px; }
+
+.article {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  background: var(--ardoise);
+  border-radius: var(--r);
+  overflow: hidden;
+  position: relative;
+}
+.article::before {
+  content: "";
+  width: 5px;
+  flex: none;
+  background: var(--menthe);
+}
+.article.bientot::before { background: var(--ambre); }
+.article.urgent::before { background: var(--signal); }
+.article.sans_date::before { background: var(--trait); }
+
+.compte {
+  flex: none;
+  width: 46px;
+  padding: 11px 0;
+  text-align: center;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+.compte .n {
+  display: block;
+  font-size: 25px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -.04em;
+}
+.compte .u {
+  display: block;
+  font-size: 9px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--craie-douce);
+  margin-top: 4px;
+}
+.urgent .compte .n { color: var(--signal); }
+.bientot .compte .n { color: var(--ambre); }
+.sans_date .compte .n { color: var(--craie-douce); font-size: 18px; }
+
+.corps { flex: 1; min-width: 0; padding: 11px 0; }
+.nom { font-weight: 600; letter-spacing: -.01em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.meta {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11.5px;
+  color: var(--craie-douce);
+  margin-top: 2px;
+}
+.action { flex: none; padding: 0 14px 0 4px; display: grid; place-items: center; font-size: 19px; color: var(--craie-douce); }
+
+/* ------------------------------------------------------- suggestions */
+
+.piste {
+  background: var(--ardoise);
+  border-radius: var(--r);
+  padding: 14px;
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+.piste + .piste { margin-top: 8px; }
+.piste h3 { font-family: "Archivo", sans-serif; font-weight: 700; font-size: 17px; margin: 0 0 4px; letter-spacing: -.01em; }
+.piste .pourquoi { font-size: 13.5px; color: var(--craie-douce); line-height: 1.4; }
+.piste .infos { margin-top: 9px; display: flex; gap: 8px; flex-wrap: wrap; }
+.jeton {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border-radius: 6px;
+  background: var(--ardoise-clair);
+  color: var(--craie-douce);
+}
+.jeton.manque { color: var(--signal); }
+.jeton.sauve { color: var(--ambre); }
+
+/* ------------------------------------------------------------ formulaire */
+
+.encart { background: var(--ardoise); border-radius: var(--r); padding: 12px; margin-bottom: 14px; }
+.champs { display: flex; gap: 8px; margin-bottom: 8px; }
+.champs .court { flex: 0 0 30%; }
+.bas { display: flex; gap: 8px; align-items: center; justify-content: space-between; margin-top: 10px; }
+
+.suggestions-ciqual { margin-top: 6px; display: flex; flex-direction: column; gap: 4px; }
+.suggestions-ciqual button {
+  text-align: left;
+  font-size: 12.5px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--ardoise-clair);
+  color: var(--craie-douce);
+}
+
+/* ------------------------------------------------------- vue de cuisine */
+
+.cuisine { position: fixed; inset: 0; background: var(--nuit); z-index: 30; overflow-y: auto; padding-bottom: 90px; }
+.cuisine .page { padding-top: 8px; }
+/* Le titre d'une recette se lit, il ne se crie pas: la casse normale
+   passe mieux sur trois lignes qu'un bloc de capitales. */
+.cuisine h1 { text-transform: none; font-stretch: 100%; letter-spacing: -.015em; }
+
+.entete-cuisine {
+  position: sticky; top: 0; z-index: 2;
+  background: var(--nuit);
+  padding: 12px 0 10px;
+  border-bottom: 1px solid var(--trait);
+  display: flex; align-items: center; gap: 12px;
+}
+
+.portions { display: flex; align-items: center; gap: 12px; background: var(--ardoise); border-radius: var(--r); padding: 8px 12px; margin: 14px 0; }
+.portions .val { flex: 1; text-align: center; font-family: "IBM Plex Mono", monospace; font-weight: 600; }
+.rond { width: 38px; height: 38px; border-radius: 50%; background: var(--ardoise-clair); font-size: 20px; line-height: 1; flex: none; }
+
+.partie { margin-top: 16px; }
+.partie h3 { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--ambre); margin: 0 0 7px; font-weight: 500; }
+.ing { display: flex; justify-content: space-between; gap: 14px; padding: 9px 0; border-bottom: 1px solid var(--trait); font-size: 15.5px; }
+.ing .q { font-family: "IBM Plex Mono", monospace; font-weight: 500; color: var(--ambre); white-space: nowrap; }
+.ing.facultatif .n { color: var(--craie-douce); }
+.mesure { display: flex; align-items: center; gap: 7px; flex: none; }
+.mesure input {
+  width: 84px; text-align: right; padding: 8px 10px;
+  font-family: "IBM Plex Mono", monospace;
+}
+.mesure em {
+  font-family: "IBM Plex Mono", monospace; font-style: normal;
+  font-size: 12px; color: var(--craie-douce); width: 20px;
+}
+
+.etape { display: flex; gap: 13px; padding: 15px 0; border-bottom: 1px solid var(--trait); align-items: flex-start; }
+.etape .num {
+  flex: none; width: 27px; height: 27px; border-radius: 50%;
+  background: var(--ardoise-clair);
+  font-family: "IBM Plex Mono", monospace; font-size: 12.5px;
+  display: grid; place-items: center; margin-top: 2px;
+}
+.etape.faite .num { background: var(--menthe); color: var(--nuit); }
+.etape.faite .txt { color: var(--craie-douce); text-decoration: line-through; }
+.etape .t { font-weight: 700; margin-bottom: 3px; font-size: 15px; }
+.etape .txt { font-size: 15.5px; line-height: 1.5; }
+
+.minuteur {
+  margin-top: 9px;
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: "IBM Plex Mono", monospace; font-size: 13px; font-weight: 500;
+  padding: 6px 12px; border-radius: 999px;
+  background: var(--ardoise-clair); color: var(--ambre);
+  box-shadow: inset 0 0 0 1.5px rgba(232, 167, 43, .25);
+}
+.minuteur.tourne { background: var(--ambre); color: var(--nuit); box-shadow: none; }
+.minuteur.fini { background: var(--menthe); color: var(--nuit); animation: battement 1s ease 3; }
+@keyframes battement { 50% { opacity: .45; } }
+
+.barre-cuisine {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
+  background: linear-gradient(to top, var(--nuit) 60%, transparent);
+  display: flex; gap: 8px; justify-content: center;
+}
+.barre-cuisine .btn { flex: 1; max-width: 400px; text-align: center; }
+
+/* ------------------------------------------------------ barre du bas */
+
+.onglets {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+  height: calc(var(--barre) + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--ardoise);
+  border-top: 1px solid var(--trait);
+  display: flex;
+}
+.onglets button {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 3px;
+  color: var(--craie-douce);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .02em;
+}
+.onglets button[aria-current="page"] { color: var(--ambre); }
+.onglets .glyphe { font-size: 19px; line-height: 1; }
+.onglets .pastille {
+  position: absolute; transform: translate(15px, -13px);
+  background: var(--signal); color: var(--nuit);
+  font-family: "IBM Plex Mono", monospace; font-size: 9.5px; font-weight: 600;
+  min-width: 16px; height: 16px; border-radius: 8px;
+  display: grid; place-items: center; padding: 0 4px;
+}
+
+/* ----------------------------------------------------------- panneau */
+
+.voile { position: fixed; inset: 0; background: rgba(6, 14, 11, .6); z-index: 40; display: flex; align-items: flex-end; justify-content: center; }
+.panneau {
+  background: var(--nuit);
+  width: 100%; max-width: 620px; max-height: 92vh; overflow-y: auto;
+  border-radius: 18px 18px 0 0;
+  padding: 18px 14px calc(24px + env(safe-area-inset-bottom));
+  animation: monte .2s ease-out;
+}
+@keyframes monte { from { transform: translateY(20px); opacity: .5; } }
+.poignee { width: 36px; height: 4px; border-radius: 2px; background: var(--trait); margin: 0 auto 16px; }
+
+/* ------------------------------------------------------------- divers */
+
+.vide { text-align: center; color: var(--craie-douce); padding: 44px 18px; font-size: 14px; }
+.vide b { display: block; font-family: "Archivo", sans-serif; font-size: 18px; color: var(--craie); margin-bottom: 6px; }
+
+.charge { text-align: center; padding: 40px 10px; color: var(--craie-douce); font-family: "IBM Plex Mono", monospace; font-size: 13px; }
+.charge span { animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: .3; } 50% { opacity: 1; } }
+
+.alerte { background: var(--ardoise); border-radius: var(--r); padding: 13px; box-shadow: inset 0 0 0 1.5px var(--signal); color: var(--signal); font-size: 13.5px; }
+
+.mot {
+  position: fixed; left: 50%; bottom: calc(var(--barre) + 18px);
+  transform: translateX(-50%);
+  background: var(--craie); color: var(--nuit);
+  padding: 10px 18px; border-radius: 999px;
+  font-size: 13.5px; font-weight: 600;
+  z-index: 50; max-width: 90vw; text-align: center;
+  animation: monte .2s ease-out;
+}
+
+label.lab { display: block; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--craie-douce); margin: 14px 0 6px; }
+
+.bilan { background: var(--ardoise); border-radius: var(--r); padding: 14px; margin-bottom: 10px; }
+.bilan ul { margin: 6px 0 0; padding-left: 18px; }
+.bilan li { margin-bottom: 4px; font-size: 14px; }
+.chiffres { display: grid; grid-template-columns: repeat(auto-fit, minmax(78px, 1fr)); gap: 8px; margin: 12px 0; }
+.chiffre { background: var(--ardoise); border-radius: 10px; padding: 11px 8px; text-align: center; }
+.chiffre .v {
+  font-family: "IBM Plex Mono", monospace; font-size: 19px; font-weight: 600;
+  color: var(--ambre); white-space: nowrap;
+}
+.chiffre .v em { font-style: normal; font-size: 11px; margin-left: 1px; }
+.chiffre .l { font-size: 10.5px; color: var(--craie-douce); text-transform: uppercase; letter-spacing: .06em; margin-top: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+/* Le bouton d'ajout flotte au-dessus de la liste: la saisie est
+   fréquente, mais elle ne doit pas occuper la moitié de l'écran quand
+   on veut simplement voir ce qui presse. */
+.flottant {
+  position: fixed;
+  right: 16px;
+  bottom: calc(var(--barre) + env(safe-area-inset-bottom) + 16px);
+  width: 54px; height: 54px;
+  border-radius: 50%;
+  background: var(--ambre);
+  color: var(--nuit);
+  font-size: 30px;
+  line-height: 1;
+  font-weight: 300;
+  z-index: 15;
+  box-shadow: 0 6px 22px rgba(6, 14, 11, .45);
+  display: grid; place-items: center;
+}
+.flottant:active { transform: scale(.94); }
+.flottant[hidden] { display: none; }
+
+/* --------------------------------------------- mode cuisine, plein écran
+
+   Une étape à la fois, lisible à un mètre, avec le téléphone posé contre
+   un bocal. Tout le reste disparaît: en cuisine, on n'a pas besoin de
+   savoir combien de recettes contient le carnet. */
+
+.plein { position: fixed; inset: 0; z-index: 60; background: var(--nuit); display: flex; flex-direction: column; }
+
+.plein-haut {
+  display: flex; align-items: center; gap: 12px;
+  padding: calc(10px + env(safe-area-inset-top)) 14px 10px;
+}
+.plein-haut .titre {
+  flex: 1; min-width: 0;
+  font-family: "Archivo", sans-serif; font-weight: 700; font-size: 15px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+.jauge { display: flex; gap: 4px; padding: 0 14px 14px; }
+.jauge i { flex: 1; height: 3px; border-radius: 2px; background: var(--trait); }
+.jauge i.faite { background: var(--menthe); }
+.jauge i.ici { background: var(--ambre); }
+
+.plein-corps {
+  flex: 1; overflow-y: auto;
+  padding: 6px 20px 20px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.plein-corps .rang {
+  font-family: "IBM Plex Mono", monospace; font-size: 12px;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--ambre);
+  margin-bottom: 10px;
+}
+.plein-corps h2 {
+  font-family: "Archivo", sans-serif; font-weight: 800; font-stretch: 85%;
+  font-size: 27px; line-height: 1.08; letter-spacing: -.02em; margin: 0 0 14px;
+}
+.plein-corps p { font-size: 20px; line-height: 1.5; margin: 0; }
+
+.plein-corps .minuteur { font-size: 17px; padding: 12px 22px; margin-top: 22px; align-self: flex-start; }
+
+.plein-bas {
+  display: flex; gap: 10px; align-items: center;
+  padding: 12px 14px calc(14px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--trait);
+}
+.plein-bas .btn { flex: 1; text-align: center; padding: 15px 18px; font-size: 16px; }
+.plein-bas .rond { width: 50px; height: 50px; font-size: 24px; }
+
+.rappel { padding: 0 20px 4px; }
+.rappel .ing { font-size: 16px; padding: 7px 0; }
+
+/* -------------------------------------------------- écriture de recette */
+
+.edit-ligne { display: flex; gap: 6px; margin-bottom: 6px; align-items: center; }
+.edit-ligne .q { width: 64px; flex: none; text-align: right; }
+.edit-ligne .u { width: 78px; flex: none; padding: 12px 6px; }
+.edit-ligne .p { flex: 1; min-width: 0; padding: 12px 6px; }
+/* Le nom occupe sa propre ligne: coincé entre quatre champs, il ne
+   montrait que "sau…" et "broc…". */
+.edit-ing { background: var(--ardoise); border-radius: 10px; padding: 8px; margin-bottom: 7px; }
+.edit-ing .nom { margin-bottom: 6px; background: var(--ardoise-clair); }
+.edit-ing .edit-ligne { margin-bottom: 0; }
+.edit-ing input, .edit-ing select { background: var(--ardoise-clair); }
+.edit-ligne .t { flex: 1; min-width: 0; }
+.edit-ligne .s { width: 62px; flex: none; text-align: right; }
+.edit-ligne .sup {
+  flex: none; width: 34px; height: 34px; border-radius: 8px;
+  background: var(--ardoise-clair); color: var(--craie-douce); font-size: 17px;
+}
+.edit-etape { background: var(--ardoise); border-radius: 10px; padding: 8px; margin-bottom: 8px; }
+.edit-etape textarea { background: var(--ardoise-clair); }
+.edit-etape .edit-ligne input, .edit-etape .edit-ligne select { background: var(--ardoise-clair); }

@@ -1,0 +1,162 @@
+# Le garde-manger
+
+Une application de gestion de frigo qui répond à une seule question:
+**qu'est-ce que je cuisine ce soir avec ce que j'ai déjà ?**
+
+Elle suit ce qui périme, propose des recettes classées par urgence,
+guide la cuisine étape par étape, puis décompte le stock une fois le
+plat terminé. Elle tourne sur un Raspberry Pi à la maison et s'installe
+sur l'écran d'accueil d'un téléphone.
+
+---
+
+## Ce que ça fait
+
+**Le stock.** Chaque article porte un lieu, une quantité et une date.
+Les quantités sont stockées dans une unité canonique et réaffichées dans
+l'unité qui parle: 2 kg moins 20 g donnent 1,98 kg. Les articles sans
+quantité, les épices et l'huile, ne sont jamais décomptés
+automatiquement.
+
+**Les suggestions.** Un moteur local apparie le stock et le carnet, note
+chaque recette selon ce qu'elle sauve et ce qui manque, et explique son
+choix en une phrase. Aucun appel réseau, aucun coût, fonctionne hors
+ligne.
+
+**La cuisine.** Un mode plein écran présente une étape à la fois, avec
+des minuteurs qui survivent au changement d'étape et un écran qui ne
+s'éteint pas.
+
+**Le compte rendu.** À la fin, les quantités prévues sont modifiables et
+on peut ajouter ce qu'on a improvisé. C'est seulement à la validation
+que le stock bouge.
+
+**Les apports.** Calculés depuis la table CIQUAL de l'ANSES, jamais
+générés. Chaque total dit ce qu'il n'a pas pu compter.
+
+**L'assistant.** Facultatif. Il invente une recette avec le stock réel,
+et rien d'autre: un ingrédient absent fait refuser la recette. Sans clé
+configurée, ces routes répondent 503 et tout le reste fonctionne.
+
+---
+
+## Comment c'est fait
+
+    app/                 le serveur
+      base.py            schéma SQLite et connexions
+      modeles.py         formes des requêtes et des réponses
+      commun.py          ce que plusieurs routes partagent
+      api.py             assemblage: application, routeurs, front
+      ia.py              accès au modèle de langage
+      domaine/           logique métier, sans dépendance à FastAPI
+        moteur.py        apparier stock et recettes, noter l'urgence
+        unites.py        masse, volume, pièce
+        nutrition.py     lire CIQUAL, calculer des apports
+        cuisines.py      les cuisines du monde par continent
+      routes/            une route par domaine fonctionnel
+
+    web/                 la PWA
+      index.html
+      style.css
+      js/
+        noyau.js         constantes, réseau, panneau, mise en forme
+        navigation.js    barre du bas, passage d'un écran à l'autre
+        recette.js       fiche, mode cuisine, compte rendu
+        editeur.js       écrire une recette
+        vues/            stock, menu, carnet, bilan
+
+    outils/              scripts d'exploitation
+    donnees/recettes/    le carnet, en JSON
+    docs/                format des recettes
+
+**La séparation qui compte** est celle de `app/domaine/`. Ces quatre
+modules ne savent rien du web: on les essaie dans un interpréteur, sur
+des données réelles, avant de brancher quoi que ce soit. C'est là que
+les vrais problèmes se sont révélés, comme la confusion entre `citron`
+et `jus de citron`.
+
+**Le front n'a pas d'étape de build.** Modules ES natifs, servis tels
+quels. Sur un Raspberry Pi, une chaîne de compilation serait un coût
+permanent pour un bénéfice nul.
+
+---
+
+## Installation
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate          # .venv\Scripts\activate sur Windows
+pip install -r requirements.txt
+```
+
+Charger les recettes, puis la table de composition téléchargée sur
+[ciqual.anses.fr](https://ciqual.anses.fr):
+
+```bash
+python -m outils.importer_recettes
+python -m outils.importer_ciqual Table_Ciqual_2025.xlsx
+```
+
+Lancer:
+
+```bash
+uvicorn app.api:app --reload --host 0.0.0.0 --port 8000
+```
+
+L'application est sur `http://127.0.0.1:8000`, la documentation des
+routes sur `/docs`.
+
+Pour l'assistant, copier `.env.exemple` en `.env` et y mettre une clé
+[console.mistral.ai](https://console.mistral.ai). En cas de souci:
+
+```bash
+python -m outils.diagnostic_ia
+```
+
+---
+
+## Écrire une recette
+
+Le format est décrit dans [docs/FORMAT_RECETTES.md](docs/FORMAT_RECETTES.md).
+Trois règles: un ingrédient porte un nom d'aliment nu, une étape dit
+quoi faire avec quelles quantités, et les ingrédients sont groupés par
+partie, ce qui compte particulièrement pour les sauces asiatiques.
+
+Un vérificateur contrôle la forme avant l'import:
+
+```bash
+python -m outils.verifier_recettes
+```
+
+Il refuse les adjectifs de taille dans les noms, les unités inconnues,
+et les ingrédients qui n'apparaissent dans aucune étape.
+
+---
+
+## Choix techniques
+
+**SQLite plutôt qu'un serveur de base.** Un fichier, aucune
+administration, et une sauvegarde qui consiste à le copier.
+
+**Les valeurs nutritionnelles sont calculées, jamais générées.** Un
+modèle qui invente des calories est exactement ce qu'il fallait éviter.
+Le modèle sert à trois choses seulement: inventer une recette, arbitrer
+entre des fiches CIQUAL que le moteur local a présélectionnées, et
+commenter des tendances.
+
+**Ce qui vient du modèle est vérifié.** Une recette générée passe par le
+même contrôle que celles écrites à la main, plus deux règles: une seule
+protéine principale, et aucun ingrédient absent du stock. Une consigne
+se néglige, un contrôle non.
+
+**Les recettes inventées entrent en essai.** Elles n'apparaissent ni au
+carnet ni aux suggestions tant qu'on ne les a pas cuisinées et gardées.
+
+---
+
+## Déploiement
+
+Sur le Raspberry Pi, un service systemd pour le redémarrage automatique,
+une copie quotidienne du fichier `.db`, et Tailscale pour l'accès en
+HTTPS depuis le téléphone, y compris hors du domicile. Le HTTPS n'est
+pas un luxe: sans lui, ni service worker ni accès à la caméra.

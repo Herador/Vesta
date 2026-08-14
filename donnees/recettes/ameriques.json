@@ -1,0 +1,517 @@
+[
+ {
+  "titre": "Chili sin carne",
+  "categorie": "plat",
+  "cuisine": "mexicaine",
+  "portions_base": 2,
+  "temps_min": 40,
+  "description": "Chili épais et fumé, aux haricots rouges et aux PST, avec une pointe de cacao amer qui donne de la profondeur.",
+  "note": "Le carré de chocolat noir n'est pas une excentricité: il arrondit l'acidité de la tomate et donne au chili sa couleur profonde.",
+  "tags": [
+   "PST",
+   "batch"
+  ],
+  "ingredients": [
+   {
+    "nom": "PST",
+    "quantite": 70,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 250,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "haricot rouge",
+    "quantite": 240,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "oignon",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "poivron rouge",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "tomate concassée",
+    "quantite": 400,
+    "unite": "g",
+    "partie": "sauce"
+   },
+   {
+    "nom": "concentré de tomate",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "cumin",
+    "quantite": 2,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "paprika",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "chocolat noir",
+    "quantite": 10,
+    "unite": "g",
+    "partie": "sauce",
+    "essentiel": false
+   },
+   {
+    "nom": "riz",
+    "quantite": 150,
+    "unite": "g",
+    "partie": "accompagnement"
+   },
+   {
+    "nom": "coriandre",
+    "quantite": 10,
+    "unite": "g",
+    "partie": "garniture",
+    "essentiel": false
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Le riz et les PST",
+    "texte": "Lancer 150 g de riz. Verser 250 ml de bouillon chaud sur 70 g de PST, 12 minutes, essorer.",
+    "secondes": 720
+   },
+   {
+    "titre": "La base",
+    "texte": "Hacher l'oignon, couper le poivron en dés. Faire croustiller les PST 5 minutes dans 2 c. à soupe d'huile, ajouter oignon et poivron 5 minutes.",
+    "secondes": 660
+   },
+   {
+    "titre": "Les épices",
+    "texte": "Ajouter l'ail haché, 1 c. à soupe de concentré de tomate, 2 c. à café de cumin et 1 c. à café de paprika fumé. Remuer 1 minute pour ouvrir les épices.",
+    "secondes": 60
+   },
+   {
+    "titre": "Mijoter",
+    "texte": "Verser 400 g de tomates concassées et 240 g de haricots rouges égouttés. Saler et laisser 15 minutes à découvert, jusqu'à épaississement.",
+    "secondes": 900
+   },
+   {
+    "titre": "Finir",
+    "texte": "Ajouter 10 g de chocolat noir et remuer jusqu'à ce qu'il fonde. Goûter et rectifier. Servir sur le riz avec la coriandre ciselée.",
+    "secondes": null
+   }
+  ]
+ },
+ {
+  "titre": "Lomo saltado de PST",
+  "categorie": "plat",
+  "cuisine": "peruvienne",
+  "portions_base": 2,
+  "temps_min": 35,
+  "description": "Le sauté sino-andin du Pérou: feu très vif, soja et vinaigre, tomates encore fermes, et des frites mélangées à la dernière seconde.",
+  "note": "Tout se joue sur la puissance du feu. Les tomates doivent rester en quartiers reconnaissables, pas fondre en sauce.",
+  "tags": [
+   "PST"
+  ],
+  "ingredients": [
+   {
+    "nom": "PST",
+    "quantite": 80,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 250,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "oignon rouge",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "tomate",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "poivron rouge",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "sauce soja",
+    "quantite": 3,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "vinaigre de vin",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "cumin",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "pomme de terre",
+    "quantite": 300,
+    "unite": "g",
+    "partie": "accompagnement"
+   },
+   {
+    "nom": "riz",
+    "quantite": 150,
+    "unite": "g",
+    "partie": "accompagnement"
+   },
+   {
+    "nom": "coriandre",
+    "quantite": 10,
+    "unite": "g",
+    "partie": "garniture",
+    "essentiel": false
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Les frites",
+    "texte": "Four à 220°C. Couper 300 g de pommes de terre en bâtonnets, les enrober d'un peu d'huile et les rôtir 25 minutes en les retournant à mi-cuisson.",
+    "secondes": 1500
+   },
+   {
+    "titre": "Le riz et les PST",
+    "texte": "Lancer 150 g de riz. Verser 250 ml de bouillon chaud sur 80 g de PST avec 1 c. à soupe de sauce soja, 12 minutes, essorer.",
+    "secondes": 720
+   },
+   {
+    "titre": "La sauce",
+    "texte": "Mélanger les 2 c. à soupe de sauce soja restantes, 1 c. à soupe de vinaigre de vin et une demi-cuillère de cumin.",
+    "secondes": null
+   },
+   {
+    "titre": "La mise en place",
+    "texte": "Couper l'oignon rouge et les 2 tomates en quartiers épais, le poivron en larges lanières, hacher l'ail.",
+    "secondes": null
+   },
+   {
+    "titre": "Les PST",
+    "texte": "Feu maximum, 2 c. à soupe d'huile, saisir les PST 6 minutes jusqu'à ce qu'ils croustillent. Réserver.",
+    "secondes": 360
+   },
+   {
+    "titre": "Les légumes",
+    "texte": "Toujours à feu maximum, saisir oignon et poivron 3 minutes, ajouter l'ail et les tomates 2 minutes seulement: elles doivent tiédir sans se défaire.",
+    "secondes": 300
+   },
+   {
+    "titre": "Réunir",
+    "texte": "Remettre les PST, verser la sauce, sauter 1 minute. Ajouter les frites et mélanger délicatement à la spatule.",
+    "secondes": 60
+   },
+   {
+    "titre": "Servir",
+    "texte": "Immédiatement, avec le riz à côté et la coriandre ciselée par-dessus.",
+    "secondes": null
+   }
+  ]
+ },
+ {
+  "titre": "PST jerk et rice and peas",
+  "categorie": "plat",
+  "cuisine": "jamaicaine",
+  "portions_base": 2,
+  "temps_min": 40,
+  "description": "Duo jamaïcain: PST aux épices jerk bien colorés, et un riz crémeux cuit au lait de coco avec des haricots rouges.",
+  "note": "Le quatre-épices est l'épice signature du jerk, c'est elle qui donne ce parfum reconnaissable. Le riz cuit dans le lait de coco n'a pas besoin d'être remué.",
+  "tags": [
+   "PST"
+  ],
+  "ingredients": [
+   {
+    "nom": "PST",
+    "quantite": 80,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 250,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "oignon nouveau",
+    "quantite": 3,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "quatre-épices",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "marinade"
+   },
+   {
+    "nom": "thym",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "marinade",
+    "essentiel": false
+   },
+   {
+    "nom": "cannelle",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "marinade"
+   },
+   {
+    "nom": "paprika",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "marinade"
+   },
+   {
+    "nom": "ail",
+    "quantite": 2,
+    "unite": "",
+    "partie": "marinade"
+   },
+   {
+    "nom": "sauce soja",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "marinade"
+   },
+   {
+    "nom": "miel",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "marinade"
+   },
+   {
+    "nom": "riz",
+    "quantite": 150,
+    "unite": "g",
+    "partie": "accompagnement"
+   },
+   {
+    "nom": "haricot rouge",
+    "quantite": 240,
+    "unite": "g",
+    "partie": "accompagnement"
+   },
+   {
+    "nom": "lait de coco",
+    "quantite": 150,
+    "unite": "ml",
+    "partie": "accompagnement"
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Réhydrater les PST",
+    "texte": "Verser 250 ml de bouillon chaud sur 80 g de PST, laisser 12 minutes, puis essorer.",
+    "secondes": 720
+   },
+   {
+    "titre": "Le rice and peas",
+    "texte": "Dans une casserole, réunir 150 g de riz, 240 g de haricots rouges égouttés, 150 ml de lait de coco, 150 ml d'eau, la moitié des oignons nouveaux et une pincée de thym. Couvrir et cuire 15 minutes sans remuer, puis laisser reposer 5 minutes hors du feu.",
+    "secondes": 900
+   },
+   {
+    "titre": "La marinade jerk",
+    "texte": "Mélanger 1 c. à café de quatre-épices, le reste du thym, une demi-cuillère de cannelle, 1 c. à café de paprika, 2 gousses d'ail hachées, 2 c. à soupe de sauce soja et 1 c. à soupe de miel. Enrober les PST.",
+    "secondes": null
+   },
+   {
+    "titre": "Cuire les PST",
+    "texte": "Feu vif, 2 c. à soupe d'huile, saisir les PST 7 minutes jusqu'à ce qu'ils soient bien colorés et que le miel commence à caraméliser.",
+    "secondes": 420
+   },
+   {
+    "titre": "Dresser",
+    "texte": "Servir les PST sur le riz, avec le vert des oignons nouveaux ciselé.",
+    "secondes": null
+   }
+  ]
+ },
+ {
+  "titre": "Sloppy joe de PST",
+  "categorie": "plat",
+  "cuisine": "americaine",
+  "portions_base": 2,
+  "temps_min": 30,
+  "description": "Garniture tomatée fondante, fumée et légèrement sucrée, débordant d'un pain à burger. Assumé et redoutablement efficace.",
+  "note": "Ça se mange autant à la fourchette qu'à la main. Une salade de chou râpé à côté apporte le croquant qui manque.",
+  "tags": [
+   "PST",
+   "rapide"
+  ],
+  "ingredients": [
+   {
+    "nom": "PST",
+    "quantite": 80,
+    "unite": "g",
+    "partie": "plat"
+   },
+   {
+    "nom": "bouillon",
+    "quantite": 250,
+    "unite": "ml",
+    "partie": "plat"
+   },
+   {
+    "nom": "oignon",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "poivron rouge",
+    "quantite": 1,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "ail",
+    "quantite": 2,
+    "unite": "",
+    "partie": "plat"
+   },
+   {
+    "nom": "huile",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "plat"
+   },
+   {
+    "nom": "tomate concassée",
+    "quantite": 200,
+    "unite": "g",
+    "partie": "sauce"
+   },
+   {
+    "nom": "ketchup",
+    "quantite": 2,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "moutarde",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "sucre",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "paprika",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "sauce soja",
+    "quantite": 1,
+    "unite": "càs",
+    "partie": "sauce"
+   },
+   {
+    "nom": "vinaigre de vin",
+    "quantite": 1,
+    "unite": "càc",
+    "partie": "sauce"
+   },
+   {
+    "nom": "pain burger",
+    "quantite": 2,
+    "unite": "",
+    "partie": "accompagnement"
+   }
+  ],
+  "etapes": [
+   {
+    "titre": "Réhydrater les PST",
+    "texte": "Verser 250 ml de bouillon chaud sur 80 g de PST avec 1 c. à soupe de sauce soja, 12 minutes, essorer.",
+    "secondes": 720
+   },
+   {
+    "titre": "La base",
+    "texte": "Hacher l'oignon et couper le poivron en petits dés. Faire croustiller les PST 5 minutes dans 2 c. à soupe d'huile, ajouter oignon et poivron 5 minutes, puis l'ail 1 minute.",
+    "secondes": 660
+   },
+   {
+    "titre": "La sauce",
+    "texte": "Ajouter 200 g de tomates concassées, 2 c. à soupe de ketchup, 1 c. à café de moutarde, 1 c. à café de sucre roux, 1 c. à café de paprika fumé et 1 c. à café de vinaigre de vin.",
+    "secondes": null
+   },
+   {
+    "titre": "Réduire",
+    "texte": "Laisser mijoter 10 minutes à découvert, jusqu'à ce que la garniture soit épaisse et brillante et qu'elle tienne sur une cuillère.",
+    "secondes": 600
+   },
+   {
+    "titre": "Garnir",
+    "texte": "Toaster les 2 pains à burger et les garnir généreusement.",
+    "secondes": null
+   }
+  ]
+ }
+]
