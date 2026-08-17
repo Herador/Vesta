@@ -41,6 +41,9 @@ CREATE TABLE IF NOT EXISTS stock (
     famille     TEXT,
     lieu        TEXT NOT NULL DEFAULT 'frigo',
     date_limite TEXT,
+    -- Une date calculée se recalcule quand l'article change de lieu; une
+    -- date lue sur l'emballage, jamais.
+    date_estimee INTEGER NOT NULL DEFAULT 0,
     ajoute_le   TEXT NOT NULL,
     consomme_le TEXT,
     jete        INTEGER NOT NULL DEFAULT 0

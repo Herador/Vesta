@@ -66,6 +66,7 @@ class StockSortie(BaseModel):
     affichage: str
     lieu: str
     date_limite: date | None
+    date_estimee: bool
     jours_restants: int | None
     etat: Literal["urgent", "bientot", "frais", "sans_date"]
     ajoute_le: str

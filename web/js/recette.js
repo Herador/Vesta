@@ -51,6 +51,7 @@ export async function ouvrirRecette(id, avecPortions) {
           <button class="rond" id="c-plus" aria-label="Plus">+</button>
         </div>
 
+        <div id="c-avis"></div>
         <div id="c-ingredients"></div>
 
         <h2 style="margin-top:26px">La marche à suivre</h2>
@@ -62,6 +63,16 @@ export async function ouvrirRecette(id, avecPortions) {
       </div>
       <div class="barre-cuisine" id="c-barre"></div>
     </div>`;
+
+  const avis = etat.remarques[r.id];
+  if (avis && (avis.manquants.length || avis.remarques.length)) {
+    $("c-avis").innerHTML = `<div class="avis">
+      ${avis.manquants.length ? `<div><span class="etiquette">À acheter</span>
+        <p>${echappe(avis.manquants.join(", "))}</p></div>` : ""}
+      ${avis.remarques.length ? `<div><span class="etiquette">À savoir</span>
+        <p>${echappe(avis.remarques.join(" "))}</p></div>` : ""}
+    </div>`;
+  }
 
   const zoneIng = $("c-ingredients");
   ORDRE.filter((p) => parties[p]).forEach((p) => {

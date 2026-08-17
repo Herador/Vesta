@@ -8,9 +8,9 @@ on y revient.
 from fastapi import APIRouter, HTTPException, Query
 
 from app import base as bdd
-from app.commun import aujourdhui, en_sortie, maintenant, stock_actif
+from app.commun import aujourdhui, maintenant, stock_actif
 from app.domaine import moteur, unites
-from app.modeles import *
+from app.modeles import CompteRendu, RepasEntree
 
 # Pas de prefix ici: les chemins portent déjà /api, ce qui les rend
 # lisibles tels quels quand on cherche une route dans le code.

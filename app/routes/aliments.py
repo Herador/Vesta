@@ -9,9 +9,9 @@ from datetime import timedelta
 from fastapi import APIRouter, HTTPException, Query
 
 from app import base as bdd
-from app.commun import aujourdhui, en_sortie, maintenant, stock_actif
-from app.domaine import moteur, unites
-from app.modeles import *
+from app.commun import aujourdhui
+from app.domaine import moteur
+from app.modeles import Entree, Field
 
 # Pas de prefix ici: les chemins portent déjà /api, ce qui les rend
 # lisibles tels quels quand on cherche une route dans le code.
@@ -19,7 +19,6 @@ routeur = APIRouter()
 
 
 from app.domaine import nutrition
-from app.routes.recettes import charger_recettes
 
 
 # ---------------------------------------------------------------- apports

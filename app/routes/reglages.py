@@ -1,11 +1,9 @@
 """Les réglages: la façon de cuisiner et le nombre de personnes."""
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter
 
 from app import base as bdd
-from app.commun import aujourdhui, en_sortie, maintenant, stock_actif
-from app.domaine import moteur, unites
-from app.modeles import *
+from app.modeles import Reglages
 
 # Pas de prefix ici: les chemins portent déjà /api, ce qui les rend
 # lisibles tels quels quand on cherche une route dans le code.

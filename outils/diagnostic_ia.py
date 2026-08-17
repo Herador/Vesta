@@ -12,7 +12,6 @@ n'est jamais affichée en entier.
 
 import json
 import sys
-from pathlib import Path
 
 import httpx
 
@@ -149,7 +148,7 @@ def main() -> None:
     # --- 6. la consommation
     etape(6, "Consommation relevée")
     try:
-        import base as bdd
+        from app import base as bdd
         with bdd.base() as con:
             l = con.execute(
                 "SELECT usage, entree, sortie, secondes FROM appel_ia "

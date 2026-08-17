@@ -3,6 +3,16 @@
    dates au marqueur, chiffres lisibles à un mètre sur un plan de travail. */
 
 :root {
+  /* Ordre d'empilement, du fond vers la surface. Nommer les couches
+     évite le jeu de devinettes des nombres semés dans la feuille: le
+     panneau des ingrédients s'ouvrait derrière le mode cuisine. */
+  --z-flottant: 15;
+  --z-onglets: 20;
+  --z-recette: 30;
+  --z-plein: 40;
+  --z-panneau: 60;
+  --z-message: 80;
+
   --nuit: #101E19;
   --ardoise: #1A2E27;
   --ardoise-clair: #223A32;
@@ -118,6 +128,7 @@ input::placeholder { color: var(--craie-douce); opacity: .7; }
 .liste { display: flex; flex-direction: column; gap: 7px; }
 
 .article {
+  text-align: left;   /* utilisé aussi dans un <button>, qui centre par défaut */
   display: flex;
   align-items: stretch;
   gap: 12px;
@@ -218,7 +229,7 @@ input::placeholder { color: var(--craie-douce); opacity: .7; }
 
 /* ------------------------------------------------------- vue de cuisine */
 
-.cuisine { position: fixed; inset: 0; background: var(--nuit); z-index: 30; overflow-y: auto; padding-bottom: 90px; }
+.cuisine { position: fixed; inset: 0; background: var(--nuit); z-index: var(--z-recette); overflow-y: auto; padding-bottom: 90px; }
 .cuisine .page { padding-top: 8px; }
 /* Le titre d'une recette se lit, il ne se crie pas: la casse normale
    passe mieux sur trois lignes qu'un bloc de capitales. */
@@ -286,7 +297,7 @@ input::placeholder { color: var(--craie-douce); opacity: .7; }
 /* ------------------------------------------------------ barre du bas */
 
 .onglets {
-  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: var(--z-onglets);
   height: calc(var(--barre) + env(safe-area-inset-bottom));
   padding-bottom: env(safe-area-inset-bottom);
   background: var(--ardoise);
@@ -314,7 +325,7 @@ input::placeholder { color: var(--craie-douce); opacity: .7; }
 
 /* ----------------------------------------------------------- panneau */
 
-.voile { position: fixed; inset: 0; background: rgba(6, 14, 11, .6); z-index: 40; display: flex; align-items: flex-end; justify-content: center; }
+.voile { position: fixed; inset: 0; background: rgba(6, 14, 11, .6); z-index: var(--z-panneau); display: flex; align-items: flex-end; justify-content: center; }
 .panneau {
   background: var(--nuit);
   width: 100%; max-width: 620px; max-height: 92vh; overflow-y: auto;
@@ -342,7 +353,7 @@ input::placeholder { color: var(--craie-douce); opacity: .7; }
   background: var(--craie); color: var(--nuit);
   padding: 10px 18px; border-radius: 999px;
   font-size: 13.5px; font-weight: 600;
-  z-index: 50; max-width: 90vw; text-align: center;
+  z-index: var(--z-message); max-width: 90vw; text-align: center;
   animation: monte .2s ease-out;
 }
 
@@ -378,7 +389,7 @@ label.lab { display: block; font-family: "IBM Plex Mono", monospace; font-size: 
   font-size: 30px;
   line-height: 1;
   font-weight: 300;
-  z-index: 15;
+  z-index: var(--z-flottant);
   box-shadow: 0 6px 22px rgba(6, 14, 11, .45);
   display: grid; place-items: center;
 }
@@ -391,7 +402,7 @@ label.lab { display: block; font-family: "IBM Plex Mono", monospace; font-size: 
    un bocal. Tout le reste disparaît: en cuisine, on n'a pas besoin de
    savoir combien de recettes contient le carnet. */
 
-.plein { position: fixed; inset: 0; z-index: 60; background: var(--nuit); display: flex; flex-direction: column; }
+.plein { position: fixed; inset: 0; z-index: var(--z-plein); background: var(--nuit); display: flex; flex-direction: column; }
 
 .plein-haut {
   display: flex; align-items: center; gap: 12px;
@@ -458,3 +469,36 @@ label.lab { display: block; font-family: "IBM Plex Mono", monospace; font-size: 
 .edit-etape { background: var(--ardoise); border-radius: 10px; padding: 8px; margin-bottom: 8px; }
 .edit-etape textarea { background: var(--ardoise-clair); }
 .edit-etape .edit-ligne input, .edit-etape .edit-ligne select { background: var(--ardoise-clair); }
+
+/* Ce qui manque à une recette, ou ce qui mérite d'être signalé.
+   Informatif, pas alarmant: la recette reste faisable. */
+.avis {
+  background: var(--ardoise);
+  border-radius: var(--r);
+  border-left: 3px solid var(--ambre);
+  padding: 12px 14px;
+  margin: 16px 0 4px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.avis p { margin: 4px 0 0; font-size: 14px; line-height: 1.4; }
+
+/* La ligne "autour de": ce qu'on veut absolument passer aujourd'hui. */
+.autour { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 12px; }
+.autour .puce { font-size: 12.5px; padding: 7px 12px; }
+
+/* Les actions d'un panneau restent sous le pouce: avec quatre-vingt-dix
+   articles, redescendre tout en bas pour valider serait une corvée. */
+.actions-collees {
+  position: sticky;
+  bottom: calc(-24px - env(safe-area-inset-bottom));
+  /* Un fond plein, pas un dégradé: la liste défilait derrière les
+     boutons et on lisait "Pain complet" au travers. */
+  background: var(--nuit);
+  box-shadow: 0 -1px 0 var(--trait), 0 -14px 18px -6px var(--nuit);
+  padding: 14px 0 calc(10px + env(safe-area-inset-bottom));
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.actions-collees .btn { width: 100%; }

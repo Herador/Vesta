@@ -5,9 +5,9 @@ import json
 from fastapi import APIRouter, HTTPException, Query
 
 from app import base as bdd
-from app.commun import aujourdhui, en_sortie, maintenant, stock_actif
+from app.commun import maintenant
 from app.domaine import moteur, unites
-from app.modeles import *
+from app.modeles import RecetteEntree
 
 # Pas de prefix ici: les chemins portent déjà /api, ce qui les rend
 # lisibles tels quels quand on cherche une route dans le code.

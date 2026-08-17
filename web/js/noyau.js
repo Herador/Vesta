@@ -43,6 +43,8 @@ export const etat = {
   codeCiqual: null,
   tempsIA: null,
   repas: null,
+  remarques: {},   // par recette: ce qui manque, ce qui cloche
+  imposes: [],     // ids du stock à utiliser absolument
 };
 
 /* ------------------------------------------------------------- réseau */

@@ -35,7 +35,7 @@ ASSAISONNEMENTS = {"sel", "poivre", "sel poivre", "poivre sel", "eau"}
 
 
 def cle_negligeable(cle: str) -> bool:
-    from nutrition import est_negligeable
+    from app.domaine.nutrition import est_negligeable
     return est_negligeable(cle)
 
 

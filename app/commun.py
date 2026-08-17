@@ -7,7 +7,6 @@ routeur, elle vit dans ce routeur.
 from datetime import date, datetime
 from zoneinfo import ZoneInfo
 
-from app import base as bdd
 from app.modeles import StockSortie
 from app.domaine import unites
 
@@ -55,7 +54,8 @@ def en_sortie(ligne) -> StockSortie:
         code_barre=ligne["code_barre"], quantite=ligne["quantite"],
         famille=ligne["famille"],
         affichage=unites.afficher(ligne["quantite"], ligne["famille"], ligne["nom"]),
-        lieu=ligne["lieu"], date_limite=limite, jours_restants=jours,
+        lieu=ligne["lieu"], date_limite=limite,
+        date_estimee=bool(ligne["date_estimee"]), jours_restants=jours,
         etat=etat_de(jours), ajoute_le=ligne["ajoute_le"],
     )
 

@@ -132,7 +132,7 @@ def journaliser(usage: str, modele: str, compte: dict, duree: float,
 
 
 def demander(consigne: str, message: str, max_tokens: int = 1500,
-             usage: str = "autre") -> dict:
+             usage: str = "autre", temperature: float = 0.4) -> dict:
     """Un appel, une réponse JSON. Le reste du module ne fait qu'écrire
     des consignes et vérifier ce qui revient."""
     env = lire_env()
@@ -150,7 +150,10 @@ def demander(consigne: str, message: str, max_tokens: int = 1500,
             {"role": "user", "content": message},
         ],
         "response_format": {"type": "json_object"},
-        "temperature": 0.4,
+        # 0.4 produisait des recettes prudentes et interchangeables. Sur
+        # une tâche de création, la marge de variation fait la différence
+        # entre un plat et une liste de courses.
+        "temperature": temperature,
         "max_tokens": max_tokens,
     }
 
@@ -313,9 +316,23 @@ Format:
 - quantite: toujours chiffrée. Sans chiffre, retire l'ingrédient de la liste.
 - Ne liste ni sel, ni poivre, ni eau: écris "salez" dans l'étape.
 - essentiel: false si son absence n'empêche pas le plat.
-- etapes: 4 à 9, chacune répétant ses quantités. Les découpes vont dans une
+- etapes: 5 à 10, chacune répétant ses quantités. Les découpes vont dans une
   étape de mise en place. secondes uniquement quand l'étape attend.
 - Chaque ingrédient listé apparaît dans au moins une étape.
+
+Ce qui sépare une vraie recette d'une liste d'instructions:
+- Des repères sensoriels plutôt que des durées seules. "Jusqu'à ce que les
+  bords brunissent et que ça sente la noisette", pas "faire revenir 5 min".
+- Le pourquoi quand il change le résultat: pourquoi hors du feu, pourquoi
+  sans remuer, pourquoi à couvert. Une phrase, pas un cours.
+- La technique propre à la cuisine choisie, pas une méthode passe-partout
+  repeinte aux épices locales. Un sofritto n'est pas un oignon revenu, une
+  sauce chinoise se mélange avant d'allumer le feu.
+- Une sauce complète et équilibrée: salé, acide, sucré, liant, gras.
+- La note dit l'erreur que tout le monde commet sur ce plat, ou le
+  raccourci qui marche. Pas une généralité.
+- Ne double pas les étapes pour faire nombre: chaque étape fait avancer
+  le plat.
 
 Composition:
 - Une seule protéine principale: viande, poisson, tofu, PST ou seitan. L'oeuf
@@ -330,11 +347,33 @@ Composition:
 """
 
 
+def en_exemple(recette: dict) -> str:
+    """Une recette du carnet, réduite à ce qui montre le niveau attendu.
+
+    Un exemple pèse environ 500 tokens et vaut mieux que dix consignes
+    supplémentaires: le modèle voit ce qu'est une étape écrite avec des
+    repères sensoriels, plutôt que de lire qu'il en faut.
+    """
+    ingredients = [{"nom": i["nom"], "quantite": i["quantite"],
+                    "unite": i.get("unite", ""), "partie": i.get("partie", "plat"),
+                    "essentiel": bool(i["essentiel"])}
+                   for i in recette["ingredients"]]
+    exemple = {
+        "titre": recette["titre"], "categorie": recette["categorie"],
+        "cuisine": recette["cuisine"], "portions_base": recette["portions_base"],
+        "temps_min": recette["temps_min"], "description": recette["description"],
+        "note": recette["note"], "ingredients": ingredients,
+        "etapes": recette["etapes"],
+    }
+    return json.dumps(exemple, ensure_ascii=False)
+
+
 def inventer_recette(stock: list[dict], contraintes: str, personnes: int,
                      imposes: list[str], deja_vus: list[str],
                      cuisine: str | None = None,
                      recentes: list[str] | None = None,
-                     temps_max: int | None = None) -> dict:
+                     temps_max: int | None = None,
+                     exemple: dict | None = None) -> dict:
     """Invente une recette utilisable avec ce qu'il y a vraiment."""
     presses, tranquilles = [], []
     for a in trier_par_urgence(stock):
@@ -359,6 +398,11 @@ def inventer_recette(stock: list[dict], contraintes: str, personnes: int,
         f"<stock>\n{LEGENDE}\n" + ("\n".join(lignes) or "(vide)") + "\n</stock>",
         f"<origine>\n{origine(cuisine, recentes or [])}\n</origine>",
     ]
+    if exemple:
+        blocs.append("<exemple_du_niveau_attendu>\n" + en_exemple(exemple)
+                     + "\n</exemple_du_niveau_attendu>\n"
+                     "Vise ce niveau d'écriture et de technique. N'en reprends "
+                     "ni le plat ni les ingrédients.")
     if temps_max:
         blocs.append(f"Temps total: {temps_max} minutes au maximum.")
     if imposes:
@@ -366,8 +410,8 @@ def inventer_recette(stock: list[dict], contraintes: str, personnes: int,
     if deja_vus:
         blocs.append(f"Déjà dans mon carnet, ne les repropose pas: "
                      f"{', '.join(deja_vus)}.")
-    return demander(CONSIGNE_RECETTE, "\n\n".join(blocs), max_tokens=2000,
-                    usage="recette")
+    return demander(CONSIGNE_RECETTE, "\n\n".join(blocs), max_tokens=3000,
+                    usage="recette", temperature=0.85)
 
 
 def origine(cuisine: str | None, recentes: list[str]) -> str:

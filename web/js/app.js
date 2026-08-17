@@ -36,9 +36,40 @@ async function demarrer() {
     }
   } catch { /* sans conséquence */ }
 
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/sw.js").catch(() => {});
-  }
+  brancherServiceWorker();
+}
+
+/* Le service worker se met à jour tout seul.
+
+   Sans ce qui suit, une nouvelle version restait en attente jusqu'à ce
+   que tous les onglets soient fermés: on modifiait le code, on
+   rechargeait, et rien ne changeait. Le plus déroutant étant que
+   l'aperçu de l'éditeur, lui, montrait bien la modification. */
+function brancherServiceWorker() {
+  if (!("serviceWorker" in navigator)) return;
+
+  navigator.serviceWorker.register("/sw.js").then((enregistrement) => {
+    enregistrement.update();
+    // Une version arrivée pendant la session prend la main aussitôt.
+    enregistrement.addEventListener("updatefound", () => {
+      const neuf = enregistrement.installing;
+      if (!neuf) return;
+      neuf.addEventListener("statechange", () => {
+        if (neuf.state === "installed" && navigator.serviceWorker.controller) {
+          neuf.postMessage({ action: "prendre-la-main" });
+        }
+      });
+    });
+  }).catch(() => {});
+
+  // Quand la relève est faite, on recharge une fois pour repartir sur la
+  // version fraîche. Le garde-fou évite la boucle de rechargements.
+  let rechargeFaite = false;
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (rechargeFaite) return;
+    rechargeFaite = true;
+    location.reload();
+  });
 }
 
 demarrer();

@@ -1,12 +1,11 @@
 """Les suggestions: que cuisiner avec ce qu'on a, classé par urgence."""
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Query
 
 from app import base as bdd
-from app.commun import (aujourdhui, en_sortie, lire_basiques, maintenant,
+from app.commun import (en_sortie, lire_basiques,
                         stock_actif)
-from app.domaine import moteur, unites
-from app.modeles import *
+from app.domaine import moteur
 
 # Pas de prefix ici: les chemins portent déjà /api, ce qui les rend
 # lisibles tels quels quand on cherche une route dans le code.

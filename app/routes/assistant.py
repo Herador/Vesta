@@ -13,7 +13,7 @@ from fastapi import APIRouter, HTTPException, Query
 from app import base as bdd
 from app.commun import aujourdhui, en_sortie, maintenant, stock_actif
 from app.domaine import moteur, unites
-from app.modeles import *
+from app.modeles import Entree, Field
 
 # Pas de prefix ici: les chemins portent déjà /api, ce qui les rend
 # lisibles tels quels quand on cherche une route dans le code.
@@ -23,8 +23,8 @@ routeur = APIRouter()
 from app import ia
 from app.domaine import cuisines, nutrition
 from app.routes.recettes import charger_recettes
-from app.routes.aliments import (apports_periode, cles_utilisees, lier_ciqual,
-                                 toutes_les_fiches)
+from app.routes.aliments import (apports_periode, cles_utilisees, hors_stock,
+                                 lier_ciqual, toutes_les_fiches)
 from outils.verifier_recettes import nettoyer_recette, verifier_recette
 
 
@@ -129,6 +129,24 @@ def inventer_recette(entree: InventionEntree):
         ).fetchall()]
         recentes = list(dict.fromkeys(recentes))[:8]
 
+        # Un exemple du carnet, de la cuisine demandée si elle existe,
+        # sinon d'une cuisine au hasard. On écarte les recettes générées:
+        # elles serviraient de modèle à elles-mêmes, et le niveau ne
+        # remonterait jamais.
+        vise = (entree.cuisine or "").strip().lower()
+        modele = con.execute(
+            """SELECT id FROM recette
+               WHERE source = 'carnet' AND essai = 0 AND etapes IS NOT NULL
+                 AND (? = '' OR lower(cuisine) = ?)
+               ORDER BY favori DESC, RANDOM() LIMIT 1""",
+            (vise, vise),
+        ).fetchone()
+        if modele is None:
+            modele = con.execute(
+                """SELECT id FROM recette WHERE source = 'carnet' AND essai = 0
+                   ORDER BY RANDOM() LIMIT 1""").fetchone()
+        exemple = charger_recettes(con, modele["id"])[0] if modele else None
+
     if not articles:
         raise HTTPException(400, "Le stock est vide, il n'y a rien à cuisiner.")
 
@@ -140,12 +158,19 @@ def inventer_recette(entree: InventionEntree):
     try:
         brute = ia.inventer_recette(articles, reglages["contraintes"],
                                     entree.portions, imposes, deja,
-                                    entree.cuisine, recentes, entree.temps_max)
+                                    entree.cuisine, recentes, entree.temps_max,
+                                    exemple)
     except ia.IAIndisponible as erreur:
         raise HTTPException(503, str(erreur))
 
-    recette = verifier_recettes.nettoyer_recette(brute)
-    soucis = verifier_recettes.verifier_recette(recette)
+    recette = nettoyer_recette(brute)
+
+    # Deux natures de problèmes, qu'il ne faut pas confondre. Un format
+    # cassé rend la recette inaffichable: on refuse. Un ail manquant ou
+    # deux protéines sont des jugements de cuisine: on les signale et on
+    # laisse décider, comme le fait déjà le moteur de suggestions.
+    soucis = verifier_recette(recette)
+    remarques = []
 
     # La consigne interdit deux protéines dans la même assiette, mais une
     # consigne n'est pas une garantie: on vérifie. Les protéines de
@@ -155,8 +180,8 @@ def inventer_recette(entree: InventionEntree):
                    if ia.est_proteine_majeure(i["nom"]) and i["essentiel"]
                    and i["partie"] in ("plat", "marinade")]
     if len(principales) > 1:
-        soucis.append("deux protéines principales dans la même assiette: "
-                      + ", ".join(principales))
+        remarques.append("Deux protéines dans la même assiette: "
+                         + ", ".join(principales) + ".")
 
     # Rien d'inventé: chaque ingrédient doit exister dans le stock. Ce
     # contrôle remplace toute liste d'interdits, puisqu'on n'achète pas
@@ -166,25 +191,21 @@ def inventer_recette(entree: InventionEntree):
     # simplement retiré. Refuser toute la recette pour une coriandre de
     # finition serait absurde, et c'est justement ce que "essentiel:
     # false" veut dire.
+    # On ne retire plus rien: la recette est affichée telle quelle avec ce
+    # qui manque, à toi de voir si tu l'achètes ou si tu passes.
     absents = hors_stock(recette["ingredients"], articles)
-    manquants_essentiels = [i["nom"] for i in absents if i["essentiel"]]
-    retires = [i["nom"] for i in absents if not i["essentiel"]]
-
-    if manquants_essentiels:
-        soucis.append("absents de mon stock: " + ", ".join(manquants_essentiels))
-    if retires:
-        noms = {i["nom"] for i in absents if not i["essentiel"]}
-        recette["ingredients"] = [i for i in recette["ingredients"]
-                                  if i["nom"] not in noms]
+    manquants = [i["nom"] for i in absents]
     if soucis:
-        raise HTTPException(422, {"message": "Recette mal formée, relance la demande.",
-                                  "problemes": soucis[:6], "brut": brute})
+        raise HTTPException(422, {
+            "message": "La recette est arrivée mal formée, relance la demande.",
+            "problemes": soucis[:6], "brut": brute})
 
     recette["continent"] = cuisines.continent_de(recette.get("cuisine"))
 
     if not entree.enregistrer:
         return {"recette": recette, "autour_de": imposes,
-                "retires_du_stock_absent": retires, "enregistree": False}
+                "manquants": manquants, "remarques": remarques,
+                "enregistree": False}
 
     with bdd.base() as con:
         # Le titre est unique en base. Un seul suffixe ne suffit pas: à la
@@ -213,8 +234,8 @@ def inventer_recette(entree: InventionEntree):
                  i["unite"], i["partie"], int(i["essentiel"]), ordre),
             )
         return {"recette": charger_recettes(con, cur.lastrowid)[0],
-                "autour_de": imposes, "retires_du_stock_absent": retires,
-                "enregistree": True}
+                "autour_de": imposes, "manquants": manquants,
+                "remarques": remarques, "enregistree": True}
 
 
 @routeur.post("/api/ia/aliment/{cle}", tags=["Assistant"], summary="Faire trancher un rattachement")

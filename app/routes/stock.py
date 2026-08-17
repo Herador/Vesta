@@ -1,11 +1,15 @@
 """Le stock: ce qu'il y a dans le frigo, le congélateur et le placard."""
 
-from fastapi import APIRouter, HTTPException, Query
+from datetime import date
+
+from fastapi import APIRouter, HTTPException
 
 from app import base as bdd
-from app.commun import aujourdhui, en_sortie, maintenant, stock_actif
-from app.domaine import moteur, unites
-from app.modeles import *
+from app.commun import aujourdhui, en_sortie, maintenant
+from app.domaine import conservation, moteur, unites
+from app.modeles import (Consommation, Lieu, StockEntree, StockModif,
+                         StockSortie)
+from app.routes.aliments import lier_ciqual
 
 # Pas de prefix ici: les chemins portent déjà /api, ce qui les rend
 # lisibles tels quels quand on cherche une route dans le code.
@@ -38,6 +42,16 @@ def lister_stock(lieu: Lieu | None = None, a_sauver: bool = False):
 @routeur.post("/api/stock", response_model=StockSortie, status_code=201, tags=["Stock"], summary="Ajouter un article")
 def ajouter(article: StockEntree):
     quantite, famille = unites.vers_base(article.quantite, article.unite)
+    cle = moteur.normaliser(article.nom)
+
+    # Sans date saisie, on en propose une d'après l'aliment et son
+    # rangement: un brocoli au frigo tient six jours, une pomme de terre
+    # au placard un mois. Mieux vaut un ordre de grandeur que rien.
+    limite, estimee = article.date_limite, False
+    if limite is None:
+        limite = conservation.date_estimee(cle, article.lieu, aujourdhui())
+        estimee = limite is not None
+
     with bdd.base() as con:
         # Un code barre encore inconnu ouvre sa fiche produit. Le scan
         # l'enrichira ensuite; sans ça, la clé étrangère faisait tomber
@@ -50,12 +64,11 @@ def ajouter(article: StockEntree):
             )
         cur = con.execute(
             """INSERT INTO stock (nom, cle, code_barre, quantite, famille, lieu,
-                                  date_limite, ajoute_le)
-               VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
-            (article.nom.strip(), moteur.normaliser(article.nom), article.code_barre,
+                                  date_limite, date_estimee, ajoute_le)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            (article.nom.strip(), cle, article.code_barre,
              quantite, famille, article.lieu,
-             article.date_limite.isoformat() if article.date_limite else None,
-             maintenant()),
+             limite.isoformat() if limite else None, int(estimee), maintenant()),
         )
         if article.code_ciqual:
             lier_ciqual(con, moteur.normaliser(article.nom), article.code_ciqual)
@@ -84,6 +97,26 @@ def modifier(article_id: int, modif: StockModif):
             champs["cle"] = moteur.normaliser(champs["nom"])
         if isinstance(champs.get("date_limite"), date):
             champs["date_limite"] = champs["date_limite"].isoformat()
+            champs["date_estimee"] = 0   # une date saisie ne se recalcule plus
+
+        # Changer de rangement change la durée de garde.
+        #
+        # Passer au congélateur ou en sortir recalcule toujours, même
+        # quand la date vient de l'emballage: congeler suspend l'horloge,
+        # décongeler la relance pour quelques jours seulement. Entre le
+        # frigo et le placard, en revanche, une date lue sur le paquet
+        # reste la référence et n'est pas touchée.
+        bascule_congelo = "congelo" in (champs.get("lieu"), ligne["lieu"])
+        if champs.get("lieu") and champs["lieu"] != ligne["lieu"] \
+                and "date_limite" not in champs \
+                and (ligne["date_estimee"] or bascule_congelo):
+            nouvelle = conservation.redater(
+                champs.get("cle", ligne["cle"]), champs["lieu"],
+                date.fromisoformat(ligne["ajoute_le"][:10]),
+                date.fromisoformat(ligne["date_limite"]) if ligne["date_limite"] else None)
+            if nouvelle:
+                champs["date_limite"] = nouvelle.isoformat()
+                champs["date_estimee"] = 1
 
         colonnes = ", ".join(f"{c} = ?" for c in champs)
         con.execute(f"UPDATE stock SET {colonnes} WHERE id = ?",

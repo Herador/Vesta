@@ -71,7 +71,7 @@ async def cycle_de_vie(app: FastAPI):
     yield
 
 
-app = FastAPI(title="Le garde-manger", version="0.4",
+app = FastAPI(title="Vesta", version="0.4",
               description=DESCRIPTION, openapi_tags=SECTIONS,
               lifespan=cycle_de_vie)
 

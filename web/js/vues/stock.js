@@ -78,11 +78,15 @@ export function ouvrirArticle(a) {
     <h2 style="margin-top:6px">${echappe(a.nom)}</h2>
     <p class="sous">${a.affichage || "quantité non précisée"}${
       a.date_limite ? " · jusqu'au " + a.date_limite : ""}</p>
-    <label class="lab">Il en reste</label>
+    <label class="lab">Où c'est rangé</label>
+    <div class="rangee defile" id="a-lieux"></div>
+    <label class="lab">Il en reste, et jusqu'à quand</label>
     <div class="champs">
       <input id="a-qte" inputmode="decimal" placeholder="${a.quantite ?? ""}">
       <input id="a-date" class="court" type="date" value="${a.date_limite || ""}">
     </div>
+    ${a.date_estimee ? `<p class="sous" style="margin:-4px 0 0">Date estimée d'après
+      l'aliment et son rangement. Corrige-la si tu as celle de l'emballage.</p>` : ""}
     <div class="rangee" style="margin-top:12px">
       <button class="btn" id="a-maj" style="flex:1">Mettre à jour</button>
     </div>
@@ -94,15 +98,36 @@ export function ouvrirArticle(a) {
 
   const unite = a.famille === "masse" ? "g" : a.famille === "volume" ? "ml" : "";
 
+  // Déplacer un article recalcule sa date: congeler prolonge de plusieurs
+  // mois, décongeler ramène à quelques jours. Le serveur s'en charge, à
+  // condition que la date n'ait pas été saisie à la main.
+  let lieuChoisi = a.lieu;
+  const lieux = $("a-lieux");
+  LIEUX.forEach((l) => {
+    const b = document.createElement("button");
+    b.className = "puce";
+    b.textContent = l === "congelo" ? "Congélo" : l[0].toUpperCase() + l.slice(1);
+    b.setAttribute("aria-pressed", lieuChoisi === l);
+    b.onclick = () => {
+      lieuChoisi = l;
+      [...lieux.children].forEach((x) => x.setAttribute("aria-pressed", x === b));
+    };
+    lieux.appendChild(b);
+  });
+
   p.querySelector("#a-maj").onclick = async () => {
     const corps = {};
     const q = $("a-qte").value.trim();
     if (q) { corps.quantite = parseFloat(q.replace(",", ".")); corps.unite = unite; }
     const d = $("a-date").value;
     if (d && d !== a.date_limite) corps.date_limite = d;
+    if (lieuChoisi !== a.lieu) corps.lieu = lieuChoisi;
     if (!Object.keys(corps).length) return fermer();
-    await api(`/stock/${a.id}`, { method: "PATCH", corps });
-    fermer(); await chargerStock(); mot("Article mis à jour");
+    const maj = await api(`/stock/${a.id}`, { method: "PATCH", corps });
+    fermer(); await chargerStock();
+    mot(corps.lieu && maj.date_limite !== a.date_limite
+      ? `Au ${maj.lieu}, à consommer avant le ${maj.date_limite}`
+      : "Article mis à jour");
   };
   p.querySelector("#a-fini").onclick = () => sortir(a, false);
   p.querySelector("#a-jete").onclick = () => sortir(a, true);
