@@ -283,6 +283,11 @@ ALIAS = {
     "jus citron": "jus citron",
     "jus lime": "jus citron",
     "jus orange": "jus orange",
+    # Ces trois-là s'achètent en boîte et se pèsent égouttés: la fiche
+    # sèche donnerait trois fois trop de calories.
+    "haricot rouge": "haricot rouge appertise",
+    "haricot blanc": "haricot blanc appertise",
+    "pois chiche": "pois chiche appertise",
     "sauce soja foncee": "sauce soja",
     "vinaigre noir": "vinaigre",
     "pak choi": "chou chinoi pak choi",
@@ -443,7 +448,10 @@ def apports(lignes: list[dict], compositions: dict[str, dict],
                                      ligne["cle"])
 
         if composition is None:
-            ignores.append({"nom": ligne["nom"], "raison": "aliment inconnu"})
+            # Le sel, les épices et le bouillon sont écartés volontairement:
+            # les signaler comme manquants ferait croire à un bilan troué.
+            if not est_negligeable(ligne["cle"]):
+                ignores.append({"nom": ligne["nom"], "raison": "aliment inconnu"})
             continue
         if grammes is None:
             ignores.append({"nom": ligne["nom"], "raison": "quantité non convertible"})

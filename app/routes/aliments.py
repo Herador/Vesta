@@ -298,6 +298,32 @@ def associer_aliment(cle: str, entree: AlimentEntree):
         return dict(con.execute("SELECT * FROM aliment WHERE cle = ?", (cle,)).fetchone())
 
 
+@routeur.get("/api/recettes/{recette_id}/apports", tags=["Apports"],
+             summary="Apports d'une recette")
+def apports_recette(recette_id: int, portions: int | None = Query(None, ge=1, le=12)):
+    """Ce que vaut une assiette de cette recette, par personne.
+
+    Calculé depuis les ingrédients, à l'échelle demandée. Vaut pour les
+    recettes du carnet comme pour celles que l'assistant vient
+    d'inventer: les unes et les autres ont des ingrédients et des
+    quantités, c'est tout ce qu'il faut.
+    """
+    from app.routes.recettes import charger_recettes, recette_affichee
+
+    with bdd.base() as con:
+        trouvees = charger_recettes(con, recette_id)
+        if not trouvees:
+            raise HTTPException(404, "Recette introuvable")
+        recette = recette_affichee(trouvees[0], portions)
+        compositions = compositions_pour(con, {i["cle"] for i in recette["ingredients"]})
+
+    calcul = nutrition.apports(recette["ingredients"], compositions,
+                               recette["portions"])
+    return {"recette": {"id": recette_id, "titre": recette["titre"],
+                        "portions": recette["portions"]},
+            **calcul}
+
+
 @routeur.get("/api/repas/{repas_id}/apports", tags=["Apports"], summary="Apports d'un repas")
 def apports_repas(repas_id: int):
     """Les apports d'un repas, avec ce qui n'a pas pu être compté."""

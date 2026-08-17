@@ -54,6 +54,8 @@ export async function ouvrirRecette(id, avecPortions) {
         <div id="c-avis"></div>
         <div id="c-ingredients"></div>
 
+        <div id="c-apports"></div>
+
         <h2 style="margin-top:26px">La marche à suivre</h2>
         <div id="c-etapes"></div>
 
@@ -113,6 +115,8 @@ export async function ouvrirRecette(id, avecPortions) {
     };
     zoneEtapes.appendChild(el);
   });
+
+  chargerApports(id, portions);
 
   $("c-val").textContent = portions + (portions > 1 ? " personnes" : " personne");
   $("c-moins").onclick = () => { if (portions > 1) ouvrirRecette(id, portions - 1); };
@@ -229,6 +233,36 @@ export function dessinerBarreCuisine(recetteId) {
     $("c-fini").onclick = ouvrirCompteRendu;
   } else {
     $("c-demarrer").onclick = () => demarrerRepas(recetteId);
+  }
+}
+
+/* Ce que vaut une assiette. Les chiffres viennent de la table CIQUAL,
+   jamais d'une estimation: quand un ingrédient n'y est pas rattaché, on
+   le dit plutôt que de compléter au jugé. */
+async function chargerApports(id, portions) {
+  const zone = $("c-apports");
+  if (!zone) return;
+  try {
+    const a = await api(`/recettes/${id}/apports?portions=${portions}`);
+    const m = a.par_personne;
+    if (!m.kcal) return (zone.innerHTML = "");
+
+    const ignores = a.couverture.ignores.map((i) => i.nom);
+    zone.innerHTML = `
+      <div class="partie">
+        <h3>Par personne</h3>
+        <div class="chiffres">
+          ${[["kcal", Math.round(m.kcal), ""], ["protéines", m.proteines, "g"],
+             ["glucides", m.glucides, "g"], ["lipides", m.lipides, "g"],
+             ["fibres", m.fibres, "g"], ["sel", m.sel, "g"]]
+            .map(([l, v, u]) => `<div class="chiffre"><div class="v">${
+              nombre(v)}<em>${u}</em></div><div class="l">${l}</div></div>`).join("")}
+        </div>
+        ${ignores.length ? `<p class="sous" style="margin:2px 0 0">Sans ${
+          echappe(ignores.join(", "))}, que je ne sais pas encore compter.</p>` : ""}
+      </div>`;
+  } catch {
+    zone.innerHTML = "";   // table CIQUAL non importée: on n'affiche rien
   }
 }
 
