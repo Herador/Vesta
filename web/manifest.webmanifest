@@ -1,13 +1,13 @@
 {
-  "name": "Le garde-manger",
-  "short_name": "Garde-manger",
+  "name": "Vesta",
+  "short_name": "Vesta",
   "description": "Ce qu'il y a dans le frigo, et quoi en faire ce soir.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#101E19",
-  "theme_color": "#101E19",
+  "background_color": "#0E1116",
+  "theme_color": "#0E1116",
   "lang": "fr",
   "icons": [
     { "src": "/icone-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },

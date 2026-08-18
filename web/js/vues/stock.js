@@ -2,9 +2,19 @@
 
 import { $, LIEUX, UNITES, api, echappe, etat, fermer, mot, panneau }
   from "../noyau.js";
-import { dessinerOnglets } from "../navigation.js";
+import { aller, dessinerOnglets } from "../navigation.js";
+import { picto } from "../pictos.js";
 
 /* -------------------------------------------------------------- stock */
+
+/** Le décompte tel qu'il s'affiche à droite d'une ligne: "3j", "auj.". */
+export function compteCourt(a) {
+  const j = a.jours_restants;
+  if (j === null) return "—";
+  if (j < 0) return `-${Math.abs(j)}j`;
+  if (j === 0) return "auj.";
+  return `${j}j`;
+}
 
 export function libelleJours(a) {
   if (a.jours_restants === null) return { n: "—", u: "" };
@@ -20,12 +30,75 @@ export async function chargerStock() {
   dessinerOnglets();
 }
 
+/** Bonsoir, bonjour: l'app s'ouvre surtout le soir, mais pas toujours. */
+function salutation() {
+  const h = new Date().getHours();
+  if (h < 6) return "Bonne nuit";
+  if (h < 12) return "Bonjour";
+  if (h < 18) return "Bon après-midi";
+  return "Bonsoir";
+}
+
+/* La carte de tête: ce qui presse le plus, en grand, avec le geste qui
+   va avec. C'est la seule chose à lire quand on ouvre l'app en rentrant.
+   Quand rien ne presse, elle change de ton plutôt que de disparaître. */
+function dessinerUne() {
+  const zone = $("une");
+  const presses = etat.stock
+    .filter((a) => a.jours_restants !== null && a.jours_restants <= 2)
+    .sort((a, b) => a.jours_restants - b.jours_restants);
+
+  if (!etat.stock.length) return (zone.innerHTML = "");
+
+  const el = document.createElement("button");
+  if (presses.length) {
+    const a = presses[0];
+    const autres = presses.length - 1;
+    el.className = "une";
+    el.innerHTML = `
+      <div class="quoi">${a.jours_restants <= 0 ? "À passer aujourd'hui" : "À passer demain"}</div>
+      <h2></h2>
+      <div class="detail"></div>
+      <span class="agir">Voir les idées →</span>`;
+    el.querySelector("h2").textContent = a.nom;
+    el.querySelector(".detail").textContent =
+      [a.affichage, autres > 0 ? `et ${autres} autre${autres > 1 ? "s" : ""} qui suivent` : null]
+        .filter(Boolean).join("  ·  ");
+    el.onclick = () => {
+      etat.imposes = [a.id];
+      aller("idees");
+    };
+  } else {
+    el.className = "une calme-fond";
+    el.innerHTML = `
+      <div class="quoi">Rien ne presse</div>
+      <h2>Tout est sous contrôle</h2>
+      <div class="detail">Prends une idée au hasard dans le carnet</div>
+      <span class="agir">Voir le menu →</span>`;
+    el.onclick = () => aller("idees");
+  }
+  zone.innerHTML = "";
+  zone.appendChild(el);
+}
+
+function dessinerCompteurs() {
+  const presses = etat.stock.filter(
+    (a) => a.jours_restants !== null && a.jours_restants <= 4).length;
+  $("compteurs").innerHTML = `
+    <div class="compteur"><div class="v">${etat.stock.length}</div><div class="l">articles</div></div>
+    <div class="compteur approche"><div class="v">${presses}</div><div class="l">à sauver</div></div>
+    <div class="compteur calme"><div class="v">${etat.nbRecettes || "—"}</div><div class="l">recettes</div></div>`;
+}
+
 export function dessinerStock() {
   const presses = etat.stock.filter(
     (a) => a.jours_restants !== null && a.jours_restants <= 2).length;
+  $("salut").textContent = salutation();
   $("resume-stock").textContent = etat.stock.length === 0
     ? "Rien en stock pour le moment"
     : `${etat.stock.length} articles` + (presses ? `, ${presses} à passer bientôt` : "");
+  dessinerUne();
+  dessinerCompteurs();
 
   const f = $("filtres");
   f.innerHTML = "";
@@ -55,18 +128,16 @@ export function dessinerStock() {
   }
 
   visibles.forEach((a) => {
-    const { n, u } = libelleJours(a);
-    const el = document.createElement("div");
+    const el = document.createElement("button");
     el.className = "article " + a.etat;
     el.innerHTML = `
-      <div class="compte"><span class="n"></span><span class="u"></span></div>
+      <div class="compte">${picto(a.genre, 21)}</div>
       <div class="corps"><div class="nom"></div><div class="meta"></div></div>
-      <button class="action" aria-label="Modifier">›</button>`;
-    el.querySelector(".n").textContent = n;
-    el.querySelector(".u").textContent = u;
+      <div class="action"></div>`;
     el.querySelector(".nom").textContent = a.nom;
     el.querySelector(".meta").textContent =
       [a.affichage, a.lieu].filter(Boolean).join("  ·  ");
+    el.querySelector(".action").textContent = compteCourt(a);
     el.onclick = () => ouvrirArticle(a);
     L.appendChild(el);
   });

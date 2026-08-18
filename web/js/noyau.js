@@ -25,10 +25,12 @@ export const TEMPS = [
   { v: 180, nom: "3 h" },
 ];
 export const ONGLETS = [
-  { id: "stock", glyphe: "▤", nom: "Frigo" },
-  { id: "idees", glyphe: "◆", nom: "Au menu" },
-  { id: "carnet", glyphe: "❑", nom: "Carnet" },
-  { id: "bilan", glyphe: "◔", nom: "Bilan" },
+  // `id` nomme l'écran, `picto` le tracé: les deux diffèrent pour le
+  // menu, dont l'écran s'appelle "idees" depuis le début.
+  { id: "stock", picto: "stock", nom: "Stock" },
+  { id: "idees", picto: "menu", nom: "Menu" },
+  { id: "carnet", picto: "carnet", nom: "Carnet" },
+  { id: "bilan", picto: "bilan", nom: "Bilan" },
 ];
 
 export const etat = {
@@ -45,6 +47,7 @@ export const etat = {
   repas: null,
   remarques: {},   // par recette: ce qui manque, ce qui cloche
   imposes: [],     // ids du stock à utiliser absolument
+  nbRecettes: 0,
 };
 
 /* ------------------------------------------------------------- réseau */

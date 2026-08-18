@@ -8,7 +8,7 @@ from datetime import date, datetime
 from zoneinfo import ZoneInfo
 
 from app.modeles import StockSortie
-from app.domaine import unites
+from app.domaine import familles, unites
 
 try:
     # Sur Linux et Mac, la base des fuseaux vient du système.
@@ -54,6 +54,7 @@ def en_sortie(ligne) -> StockSortie:
         code_barre=ligne["code_barre"], quantite=ligne["quantite"],
         famille=ligne["famille"],
         affichage=unites.afficher(ligne["quantite"], ligne["famille"], ligne["nom"]),
+        genre=familles.famille(ligne["cle"]),
         lieu=ligne["lieu"], date_limite=limite,
         date_estimee=bool(ligne["date_estimee"]), jours_restants=jours,
         etat=etat_de(jours), ajoute_le=ligne["ajoute_le"],

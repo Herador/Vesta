@@ -64,6 +64,7 @@ class StockSortie(BaseModel):
     quantite: float | None
     famille: str | None
     affichage: str
+    genre: str        # famille visuelle: poisson, legume, laitage...
     lieu: str
     date_limite: date | None
     date_estimee: bool

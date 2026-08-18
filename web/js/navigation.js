@@ -4,6 +4,7 @@
    pour un onglet que personne ne regarde. */
 
 import { $, ONGLETS, etat } from "./noyau.js";
+import { pictoOnglet } from "./pictos.js";
 
 const chargeurs = {};
 
@@ -24,7 +25,7 @@ export function dessinerOnglets() {
 
   ONGLETS.forEach((o) => {
     const b = document.createElement("button");
-    b.innerHTML = `<span class="glyphe">${o.glyphe}</span>${o.nom}`;
+    b.innerHTML = `<span class="glyphe">${pictoOnglet(o.picto, 19)}</span>${o.nom}`;
     if (o.id === "stock" && presses) {
       b.insertAdjacentHTML("afterbegin", `<span class="pastille">${presses}</span>`);
     }

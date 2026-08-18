@@ -12,6 +12,8 @@ références. Toute date calculée ici se corrige à la main dans l'app.
 
 from datetime import date, timedelta
 
+from app.domaine.moteur import normaliser
+
 # Durées en jours, par lieu. Les entrées les plus précises l'emportent:
 # "haricot vert" avant "haricot", et "haricot" avant la famille.
 CONSERVATION: dict[str, dict[str, int]] = {
@@ -118,6 +120,12 @@ PAR_DEFAUT = {"frigo": 7, "congelo": 240, "placard": 120}
 # Un aliment sans date connue et sans correspondance ne reçoit pas de
 # date du tout: mieux vaut pas de compte à rebours qu'un faux.
 SANS_ESTIMATION = {"sel", "poivre", "epice", "huile", "vinaigre", "sucre"}
+
+
+# Même précaution que dans familles.py: les entrées sont écrites en
+# français courant, les clés comparées ont perdu leurs pluriels.
+CONSERVATION = {normaliser(nom): lieux for nom, lieux in CONSERVATION.items()}
+SANS_ESTIMATION = {normaliser(mot) for mot in SANS_ESTIMATION}
 
 
 def duree(cle: str, lieu: str) -> int | None:

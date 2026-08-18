@@ -23,6 +23,13 @@ async function demarrer() {
   dessinerTemps();
   brancherReglages();
   dessinerOnglets();
+  // Le carnet sert au compteur de l'accueil: on le compte une fois,
+  // sans attendre que l'utilisateur ouvre l'onglet.
+  api("/recettes").then((r) => {
+    etat.nbRecettes = r.length;
+    if (etat.onglet === "stock") chargerStock();
+  }).catch(() => {});
+
   await chargerStock();
   chargerCuisines();
 
