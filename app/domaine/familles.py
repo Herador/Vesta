@@ -30,9 +30,6 @@ FAMILLES: dict[str, tuple[str, ...]] = {
         "saumon", "truite", "cabillaud", "colin", "lieu", "merlu", "thon",
         "sardine", "maquereau", "poisson", "dorade", "bar", "sole",
     ),
-    # La volaille partage le pictogramme de la viande: une silhouette de
-    # poule ne se lit pas à vingt pixels, et un symbole approximatif est
-    # pire qu'un symbole partagé mais juste.
     "viande": (
         "poulet", "dinde", "canard", "pintade", "caille",
         "boeuf", "porc", "agneau", "veau", "lapin", "lardon", "jambon",

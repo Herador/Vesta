@@ -1,4 +1,4 @@
-# Le garde-manger
+# Vesta
 
 Une application de gestion de frigo qui répond à une seule question:
 **qu'est-ce que je cuisine ce soir avec ce que j'ai déjà ?**
@@ -8,15 +8,19 @@ guide la cuisine étape par étape, puis décompte le stock une fois le
 plat terminé. Elle tourne sur un Raspberry Pi à la maison et s'installe
 sur l'écran d'accueil d'un téléphone.
 
+Contrainte de départ: **zéro coût récurrent**. Pas d'abonnement, pas
+d'hébergement, pas de service payant. Tout ce qui suit en découle.
+
 ---
 
 ## Ce que ça fait
 
 **Le stock.** Chaque article porte un lieu, une quantité et une date.
 Les quantités sont stockées dans une unité canonique et réaffichées dans
-l'unité qui parle: 2 kg moins 20 g donnent 1,98 kg. Les articles sans
-quantité, les épices et l'huile, ne sont jamais décomptés
-automatiquement.
+l'unité qui parle: 2 kg moins 20 g donnent 1,98 kg. Sans date saisie,
+l'application en estime une d'après l'aliment et son rangement; changer
+un article de place la recalcule, parce que congeler suspend l'horloge
+et décongeler la relance.
 
 **Les suggestions.** Un moteur local apparie le stock et le carnet, note
 chaque recette selon ce qu'elle sauve et ce qui manque, et explique son
@@ -32,11 +36,12 @@ on peut ajouter ce qu'on a improvisé. C'est seulement à la validation
 que le stock bouge.
 
 **Les apports.** Calculés depuis la table CIQUAL de l'ANSES, jamais
-générés. Chaque total dit ce qu'il n'a pas pu compter.
+générés. Affichés sur chaque recette et cumulés sur la semaine. Chaque
+total dit ce qu'il n'a pas pu compter.
 
 **L'assistant.** Facultatif. Il invente une recette avec le stock réel,
-et rien d'autre: un ingrédient absent fait refuser la recette. Sans clé
-configurée, ces routes répondent 503 et tout le reste fonctionne.
+en s'appuyant sur une recette du carnet comme modèle de niveau. Ce qu'il
+produit passe les mêmes contrôles que ce qu'on écrit à la main.
 
 ---
 
@@ -52,6 +57,8 @@ configurée, ces routes répondent 503 et tout le reste fonctionne.
         moteur.py        apparier stock et recettes, noter l'urgence
         unites.py        masse, volume, pièce
         nutrition.py     lire CIQUAL, calculer des apports
+        conservation.py  combien de temps ça se garde, et où
+        familles.py      à quelle famille appartient un aliment
         cuisines.py      les cuisines du monde par continent
       routes/            une route par domaine fonctionnel
 
@@ -61,19 +68,20 @@ configurée, ces routes répondent 503 et tout le reste fonctionne.
       js/
         noyau.js         constantes, réseau, panneau, mise en forme
         navigation.js    barre du bas, passage d'un écran à l'autre
+        pictos.js        les pictogrammes, dessinés à la main
         recette.js       fiche, mode cuisine, compte rendu
         editeur.js       écrire une recette
         vues/            stock, menu, carnet, bilan
 
     outils/              scripts d'exploitation
-    donnees/recettes/    le carnet, en JSON
+    donnees/recettes/    le carnet, 35 recettes en JSON
     docs/                format des recettes
 
-**La séparation qui compte** est celle de `app/domaine/`. Ces quatre
+**La séparation qui compte** est celle de `app/domaine/`. Ces six
 modules ne savent rien du web: on les essaie dans un interpréteur, sur
 des données réelles, avant de brancher quoi que ce soit. C'est là que
 les vrais problèmes se sont révélés, comme la confusion entre `citron`
-et `jus de citron`.
+et `jus de citron`, ou entre des haricots secs et des haricots en boîte.
 
 **Le front n'a pas d'étape de build.** Modules ES natifs, servis tels
 quels. Sur un Raspberry Pi, une chaîne de compilation serait un coût
@@ -113,6 +121,12 @@ Pour l'assistant, copier `.env.exemple` en `.env` et y mettre une clé
 python -m outils.diagnostic_ia
 ```
 
+Un jeu d'essai, pour voir l'application peuplée sans saisir son frigo:
+
+```bash
+python -m outils.peupler_stock --vider
+```
+
 ---
 
 ## Écrire une recette
@@ -131,6 +145,9 @@ python -m outils.verifier_recettes
 Il refuse les adjectifs de taille dans les noms, les unités inconnues,
 et les ingrédients qui n'apparaissent dans aucune étape.
 
+L'application permet aussi d'écrire, modifier et supprimer une recette
+directement depuis le téléphone.
+
 ---
 
 ## Choix techniques
@@ -140,17 +157,28 @@ administration, et une sauvegarde qui consiste à le copier.
 
 **Les valeurs nutritionnelles sont calculées, jamais générées.** Un
 modèle qui invente des calories est exactement ce qu'il fallait éviter.
-Le modèle sert à trois choses seulement: inventer une recette, arbitrer
-entre des fiches CIQUAL que le moteur local a présélectionnées, et
-commenter des tendances.
+Le modèle sert à trois choses: inventer une recette, arbitrer entre des
+fiches CIQUAL que le moteur local a présélectionnées, et commenter des
+tendances sur plusieurs jours.
 
-**Ce qui vient du modèle est vérifié.** Une recette générée passe par le
-même contrôle que celles écrites à la main, plus deux règles: une seule
-protéine principale, et aucun ingrédient absent du stock. Une consigne
-se néglige, un contrôle non.
+**Ce qui vient du modèle est vérifié.** Une recette générée passe le
+même contrôle de forme que celles écrites à la main. S'y ajoutent deux
+règles de cuisine: une seule protéine principale, et rien qui ne soit
+dans le stock. Le second point est un contrôle et pas une consigne,
+parce qu'une consigne se néglige.
+
+**Les erreurs de forme bloquent, les jugements de cuisine informent.**
+Une recette inaffichable est refusée; un ingrédient manquant ou deux
+protéines sont signalés dans un encart, et on décide.
 
 **Les recettes inventées entrent en essai.** Elles n'apparaissent ni au
 carnet ni aux suggestions tant qu'on ne les a pas cuisinées et gardées.
+Celles qu'on abandonne sont effacées.
+
+**Les pictogrammes sont dessinés à la main.** Une bibliothèque d'icônes
+chargée depuis un CDN ne fonctionne pas sur un Pi sans internet, et une
+icône absente vaut moins qu'une icône approximative. Vingt tracés SVG
+dans un fichier, moins lourds qu'une requête réseau.
 
 ---
 
@@ -160,3 +188,12 @@ Sur le Raspberry Pi, un service systemd pour le redémarrage automatique,
 une copie quotidienne du fichier `.db`, et Tailscale pour l'accès en
 HTTPS depuis le téléphone, y compris hors du domicile. Le HTTPS n'est
 pas un luxe: sans lui, ni service worker ni accès à la caméra.
+
+---
+
+## Ce qui reste à faire
+
+- Le scan de code barre, avec Open Food Facts pour reconnaître les
+  produits industriels. Il attend le HTTPS.
+- Les notifications la veille des dates limites.
+- Une liste de courses construite depuis ce qui manque aux recettes.
