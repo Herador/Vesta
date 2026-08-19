@@ -11,6 +11,7 @@ une recette sans repasser derrière soi.
 
 import json
 import sys
+import unicodedata
 from pathlib import Path
 
 from app.domaine.moteur import TAILLE, TRANSFORMATIONS, normaliser
@@ -34,6 +35,36 @@ MOTS_INTERDITS = {"en", "coupe", "coupé", "avec", "sans", "pour", "ou", "et"}
 ASSAISONNEMENTS = {"sel", "poivre", "sel poivre", "poivre sel", "eau"}
 
 
+# Des noms composés où un mot de taille ou de préparation appartient à
+# l'aliment lui-même: "petits pois" n'est pas une taille de pois, et le
+# fromage râpé s'achète déjà râpé.
+_ADMIS = [
+    "petits pois", "fromage râpé", "pois cassés", "crème fraîche",
+    "tomates concassées", "lait concentré", "sucre glace", "amandes effilées",
+    "noix de coco râpée", "gros sel", "poivre moulu", "coriandre moulue",
+    "épinards hachés", "haricots coupés", "petits oignons",
+]
+
+
+def mot_nu(mot: str) -> str:
+    """Un mot désaccentué et au singulier, sans autre traitement.
+
+    On ne peut pas passer par normaliser() ici: elle supprime justement
+    les mots qu'on cherche à repérer. "moyenne" et "émincés" en
+    ressortaient vides, et n'étaient donc jamais signalés.
+    """
+    sans = unicodedata.normalize("NFD", mot.lower())
+    sans = "".join(c for c in sans if unicodedata.category(c) != "Mn")
+    sans = "".join(c for c in sans if c.isalnum())
+    return sans[:-1] if len(sans) > 3 and sans[-1] in "sx" else sans
+
+
+# La liste est écrite en français lisible, puis passée dans le même
+# traitement que les noms contrôlés: sinon "petits pois" ne rencontrerait
+# jamais "petit poi", et on chercherait longtemps pourquoi.
+NOMS_ADMIS = {" ".join(mot_nu(m) for m in nom.lower().split()) for nom in _ADMIS}
+
+
 def cle_negligeable(cle: str) -> bool:
     from app.domaine.nutrition import est_negligeable
     return est_negligeable(cle)
@@ -54,23 +85,39 @@ def verifier_ingredient(ing: dict) -> list[str]:
 
     if not nom:
         return ["ingrédient sans nom"]
+
+    mots = [mot_nu(m) for m in nom.lower().split()]
+
+    # Un nom composé admis saute les contrôles de forme du libellé, mais
+    # garde ceux de quantité et d'unité.
+    if " ".join(mots) in NOMS_ADMIS:
+        return controler_mesure(ing, nom)
+
     # Quatre mots sont permis quand le nom désigne une transformation:
-    # "jus de citron vert" est un ingrédient à part entière.
-    limite = 4 if normaliser(nom).split()[:1] and normaliser(nom).split()[0] in TRANSFORMATIONS else 3
+    # "jus de citron vert" est un ingrédient à part entière. On regarde
+    # le premier mot écrit, pas la clé normalisée: celle-ci peut avoir
+    # remplacé "jus de citron vert" par un synonyme.
+    limite = 4 if mots and mots[0] in TRANSFORMATIONS else 3
     if len(nom.split()) > limite:
         soucis.append(f"'{nom}': nom trop long, garde l'aliment nu")
 
-    mots = nom.lower().split()
-    for mot in mots:
+    for brut, mot in zip(nom.lower().split(), mots):
         if mot in MOTS_INTERDITS and len(mots) > 2:
-            soucis.append(f"'{nom}': '{mot}' décrit une préparation, à mettre dans l'étape")
+            soucis.append(f"'{nom}': '{brut}' décrit une préparation, à mettre dans l'étape")
             break
-        if normaliser(mot) in TAILLE:
-            soucis.append(f"'{nom}': '{mot}' est une taille ou une découpe, à mettre dans l'étape")
+        if mot in TAILLE:
+            soucis.append(f"'{nom}': '{brut}' est une taille ou une découpe, à mettre dans l'étape")
             break
-    if len(mots) > 1 and normaliser(mots[-1]) in PARTICIPES_PREPARATION:
-        soucis.append(f"'{nom}': '{mots[-1]}' décrit une préparation, à mettre dans l'étape")
+    if len(mots) > 1 and mots[-1] in PARTICIPES_PREPARATION:
+        soucis.append(f"'{nom}': '{nom.split()[-1]}' décrit une préparation, "
+                      "à mettre dans l'étape")
 
+    return soucis + controler_mesure(ing, nom)
+
+
+def controler_mesure(ing: dict, nom: str) -> list[str]:
+    """La quantité, l'unité et la partie: contrôlés dans tous les cas."""
+    soucis = []
     if unites.normaliser_unite(ing.get("unite", "")) not in UNITES:
         soucis.append(f"'{nom}': unité inconnue '{ing.get('unite')}'")
     quantite = ing.get("quantite")
@@ -79,6 +126,24 @@ def verifier_ingredient(ing: dict) -> list[str]:
     if ing.get("partie", "plat") not in PARTIES:
         soucis.append(f"'{nom}': partie inconnue '{ing.get('partie')}'")
     return soucis
+
+
+# Les façons d'écrire une unité dans une phrase, et la famille visée.
+UNITES_ECRITES = [
+    (r"c\.?\s*à\s*soupe|cuill[eè]res?\s+à\s+soupe|càs", "volume", 15),
+    (r"c\.?\s*à\s*caf[eé]|cuill[eè]res?\s+à\s+caf[eé]|càc", "volume", 5),
+    (r"ml\b|millilitres?", "volume", 1),
+    (r"cl\b|centilitres?", "volume", 10),
+    (r"\bl\b|litres?", "volume", 1000),
+    (r"\bg\b|grammes?", "masse", 1),
+    (r"\bkg\b|kilos?", "masse", 1000),
+]
+
+# En dessous de ce rapport, on ne dit rien: une étape peut dire "un peu
+# d'huile" sans chiffrer, ou n'employer qu'une partie de ce que la liste
+# annonce. Au-delà, ce n'est plus une approximation mais une erreur
+# d'unité: le cas rencontré valait dix fois la quantité voulue.
+ECART_TOLERE = 5
 
 
 def verifier_recette(r: dict) -> list[str]:

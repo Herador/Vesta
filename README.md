@@ -150,6 +150,39 @@ directement depuis le téléphone.
 
 ---
 
+## Les tests
+
+```bash
+python -m pytest
+```
+
+162 tests, sans réseau ni base de production: chacun travaille sur une
+base jetable, et l'assistant est remplacé par un faux serveur local.
+
+Ils ne cherchent pas à couvrir des lignes, mais des **erreurs déjà
+commises**. Chaque cas correspond à un bug rencontré pendant le
+développement:
+
+- `citron` confondu avec `jus de citron`, et `pâtes` avec `pâte de crevettes`
+- la négation avalée: "cacahuètes non salées" devenait "salées"
+- la colonne CIQUAL "Energie, avec fibres" prise pour les fibres, qui
+  donnait 806 g de fibres au saumon
+- les haricots en conserve comptés comme des haricots secs, trois fois
+  trop caloriques
+- les pluriels: `pois chiche` ne rencontrait jamais `poi chiche`, et ces
+  aliments perdaient leur durée de conservation
+- un article sans quantité, comme le sel, disparaissant du stock après
+  un repas
+- la liste des ingrédients et les étapes qui se contredisent: dix
+  cuillères à café de miel d'un côté, dix grammes de l'autre
+
+Écrire ces tests en a d'ailleurs révélé quatre autres: "pavés de saumon
+frais" qui n'était plus reconnu comme du saumon, et trois contrôles du
+vérificateur qui ne se déclenchaient jamais parce qu'ils normalisaient
+les mots avant de les chercher, ce qui les effaçait.
+
+---
+
 ## Choix techniques
 
 **SQLite plutôt qu'un serveur de base.** Un fichier, aucune

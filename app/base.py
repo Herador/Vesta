@@ -8,13 +8,26 @@ famille, gramme, millilitre ou pièce, jamais dans l'unité saisie.
 Voir unites.py.
 """
 
+import os
 import sqlite3
 from contextlib import contextmanager
 from pathlib import Path
 
 # La base vit à la racine du projet, pas dans le paquet: elle est
 # une donnée, pas du code, et une sauvegarde se résume à la copier.
-CHEMIN_BASE = Path(__file__).resolve().parent.parent / "garde-manger.db"
+RACINE = Path(__file__).resolve().parent.parent
+CHEMIN_BASE = RACINE / "garde-manger.db"
+
+
+def chemin_base() -> Path:
+    """Où vit la base.
+
+    La variable VESTA_BASE permet de la déplacer sans toucher au code:
+    les tests s'en servent pour travailler sur une base jetable, et un
+    déploiement peut la ranger ailleurs que dans le dossier du projet.
+    """
+    ailleurs = os.environ.get("VESTA_BASE")
+    return Path(ailleurs) if ailleurs else CHEMIN_BASE
 
 SCHEMA = """
 PRAGMA journal_mode = WAL;
@@ -190,7 +203,7 @@ Style: cuisine du monde, du goût, jamais de plat fade."""
 
 
 def connexion() -> sqlite3.Connection:
-    con = sqlite3.connect(CHEMIN_BASE)
+    con = sqlite3.connect(chemin_base())
     con.row_factory = sqlite3.Row
     con.execute("PRAGMA foreign_keys = ON")
     return con

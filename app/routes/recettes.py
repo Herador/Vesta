@@ -71,6 +71,8 @@ def recette_affichee(r: dict, portions: int | None = None) -> dict:
         "unite": i.get("unite", ""),
         "quantite": (i["quantite"] * facteur) if i["quantite"] is not None else None,
         "famille": i["famille"],
+        # afficher_dans et non afficher: une recette écrite en cuillères
+        # se relit en cuillères, quelle que soit l'échelle demandée.
         "affichage": unites.afficher_dans(i["quantite"] * facteur, i.get("unite", ""),
                                           i["nom"], i["famille"])
         if i["quantite"] is not None else "",

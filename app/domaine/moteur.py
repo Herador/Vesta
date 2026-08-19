@@ -40,7 +40,12 @@ TAILLE = {
 # dans les fiches CIQUAL: c'est là que se joue la différence entre un
 # saumon cru et un saumon fumé.
 ETAT = {
-    "bio", "surgele", "congele", "nature", "entier", "demi", "cru", "cuit",
+    # "frais" avait été retiré pour distinguer la crème fraîche de la
+    # crème dessert. C'était une mauvaise raison: en cuisine les deux
+    # crèmes sont interchangeables, alors que "pavés de saumon frais"
+    # cessait d'être reconnu comme du saumon.
+    "frai", "fraiche", "bio", "surgele", "congele", "nature", "entier",
+    "demi", "cru", "cuit",
     "non", "sans", "peau", "dore", "concasse",
     "pile", "moulu", "battu", "fondu", "chaud", "froid", "tiede", "creuse",
     "farci", "tranche", "de", "du", "des", "le", "la", "les", "un", "une",

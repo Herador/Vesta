@@ -10,6 +10,7 @@ import { $, api, echappe, etat, fermer, format, mot, nombre, panneau, uniteDe }
 import { chargerStock } from "./vues/stock.js";
 import { aller } from "./navigation.js";
 import { editerRecette } from "./editeur.js";
+import { commentaire, niveau } from "./reperes.js";
 
 /* --------------------------------------------------- vue de cuisine */
 
@@ -252,11 +253,18 @@ async function chargerApports(id, portions) {
       <div class="partie">
         <h3>Par personne</h3>
         <div class="chiffres">
-          ${[["kcal", Math.round(m.kcal), ""], ["protéines", m.proteines, "g"],
-             ["glucides", m.glucides, "g"], ["lipides", m.lipides, "g"],
-             ["fibres", m.fibres, "g"], ["sel", m.sel, "g"]]
-            .map(([l, v, u]) => `<div class="chiffre"><div class="v">${
-              nombre(v)}<em>${u}</em></div><div class="l">${l}</div></div>`).join("")}
+          ${[["kcal", "kcal", Math.round(m.kcal), ""],
+             ["proteines", "protéines", m.proteines, "g"],
+             ["glucides", "glucides", m.glucides, "g"],
+             ["lipides", "lipides", m.lipides, "g"],
+             ["fibres", "fibres", m.fibres, "g"],
+             ["sel", "sel", m.sel, "g"]]
+            .map(([cle, l, v, u]) => {
+              const mot = commentaire(cle, v);
+              return `<div class="chiffre ${niveau(cle, v)}"><div class="v">${
+                nombre(v)}<em>${u}</em></div><div class="l">${l}</div>${
+                mot ? `<div class="reperes">${mot}</div>` : ""}</div>`;
+            }).join("")}
         </div>
         ${ignores.length ? `<p class="sous" style="margin:2px 0 0">Sans ${
           echappe(ignores.join(", "))}, que je ne sais pas encore compter.</p>` : ""}

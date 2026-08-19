@@ -253,7 +253,7 @@ input::placeholder { color: var(--texte-faible); }
 .encart input, .encart select, .encart textarea { background: var(--carte-haute); }
 .champs { display: flex; gap: 8px; margin-bottom: 8px; }
 .champs .court { flex: 0 0 32%; }
-.bas { display: flex; gap: 8px; align-items: center; justify-content: space-between; margin-top: 12px; }
+.bas { display: flex; gap: 8px; align-items: center; justify-content: space-between; }
 
 .suggestions-ciqual { margin-top: 8px; display: flex; flex-direction: column; gap: 5px; }
 .suggestions-ciqual button {
@@ -486,11 +486,56 @@ input::placeholder { color: var(--texte-faible); }
 .bilan ul { margin: 8px 0 0; padding-left: 18px; }
 .bilan li { margin-bottom: 5px; font-size: 14px; }
 
-.chiffres { display: grid; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); gap: 9px; margin: 14px 0; }
-.chiffre { background: var(--carte); border-radius: var(--r-petit); padding: 13px 11px; }
-.chiffre .v { font-family: "JetBrains Mono", monospace; font-size: 19px; font-weight: 600; white-space: nowrap; }
+/* Trois colonnes, quelle que soit la largeur. En laissant le navigateur
+   décider, on obtenait six colonnes étroites sur un écran large, et le
+   commentaire débordait de sa carte. `minmax(0, 1fr)` est ce qui
+   autorise une colonne à devenir plus étroite que son contenu. */
+.chiffres {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  /* Explicite: les cartes d'une même rangée s'étirent à la plus haute.
+     Sans ça, elles s'alignaient par le bas et flottaient à des hauteurs
+     différentes selon qu'elles portaient un commentaire ou non. */
+  align-items: stretch;
+  gap: 9px; margin: 14px 0;
+}
+.chiffre {
+  display: block;          /* explicite: rien ne doit aligner en ligne */
+  align-self: stretch;     /* et toutes à la hauteur de leur rangée */
+  height: 100%;
+  min-width: 0;
+  background: var(--carte); border-radius: var(--r-petit);
+  padding: 13px 11px;
+}
+.chiffre > div { display: block; }
+.chiffre .v {
+  font-family: "JetBrains Mono", monospace; font-size: 19px; font-weight: 600;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* La couleur situe l'apport dans les repères d'un repas. Menthe quand
+   c'est dans les clous, ambre au-dessus, gris quand c'est en dessous:
+   un plat léger n'a rien de fautif, il n'a pas à être signalé en rouge. */
+.chiffre.juste .v { color: var(--calme); }
+.chiffre.haut .v { color: var(--approche); }
+.chiffre.bas .v { color: var(--texte-doux); }
+/* Nommée "reperes" et non "mot": cette dernière est déjà la bulle du
+   message passager, et les commentaires en héritaient. */
+/* La ligne est toujours là, même vide: sans elle, une carte sans
+   commentaire était plus courte que ses voisines et la grille prenait
+   un air bancal. */
+.chiffre .reperes {
+  font-size: 10px; margin-top: 5px; line-height: 1.25;
+  min-height: 1.25em;
+  overflow-wrap: anywhere;
+}
+.chiffre.haut .reperes { color: var(--approche); }
+.chiffre.bas .reperes { color: var(--texte-faible); }
 .chiffre .v em { font-style: normal; font-size: 11px; color: var(--texte-faible); margin-left: 1px; }
-.chiffre .l { font-size: 10.5px; color: var(--texte-faible); margin-top: 5px; }
+.chiffre .l {
+  font-size: 10.5px; color: var(--texte-faible); margin-top: 5px;
+  overflow-wrap: anywhere;
+}
 
 .autour { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 14px; }
 .autour .puce { font-size: 12.5px; padding: 7px 13px; }

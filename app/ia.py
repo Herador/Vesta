@@ -312,13 +312,17 @@ Format:
 - nom: l'aliment nu, trois mots maximum, sans taille ni découpe. "carotte",
   pas "grosse carotte en julienne". Un jus, une huile ou une farine est un
   aliment distinct de son origine: "jus de citron" n'est pas "citron".
-- unite: "" pour tout ce qui se compte à la pièce, gousse d'ail et oeuf compris.
-- quantite: toujours chiffrée. Sans chiffre, retire l'ingrédient de la liste.
+- unite: "" pour tout ce qui se compte à la pièce, gousse d'ail et oeuf
+  compris. "càs" et "càc" pour les condiments, comme en cuisine.
+- quantite: toujours chiffrée, et c'est le nombre d'unités, jamais une
+  conversion. Deux cuillères à soupe de sauce soja s'écrivent quantite 2
+  et unite "càs", jamais 30. Sans chiffre, retire l'ingrédient.
 - Ne liste ni sel, ni poivre, ni eau: écris "salez" dans l'étape.
 - essentiel: false si son absence n'empêche pas le plat.
 - etapes: 5 à 10, chacune répétant ses quantités. Les découpes vont dans une
   étape de mise en place. secondes uniquement quand l'étape attend.
 - Chaque ingrédient listé apparaît dans au moins une étape.
+- La liste et les étapes disent la même quantité, dans la même unité.
 
 Ce qui sépare une vraie recette d'une liste d'instructions:
 - Des repères sensoriels plutôt que des durées seules. "Jusqu'à ce que les

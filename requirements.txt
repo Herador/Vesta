@@ -4,3 +4,6 @@ httpx
 tzdata
 openpyxl
 truststore
+
+# Pour lancer les tests: python -m pytest
+pytest>=8.0

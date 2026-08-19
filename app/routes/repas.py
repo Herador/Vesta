@@ -49,15 +49,20 @@ def preparer_lignes(con, recette: dict, portions: int) -> list[dict]:
         # à ingrédient égal, on entame d'abord ce qui périme le plus tôt
         article = min(candidats, key=lambda a: (a["date_limite"] is None,
                                                 a["date_limite"] or ""))
+        # Un article sans quantité connue, l'huile ou les épices, n'a pas
+        # de famille: on garde alors celle de la recette pour au moins
+        # afficher combien en mettre. Le décompte, lui, ne s'appliquera
+        # pas, mais ce n'était déjà pas le cas.
+        cible = article["famille"] or ing["famille"]
         besoin, approx = None, False
-        if ing["quantite"] is not None and article["famille"]:
+        if ing["quantite"] is not None and cible:
             besoin = ing["quantite"] * facteur
-            if ing["famille"] != article["famille"]:
+            if ing["famille"] != cible:
                 besoin, approx = unites.convertir(besoin, ing["famille"],
-                                                  article["famille"], ing["cle"])
+                                                  cible, ing["cle"])
         lignes.append({
             "stock_id": article["id"], "nom": article["nom"], "cle": article["cle"],
-            "quantite": besoin, "famille": article["famille"],
+            "quantite": besoin, "famille": cible,
             "approx": approx, "improvise": False,
         })
     return lignes
@@ -211,7 +216,8 @@ def terminer_repas(repas_id: int, rendu: CompteRendu):
                 reste = article["quantite"] - quantite
                 con.execute("UPDATE stock SET quantite = ? WHERE id = ?",
                             (reste, article["id"]))
-                ajustes.append(f"{article['nom']}: {unites.afficher(reste, article['famille'], article['nom'])}")
+                ajustes.append(f"{article['nom']}: "
+                               f"{unites.afficher(reste, article['famille'], article['nom'])}")
 
             con.execute(
                 """INSERT INTO repas_ligne

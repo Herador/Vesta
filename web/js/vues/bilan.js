@@ -4,6 +4,7 @@
    commentaire, lui, est facultatif. */
 
 import { $, api, echappe, fermer, mot, nombre, panneau } from "../noyau.js";
+import { commentaire, niveau } from "../reperes.js";
 
 /* -------------------------------------------------------------- bilan */
 
@@ -18,11 +19,18 @@ export async function chargerBilan() {
     const m = a.moyenne_par_repas;
     zone.innerHTML = `
       <div class="chiffres">
-        ${[["kcal", Math.round(m.kcal), ""], ["protéines", m.proteines, "g"],
-           ["glucides", m.glucides, "g"], ["lipides", m.lipides, "g"],
-           ["fibres", m.fibres, "g"], ["sel", m.sel, "g"]]
-          .map(([l, v, u]) => `<div class="chiffre"><div class="v">${nombre(v)}<em>${u}</em></div><div class="l">${l}</div></div>`)
-          .join("")}
+        ${[["kcal", "kcal", Math.round(m.kcal), ""],
+           ["proteines", "protéines", m.proteines, "g"],
+           ["glucides", "glucides", m.glucides, "g"],
+           ["lipides", "lipides", m.lipides, "g"],
+           ["fibres", "fibres", m.fibres, "g"],
+           ["sel", "sel", m.sel, "g"]]
+          .map(([cle, l, v, u]) => {
+            const note = commentaire(cle, v);
+            return `<div class="chiffre ${niveau(cle, v)}"><div class="v">${
+              nombre(v)}<em>${u}</em></div><div class="l">${l}</div>${
+              note ? `<div class="reperes">${note}</div>` : ""}</div>`;
+          }).join("")}
       </div>
       <p class="sous">${a.repas} repas sur 7 jours · ${a.variete.aliments_distincts} aliments différents</p>
       ${a.non_comptes.length ? `<div class="bilan"><span class="etiquette">Non comptés</span>
