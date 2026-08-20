@@ -3,12 +3,13 @@
    Les données, elles, ne le sont jamais: un stock périmé affiché comme
    frais serait pire que pas de stock du tout. */
 
-const CACHE = "vesta-v9";
+const CACHE = "vesta-v10";
 const COQUILLE = [
   "/", "/index.html", "/style.css", "/manifest.webmanifest",
   "/js/app.js", "/js/noyau.js", "/js/navigation.js", "/js/recette.js",
   "/js/editeur.js", "/js/vues/stock.js", "/js/vues/menu.js",
-  "/js/vues/carnet.js", "/js/vues/bilan.js", "/js/pictos.js",
+  "/js/vues/carnet.js", "/js/vues/bilan.js", "/js/vues/aliments.js",
+  "/js/pictos.js",
   "/js/reperes.js",
 ];
 

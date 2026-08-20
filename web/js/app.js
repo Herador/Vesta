@@ -10,11 +10,16 @@ import { chargerStock, ouvrirSaisie } from "./vues/stock.js";
 import { chargerIdees, chargerCuisines, dessinerTemps } from "./vues/menu.js";
 import { chargerCarnet } from "./vues/carnet.js";
 import { brancherReglages, chargerBilan } from "./vues/bilan.js";
+import { chargerAliments } from "./vues/aliments.js";
 import { editerRecette } from "./editeur.js";
 
 brancherEcran("idees", chargerIdees);
 brancherEcran("carnet", chargerCarnet);
 brancherEcran("bilan", chargerBilan);
+brancherEcran("aliments", chargerAliments);
+
+$("btn-aliments").onclick = () => aller("aliments");
+$("aliments-retour").onclick = () => aller("bilan");
 
 $("ouvrir-saisie").onclick = () =>
   etat.onglet === "carnet" ? editerRecette(null) : ouvrirSaisie();

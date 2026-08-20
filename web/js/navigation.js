@@ -37,7 +37,11 @@ export function dessinerOnglets() {
 
 export function aller(onglet) {
   etat.onglet = onglet;
+  // Les aliments ne sont pas un onglet: on y entre depuis le bilan et
+  // on en ressort par la flèche. Une cinquième icône en bas pour un
+  // écran qu'on ouvre trois fois par an ne se justifiait pas.
   ONGLETS.forEach((o) => { $("page-" + o.id).hidden = o.id !== onglet; });
+  $("page-aliments").hidden = onglet !== "aliments";
   $("ouvrir-saisie").hidden = !["stock", "carnet"].includes(onglet);
   $("ouvrir-saisie").title = onglet === "carnet" ? "Écrire une recette" : "Ajouter un article";
   dessinerOnglets();

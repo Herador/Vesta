@@ -39,6 +39,11 @@ que le stock bouge.
 générés. Affichés sur chaque recette et cumulés sur la semaine. Chaque
 total dit ce qu'il n'a pas pu compter.
 
+**Les aliments.** Un écran relie ce qu'on cuisine aux fiches de l'ANSES.
+Les rapprochements automatiques y restent en attente jusqu'à ce qu'on les
+ait regardés: un aliment mal relié fausse le bilan en silence, et c'est
+comme ça que des haricots en conserve se retrouvaient comptés secs.
+
 **L'assistant.** Facultatif. Il invente une recette avec le stock réel,
 en s'appuyant sur une recette du carnet comme modèle de niveau. Ce qu'il
 produit passe les mêmes contrôles que ce qu'on écrit à la main.
@@ -156,7 +161,7 @@ directement depuis le téléphone.
 python -m pytest
 ```
 
-162 tests, sans réseau ni base de production: chacun travaille sur une
+169 tests, sans réseau ni base de production: chacun travaille sur une
 base jetable, et l'assistant est remplacé par un faux serveur local.
 
 Ils ne cherchent pas à couvrir des lignes, mais des **erreurs déjà

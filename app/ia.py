@@ -316,7 +316,8 @@ Format:
   compris. "càs" et "càc" pour les condiments, comme en cuisine.
 - quantite: toujours chiffrée, et c'est le nombre d'unités, jamais une
   conversion. Deux cuillères à soupe de sauce soja s'écrivent quantite 2
-  et unite "càs", jamais 30. Sans chiffre, retire l'ingrédient.
+  et unite "càs", jamais 30. Ne met pas les quantité en ml si tu messure en "cas.".
+  Sans chiffre, retire l'ingrédient.
 - Ne liste ni sel, ni poivre, ni eau: écris "salez" dans l'étape.
 - essentiel: false si son absence n'empêche pas le plat.
 - etapes: 5 à 10, chacune répétant ses quantités. Les découpes vont dans une
@@ -343,10 +344,10 @@ Composition:
   et les légumineuses peuvent l'accompagner quand la cuisine le fait vraiment.
 - Assiette visée: moitié légumes, un quart protéines, un quart féculents.
 - Crème, beurre, lait de coco, fromage: seulement si la cuisine les emploie.
-- N'utilise que des ingrédients présents dans le stock fourni, y compris
+- Important : n'utilise que des ingrédients présents dans le stock fourni, y compris
   les épices, les huiles et les bouillons: ce qui n'est pas listé, je ne
   l'ai pas. Si le stock ne permet pas la recette que tu avais en tête,
-  change de recette plutôt que de compléter la liste.
+  change de recette plutôt que de compléter la liste sauf si cest facultatif.
 - N'ajoute rien au seul motif que c'est urgent.
 """
 

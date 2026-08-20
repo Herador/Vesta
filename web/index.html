@@ -62,10 +62,21 @@
   <h1>Le bilan</h1>
   <p class="sous">Sur les sept derniers jours, par personne et par repas</p>
   <div id="contenu-bilan"><div class="charge"><span>Chargement</span></div></div>
-  <button class="btn calme" id="btn-reglages" style="width:100%;margin:20px 0">Mes réglages</button>
+  <button class="btn calme" id="btn-aliments" style="width:100%;margin:20px 0 8px">Les aliments et leurs fiches</button>
+  <button class="btn calme" id="btn-reglages" style="width:100%;margin-bottom:20px">Mes réglages</button>
 </section>
 
 <button class="flottant" id="ouvrir-saisie" aria-label="Ajouter un article">+</button>
+
+<!-- ========================================================= ALIMENTS -->
+<section class="page" id="page-aliments" hidden>
+  <div class="entete-retour">
+    <button class="rond" id="aliments-retour" aria-label="Retour">‹</button>
+    <h1 style="margin:0;font-size:22px">Les aliments</h1>
+  </div>
+  <p class="sous" id="resume-aliments"></p>
+  <div id="contenu-aliments"></div>
+</section>
 
 <!-- ============================================================ BARRE -->
 <nav class="onglets" id="onglets"></nav>

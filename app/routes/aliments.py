@@ -265,8 +265,22 @@ def rechercher_aliment(q: str = Query(min_length=2), limite: int = Query(8, ge=1
         ).fetchall()]
     if not fiches:
         raise HTTPException(409, "La table CIQUAL n'est pas importée. "
-                                 "Lance python importer_ciqual.py")
-    return nutrition.chercher(fiches, q, limite)
+                                 "Lance python -m outils.importer_ciqual")
+
+    trouvees = nutrition.chercher(fiches, q, limite)
+    if trouvees:
+        return trouvees
+
+    # La recherche exacte veut tous les mots, ce qui ne pardonne rien:
+    # "yaourt grec" ne rencontre pas "Yaourt à la grecque". Plutôt que de
+    # renvoyer une page vide, on retente sur le mot le plus significatif.
+    mots = sorted(q.split(), key=len, reverse=True)
+    for mot in mots[:2]:
+        if len(mot) >= 4:
+            trouvees = nutrition.chercher(fiches, mot, limite)
+            if trouvees:
+                return trouvees
+    return []
 
 
 @routeur.put("/api/aliments/{cle}", tags=["Aliments CIQUAL"], summary="Rattacher un aliment à une fiche")

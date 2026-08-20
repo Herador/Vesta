@@ -1,6 +1,7 @@
 /* L'écran des suggestions, et l'assistant qui invente une recette. */
 
 import { $, TEMPS, api, echappe, etat, fermer, mot, panneau } from "../noyau.js";
+import { picto } from "../pictos.js";
 import { ouvrirRecette } from "../recette.js";
 
 /* Ce que tu veux absolument cuisiner. La consigne vaut pour les deux:
@@ -49,17 +50,17 @@ function ouvrirChoixAutour() {
     const el = document.createElement("button");
     el.className = "article " + a.etat;
     el.style.width = "100%";
-    el.innerHTML = `<div class="compte"><span class="n"></span><span class="u"></span></div>
+    el.innerHTML = `<div class="compte">${picto(a.genre, 21)}</div>
       <div class="corps"><div class="nom"></div><div class="meta"></div></div>
       <div class="action"></div>`;
     const j = a.jours_restants;
-    el.querySelector(".n").textContent = j === null ? "—" : Math.abs(j);
-    el.querySelector(".u").textContent =
-      j === null ? "" : j < 0 ? "dépassé" : j === 0 ? "auj." : j === 1 ? "jour" : "jours";
+    el.querySelector(".action").textContent = j === null ? "—" : j < 0 ? j+"j." : j === 0 ? "auj." : j+"j.";
+    // el.querySelector(".u").textContent =
+    //   j === null ? "—" : j < 0 ? j+"j." : j === 0 ? "auj." : j+"j." ;
     el.querySelector(".nom").textContent = a.nom;
     el.querySelector(".meta").textContent = [a.affichage, a.lieu].filter(Boolean).join("  ·  ");
     const marque = () => {
-      el.querySelector(".action").textContent = choix.has(a.id) ? "✓" : "";
+      // el.querySelector(".action").textContent = choix.has(a.id) ? "✓" : "";
       el.classList.toggle("sel", choix.has(a.id));
     };
     marque();

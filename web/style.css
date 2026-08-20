@@ -131,7 +131,7 @@ input::placeholder { color: var(--texte-faible); }
 }
 .puce[aria-pressed="true"] { background: var(--texte); color: var(--fond); }
 
-.rangee { display: flex; gap: 8px; }
+.rangee { display: flex; gap: 8px;}
 .rangee.defile { overflow-x: auto; padding: 2px 0 14px; scrollbar-width: none; }
 .rangee.defile::-webkit-scrollbar { display: none; }
 
@@ -563,3 +563,36 @@ input::placeholder { color: var(--texte-faible); }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
+
+/* ------------------------------------------------- l'écran des aliments
+
+   Une fiche CIQUAL se choisit en lisant ses valeurs, pas seulement son
+   nom: entre "Haricot rouge, sec" et "appertisé, égoutté", c'est l'écart
+   de calories qui tranche. Elles sont donc affichées sous chaque titre. */
+
+.entete-retour {
+  display: flex; align-items: center; gap: 12px;
+  padding: 20px 0 4px;
+}
+
+.fiche {
+  display: block; width: 100%; text-align: left;
+  background: var(--carte); border: none; border-radius: var(--r-petit);
+  padding: 12px 14px; margin-bottom: 7px;
+  transition: transform .12s ease;
+}
+.fiche:active { transform: scale(.99); }
+.fiche.choisie { box-shadow: inset 0 0 0 1.5px var(--calme); }
+.fiche .titre { font-size: 14px; font-weight: 600; line-height: 1.35; }
+.fiche .valeurs {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px; color: var(--texte-faible); margin-top: 5px;
+}
+.fiche .alerte-fiche {
+  font-size: 11.5px; color: var(--approche); margin-top: 6px;
+}
+
+/* Dans cet écran les lignes n'ont pas de pictogramme: c'est le libellé
+   de la fiche qui compte, et il a besoin de toute la largeur. */
+#page-aliments .article { padding: 13px 15px; }
+#page-aliments .article .meta { white-space: normal; line-height: 1.35; }
