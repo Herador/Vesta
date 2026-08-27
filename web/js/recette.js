@@ -413,26 +413,32 @@ export function ouvrirCompteRendu() {
     <span class="etiquette">Ce que tu as utilisé</span>
     <h2 style="margin-top:6px">${echappe(r.titre)}</h2>
     <p class="sous">Corrige les quantités si elles ont bougé, puis retire tout ça du stock.</p>
-    <div id="cr-lignes"></div>
 
-    <label class="lab">Tu as ajouté autre chose ?</label>
-    <input id="cr-nom" placeholder="poivron rouge" autocomplete="off">
-    <div class="edit-ligne" style="margin-top:8px">
-      <input id="cr-qte" class="q" inputmode="decimal" placeholder="1">
-      <select id="cr-unite" class="u">
-        <option value="">pièce</option>
-        <option value="g">g</option>
-        <option value="ml">ml</option>
-        <option value="càs">c. à soupe</option>
-        <option value="càc">c. à café</option>
-      </select>
+    <div class="cr-corps">
+      <div id="cr-lignes"></div>
+
+      <div class="cr-ajout">
+        <label class="lab" for="cr-nom">Tu as ajouté autre chose ?</label>
+        <input id="cr-nom" placeholder="poivron rouge" autocomplete="off">
+        <div class="cr-ajout-ligne">
+          <input id="cr-qte" inputmode="decimal" placeholder="1" aria-label="Quantité">
+          <select id="cr-unite" aria-label="Unité">
+            <option value="">pièce</option>
+            <option value="g">g</option>
+            <option value="ml">ml</option>
+            <option value="càs">c. à soupe</option>
+            <option value="càc">c. à café</option>
+          </select>
+          <button class="btn calme" id="cr-ajout-btn">Ajouter</button>
+        </div>
+      </div>
     </div>
-    <button class="btn calme" id="cr-ajout" style="width:100%">Ajouter à la liste</button>
 
-    <div class="actions-collees">
+    <div class="cr-pied">
       <button class="btn" id="cr-valider">Retirer du stock</button>
       <button class="btn calme" id="cr-plus-tard">Je le ferai plus tard</button>
     </div>`);
+  p.classList.add("panneau-cr");
 
   const zone = $("cr-lignes");
   const dessiner = () => {
@@ -443,28 +449,31 @@ export function ouvrirCompteRendu() {
       const unite = l.unite !== undefined
         ? (l.unite || "pc")
         : (uniteDe(l.famille) || (l.famille === "piece" ? "pc" : ""));
+      // Deux paquets du même aliment sont un seul stock: quand on prend
+      // tout, c'est le total qui part, pas seulement le paquet visé.
+      const total = (l.disponible !== undefined && l.disponible !== null)
+        ? l.disponible : null;
+
       const el = document.createElement("div");
       el.className = "cr-ligne" + (l.vider ? " videe" : "");
       el.innerHTML = `
         <div class="cr-tete">
           <span class="n"></span>
-          <button class="sup" aria-label="Retirer de la liste">×</button>
+          <button class="sup" aria-label="Retirer de la liste">✕</button>
         </div>
         <div class="cr-mesure">
-          <input inputmode="decimal" aria-label="Quantité utilisée">
-          <em></em>
-          <button class="tout" aria-pressed="${!!l.vider}">J'ai tout pris</button>
+          <span class="champ"><input inputmode="decimal" aria-label="Quantité utilisée"><em></em></span>
+          <button class="tout" aria-pressed="${!!l.vider}">${
+            l.vider ? "Tout pris" : "J'ai tout pris"}</button>
         </div>`;
 
       el.querySelector(".n").textContent = l.nom + (l.approx ? " ~" : "");
       el.querySelector("em").textContent = unite;
 
-      // Deux paquets du même aliment forment un seul stock: on annonce le
-      // total, et le décompte enchaînera de l'un à l'autre.
-      if (l.paquets > 1 && l.disponible) {
+      if (l.paquets > 1 && total !== null) {
         el.querySelector(".n").insertAdjacentHTML("beforeend",
-          `<span class="appoint">${nombre(l.disponible)} ${unite} en tout,
-           sur ${l.paquets} paquets</span>`);
+          `<span class="appoint">${nombre(total)} ${unite} en stock` +
+          `, sur ${l.paquets} paquets</span>`);
       }
 
       const champ = el.querySelector("input");
@@ -484,11 +493,18 @@ export function ouvrirCompteRendu() {
         dessiner();
       };
 
-      // "Tout pris" sort l'article du stock quelle qu'ait été la
-      // quantité: c'est le geste du paquet qu'on termine, et personne ne
-      // va peser les derniers grammes de riz.
+      // "J'ai tout pris": on vide l'article, et la quantité affichée
+      // passe à ce qu'il y avait vraiment en stock (4 pc de laitue
+      // deviennent 6 si le frigo en contenait 6). Un second appui annule.
       el.querySelector(".tout").onclick = () => {
-        r.lignes[i].vider = !r.lignes[i].vider;
+        const cible = r.lignes[i];
+        cible.vider = !cible.vider;
+        if (cible.vider) {
+          cible.quantiteAvant = cible.quantite;
+          if (total !== null) cible.quantite = total;
+        } else if (cible.quantiteAvant !== undefined) {
+          cible.quantite = cible.quantiteAvant;
+        }
         dessiner();
       };
 
@@ -516,20 +532,30 @@ export function ouvrirCompteRendu() {
     dessiner();
     $("cr-nom").focus();
   };
-  p.querySelector("#cr-ajout").onclick = ajouter;
+  p.querySelector("#cr-ajout-btn").onclick = ajouter;
   ["cr-nom", "cr-qte"].forEach((id) =>
     $(id).addEventListener("keydown", (e) => { if (e.key === "Enter") ajouter(); }));
   p.querySelector("#cr-plus-tard").onclick = fermer;
   p.querySelector("#cr-valider").onclick = async () => {
-    const lignes = r.lignes.map((l) => ({
-      stock_id: l.stock_id || null,
-      nom: l.nom,
-      quantite: l.vider ? null : (Number.isFinite(l.quantite) ? l.quantite : null),
-      // `unite` est celle qu'on a choisie en ajoutant un ingrédient, ou
-      // celle du stock pour les lignes de la recette.
-      unite: l.unite !== undefined ? l.unite : uniteDe(l.famille),
-      vider: !!l.vider,
-    }));
+    const lignes = r.lignes.map((l) => {
+      const total = (l.disponible !== undefined && l.disponible !== null)
+        ? l.disponible : null;
+      // Tout pris sur plusieurs paquets: on envoie le total sans "vider",
+      // pour que le serveur enchaîne d'un paquet à l'autre. Sur un seul
+      // paquet, "vider" suffit et ne dépend d'aucune quantité connue.
+      const cascade = l.vider && total !== null && l.paquets > 1;
+      return {
+        stock_id: l.stock_id || null,
+        nom: l.nom,
+        quantite: l.vider
+          ? (total !== null ? total : null)
+          : (Number.isFinite(l.quantite) ? l.quantite : null),
+        // `unite` est celle qu'on a choisie en ajoutant un ingrédient, ou
+        // celle du stock pour les lignes de la recette.
+        unite: l.unite !== undefined ? l.unite : uniteDe(l.famille),
+        vider: !!l.vider && !cascade,
+      };
+    });
     const bilan = await api(`/repas/${r.id}/terminer`, { method: "POST", corps: { lignes } });
     etat.repas = null;
     rafraichirEncours();

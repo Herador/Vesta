@@ -92,9 +92,16 @@ export function panneau(html) {
   m.querySelector(".voile").onclick = (e) => {
     if (e.target === m.querySelector(".voile")) fermer();
   };
+  // Le fond ne défile plus tant que le panneau est ouvert: sans ça, on
+  // se retrouvait avec deux ascenseurs, celui du panneau et celui de la
+  // page derrière.
+  document.body.classList.add("panneau-ouvert");
   return m.querySelector(".panneau");
 }
-export function fermer() { $("modale").innerHTML = ""; }
+export function fermer() {
+  $("modale").innerHTML = "";
+  document.body.classList.remove("panneau-ouvert");
+}
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") fermer(); });
 
 export function echappe(s) {

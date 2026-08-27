@@ -457,6 +457,8 @@ body.a-un-repas .flottant {
 
 /* --------------------------------------------------------------- le panneau */
 
+body.panneau-ouvert { overflow: hidden; }
+
 .voile {
   position: fixed; inset: 0; z-index: var(--z-panneau);
   background: rgba(6, 8, 11, .62);
@@ -471,6 +473,27 @@ body.a-un-repas .flottant {
 }
 @keyframes monte { from { transform: translateY(24px); opacity: .6; } }
 .poignee { width: 38px; height: 4px; border-radius: 2px; background: var(--carte-haute); margin: 0 auto 18px; }
+
+/* Panneau à pied fixe: l'en-tête et les deux boutons restent en place,
+   seule la liste défile. Sans ça, le contenu passait sous les boutons et
+   on voyait dépasser le champ « poivron rouge ». */
+.panneau-cr {
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  padding-bottom: 0;
+}
+.panneau-cr > .cr-corps {
+  flex: 1 1 auto; min-height: 0; overflow-y: auto;
+  margin: 4px -18px 0; padding: 0 18px;
+}
+.panneau-cr > .cr-pied {
+  flex: none;
+  display: flex; flex-direction: column; gap: 8px;
+  margin: 0 -18px; padding: 14px 18px calc(14px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--trait);
+  background: var(--fond);
+}
+.panneau-cr > .cr-pied .btn { width: 100%; }
 
 .actions-collees {
   position: sticky;
@@ -629,7 +652,7 @@ body.a-un-repas .flottant {
 #page-aliments .article .meta { white-space: normal; line-height: 1.35; }
 
 /* Le total disponible quand un aliment occupe plusieurs paquets. */
-.ing .appoint {
+.appoint {
   display: block;
   font-size: 11px;
   color: var(--texte-faible);
@@ -638,34 +661,51 @@ body.a-un-repas .flottant {
 
 /* ------------------------------------------- les lignes du compte rendu
 
-   Le nom sur sa ligne, les contrôles en dessous: à trois éléments côte à
-   côte, le nom se faisait tronquer et le bouton devenait inatteignable
-   au pouce. */
+   Le nom sur sa ligne, la mesure en dessous: à trois éléments côte à
+   côte le nom se tronquait et le bouton passait hors de portée du pouce. */
 
-.cr-ligne { border-bottom: 1px solid var(--trait); padding: 12px 0; }
+.cr-ligne { padding: 13px 0; border-bottom: 1px solid var(--trait); }
+.cr-ligne:first-child { padding-top: 4px; }
 .cr-ligne:last-child { border-bottom: none; }
+
 .cr-tete { display: flex; align-items: flex-start; gap: 10px; }
-.cr-tete .n { flex: 1; min-width: 0; font-size: 15px; }
+.cr-tete .n { flex: 1; min-width: 0; font-size: 15px; font-weight: 500; }
 .cr-tete .sup {
-  flex: none; width: 30px; height: 30px; border-radius: var(--r-petit);
-  background: var(--carte); color: var(--texte-faible); font-size: 17px;
-  line-height: 1;
+  flex: none; width: 28px; height: 28px; border-radius: 8px;
+  display: grid; place-items: center;
+  background: var(--carte); color: var(--texte-faible); font-size: 13px;
 }
-.cr-mesure { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
-.cr-mesure input {
-  width: 88px; flex: none; text-align: right; padding: 9px 11px;
-  background: var(--carte); font-family: "JetBrains Mono", monospace;
+
+.cr-mesure { display: flex; align-items: center; gap: 10px; margin-top: 9px; }
+.cr-mesure .champ {
+  flex: none; display: flex; align-items: center; gap: 6px;
+  background: var(--carte); border-radius: var(--r-petit);
+  padding: 0 11px;
 }
-.cr-mesure input:disabled { opacity: .4; }
-.cr-mesure em {
-  font-style: normal; font-size: 11px; color: var(--texte-faible);
-  width: 22px; flex: none;
+.cr-mesure .champ input {
+  width: 58px; padding: 10px 0; text-align: right;
+  background: none; border: none; border-radius: 0;
+  font-family: "JetBrains Mono", monospace; font-weight: 500;
+}
+.cr-mesure .champ em {
+  font-style: normal; font-size: 11.5px; color: var(--texte-faible);
 }
 .cr-mesure .tout {
   margin-left: auto; flex: none;
-  padding: 8px 14px; border-radius: 999px;
+  padding: 9px 15px; border-radius: 999px;
   background: var(--carte); color: var(--texte-doux);
-  font-size: 12.5px; font-weight: 500;
+  font-size: 12.5px; font-weight: 600; white-space: nowrap;
 }
 .cr-mesure .tout[aria-pressed="true"] { background: var(--calme); color: var(--fond); }
-.cr-ligne.videe .n { color: var(--calme); }
+
+.cr-ligne.videe .cr-tete .n { color: var(--calme); }
+.cr-ligne.videe .cr-mesure .champ { opacity: .5; }
+
+/* Le bloc « tu as ajouté autre chose ? »: un champ nom pleine largeur,
+   puis quantité, unité et bouton sur une seule ligne. */
+.cr-ajout { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--trait); }
+.cr-ajout .lab { margin-top: 0; }
+.cr-ajout-ligne { display: flex; gap: 8px; margin-top: 8px; }
+.cr-ajout-ligne #cr-qte { width: 56px; flex: none; text-align: right; padding: 13px 10px; }
+.cr-ajout-ligne #cr-unite { width: 104px; flex: none; padding: 13px 8px; }
+.cr-ajout-ligne #cr-ajout-btn { flex: 1; padding: 13px 12px; }
