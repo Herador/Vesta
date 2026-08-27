@@ -55,11 +55,14 @@ PREPARATIONS = {"cuit": 2, "cuite": 2, "vapeur": 2, "grille": 2, "grillee": 2,
 
 # TRANSFORMATIONS DURES: aliment différent. Un saumon fumé n'est pas un
 # saumon cuit autrement, c'est autre chose. Jamais associé tout seul.
-TRANSFORMATIONS = {"fume", "fumee", "confit", "confite", "marine", "marinee",
-                   "saumure", "sale", "salee", "sucre", "sucree", "sirop",
-                   "rillette", "tartinade", "farci", "farcie", "prepare",
-                   "preparee", "sandwich", "pizza", "tarte", "sauce", "surimi",
-                   "aromatise", "aromatisee", "pane", "panee"}
+# Nom distinct de moteur.TRANSFORMATIONS, qui répond à une autre question
+# (deux libellés désignent-ils le même aliment).
+TRANSFORMATIONS_DURES = {
+    "fume", "fumee", "confit", "confite", "marine", "marinee",
+    "saumure", "sale", "salee", "sucre", "sucree", "sirop",
+    "rillette", "tartinade", "farci", "farcie", "prepare",
+    "preparee", "sandwich", "pizza", "tarte", "sauce", "surimi",
+    "aromatise", "aromatisee", "pane", "panee"}
 
 # TRANSFORMATIONS DOUCES: c'est la forme sous laquelle on achète
 # l'aliment. Des lentilles sont sèches, un concentré de tomate est
@@ -225,7 +228,7 @@ def analyser(fiche: dict, mots_cherches: set[str],
         score -= 2.5
 
     transforme = False
-    for mot in TRANSFORMATIONS:
+    for mot in TRANSFORMATIONS_DURES:
         if mot in mots and mot not in mots_cherches:
             score += MALUS_TRANSFORME
             transforme = True

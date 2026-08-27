@@ -137,6 +137,24 @@ class TestRepas:
                              json={"recette_id": prepare["recette"], "portions": 2})
         assert second.status_code == 409
 
+    def test_abandonner_un_repas_libere_la_place(self, client, prepare):
+        """Un repas commencé et pas validé bloquait tout nouveau repas.
+        On doit pouvoir l'abandonner (le bandeau « repas en cours » le
+        propose) et en relancer un autre."""
+        repas = client.post("/api/repas",
+                            json={"recette_id": prepare["recette"], "portions": 2}).json()
+        assert client.get("/api/repas/en-cours").json()["id"] == repas["id"]
+
+        assert client.delete(f"/api/repas/{repas['id']}").status_code == 204
+        assert client.get("/api/repas/en-cours").json() is None
+
+        relance = client.post("/api/repas",
+                              json={"recette_id": prepare["recette"], "portions": 2})
+        assert relance.status_code == 201
+
+        poulet = [a for a in client.get("/api/stock").json() if a["nom"] == "Poulet"][0]
+        assert poulet["quantite"] == 400   # rien décompté par l'abandon
+
     def test_le_compte_rendu_decompte(self, client, prepare):
         repas = client.post("/api/repas",
                             json={"recette_id": prepare["recette"], "portions": 2}).json()
@@ -191,6 +209,25 @@ class TestRepas:
         huile = [l for l in repas["lignes"] if l["nom"] == "Huile"][0]
         assert huile["affichage"] == "30 ml"
 
+    def test_deux_paquets_du_meme_aliment_forment_un_seul_stock(self, client,
+                                                               prepare, dans):
+        """Deux boîtes de riz sont un stock de riz: on annonce le total,
+        et le décompte enchaîne de l'une à l'autre."""
+        ajouter(client, "Riz", 400, "g", "placard")   # un second paquet
+
+        repas = client.post("/api/repas",
+                            json={"recette_id": prepare["recette"], "portions": 2}).json()
+        riz = [l for l in repas["lignes"] if l["cle"] == "riz"][0]
+        assert riz["paquets"] == 2
+        assert riz["disponible"] == 1400          # 1 kg plus 400 g
+
+        client.post(f"/api/repas/{repas['id']}/terminer", json={"lignes": [
+            {"stock_id": riz["stock_id"], "nom": "Riz", "quantite": 1200, "unite": "g"},
+        ]})
+        restants = [a for a in client.get("/api/stock").json() if a["cle"] == "riz"]
+        assert len(restants) == 1
+        assert restants[0]["quantite"] == 200      # 1400 moins 1200
+
     def test_un_article_sans_quantite_ne_disparait_pas(self, client, prepare):
         """Les épices n'ont pas de quantité connue: on ne peut pas
         conclure qu'elles sont finies."""
@@ -211,6 +248,13 @@ class TestService:
     def test_le_front_est_servi(self, client):
         assert client.get("/").status_code == 200
         assert client.get("/js/app.js").status_code == 200
+
+    def test_une_route_api_inconnue_donne_404(self, client):
+        """Sans garde, le catch-all des fichiers statiques renvoyait
+        l'index.html en 200 et masquait une faute de frappe dans un appel."""
+        r = client.get("/api/sgestions")
+        assert r.status_code == 404
+        assert "text/html" not in r.headers.get("content-type", "")
 
     def test_l_assistant_se_declare_indisponible_sans_cle(self, client, monkeypatch):
         """La clé peut venir de l'environnement ou du fichier .env: il

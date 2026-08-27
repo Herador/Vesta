@@ -12,7 +12,7 @@ import sqlite3
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
@@ -96,6 +96,16 @@ def sante():
 # toujours résolu avant le catch-all des fichiers statiques.
 for module in (stock, suggestions, repas, recettes, aliments, assistant, reglages):
     app.include_router(module.routeur)
+
+
+@app.api_route("/api/{_chemin:path}", include_in_schema=False,
+               methods=["GET", "POST", "PUT", "PATCH", "DELETE"])
+def api_inconnue(_chemin: str):
+    """Une URL /api/... qui n'a trouvé aucune route au-dessus. Sans elle,
+    le catch-all des fichiers statiques renvoyait l'index.html en 200 et
+    une faute de frappe dans un appel passait inaperçue."""
+    raise HTTPException(404, "Route inconnue")
+
 
 if DOSSIER_WEB.is_dir():
     app.mount("/", StaticFiles(directory=DOSSIER_WEB, html=True), name="web")

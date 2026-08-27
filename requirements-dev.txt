@@ -1,0 +1,4 @@
+# Outillage de développement, en plus des dépendances d'exécution.
+#   pip install -r requirements-dev.txt
+-r requirements.txt
+pyflakes==3.4.0

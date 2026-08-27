@@ -3,16 +3,13 @@
 from fastapi import APIRouter, Query
 
 from app import base as bdd
-from app.commun import (en_sortie, lire_basiques,
-                        stock_actif)
+from app.commun import en_sortie, stock_actif
 from app.domaine import moteur
+from app.routes.recettes import charger_recettes
 
 # Pas de prefix ici: les chemins portent déjà /api, ce qui les rend
 # lisibles tels quels quand on cherche une route dans le code.
 routeur = APIRouter()
-
-
-from app.routes.recettes import charger_recettes
 
 
 @routeur.get("/api/suggestions", tags=["Suggestions"], summary="Que cuisiner ce soir")
@@ -30,9 +27,8 @@ def suggestions(
     with bdd.base() as con:
         articles = [en_sortie(l).model_dump() for l in stock_actif(con)]
         recettes = charger_recettes(con)
-        basiques = lire_basiques(con)
 
-    trouvees = moteur.proposer(articles, recettes, basiques, ids, limite)
+    trouvees = moteur.proposer(articles, recettes, ids, limite)
     return [{
         "recette": {
             "id": s.recette["id"], "titre": s.recette["titre"],

@@ -36,13 +36,23 @@ from pathlib import Path
 
 import httpx
 
-from app.domaine import cuisines
-from app.domaine.moteur import normaliser
+from app.domaine import cuisines, moteur
+from app.domaine.moteur import normaliser, rang_urgence
 
 FICHIER_ENV = Path(__file__).resolve().parent.parent / ".env"
 URL_DEFAUT = "https://api.mistral.ai/v1/chat/completions"
 MODELE_DEFAUT = "mistral-large-latest"
 DELAI = 60.0
+
+# Garde-fou, pas une vraie limite d'usage: un frontend qui boucle ou un
+# doigt nerveux ne doivent pas vider le quota du mois en une soirée. La
+# génération manuelle honnête dépasse rarement la dizaine par jour.
+PLAFOND_JOUR = 60
+
+# Codes qu'on retente: le service a hoqueté, pas refusé. 401 (clé) et 422
+# (requête) ne sont pas là, les rejouer ne changerait rien.
+CODES_TRANSITOIRES = {429, 500, 502, 503, 504}
+ATTENTES = (1.0, 3.0)  # secondes avant les 2e et 3e tentatives
 
 
 def lire_env() -> dict[str, str]:
@@ -131,6 +141,20 @@ def journaliser(usage: str, modele: str, compte: dict, duree: float,
         pass
 
 
+def appels_du_jour() -> int:
+    """Combien d'appels au modèle depuis minuit. Zéro si la base est
+    injoignable: le garde-fou ne doit jamais bloquer à tort."""
+    try:
+        from app import base as bdd
+        debut = datetime.now().strftime("%Y-%m-%d")
+        with bdd.base() as con:
+            return con.execute(
+                "SELECT COUNT(*) n FROM appel_ia WHERE le >= ?", (debut,)
+            ).fetchone()["n"]
+    except Exception:
+        return 0
+
+
 def demander(consigne: str, message: str, max_tokens: int = 1500,
              usage: str = "autre", temperature: float = 0.4) -> dict:
     """Un appel, une réponse JSON. Le reste du module ne fait qu'écrire
@@ -141,6 +165,13 @@ def demander(consigne: str, message: str, max_tokens: int = 1500,
         raise IAIndisponible(
             "Aucune clé configurée. Crée un fichier .env avec IA_CLE=ta_clé, "
             "obtenue gratuitement sur console.mistral.ai"
+        )
+
+    if appels_du_jour() >= PLAFOND_JOUR:
+        raise IAIndisponible(
+            f"Plafond de {PLAFOND_JOUR} appels par jour atteint. C'est un "
+            "garde-fou contre une boucle: si l'usage est normal, relève "
+            "PLAFOND_JOUR dans app/ia.py."
         )
 
     corps = {
@@ -159,24 +190,40 @@ def demander(consigne: str, message: str, max_tokens: int = 1500,
 
     debut = time.monotonic()
     modele = corps["model"]
-    try:
-        reponse = httpx.post(
-            env.get("IA_URL", URL_DEFAUT),
-            headers={"Authorization": f"Bearer {cle}",
-                     "Content-Type": "application/json"},
-            json=corps, timeout=DELAI, verify=verifier_ssl(env),
-        )
-    except httpx.ConnectError as erreur:
-        if "CERTIFICATE_VERIFY_FAILED" in str(erreur):
-            raise IAIndisponible(
-                "Certificat refusé: ton réseau inspecte le HTTPS et Python ne "
-                "reconnaît pas son certificat. Installe truststore "
-                "(pip install truststore), ou renseigne IA_CERT dans le .env "
-                "avec le certificat racine de ton entreprise."
-            ) from erreur
-        raise IAIndisponible(f"Le service est injoignable: {erreur}") from erreur
-    except httpx.RequestError as erreur:
-        raise IAIndisponible(f"Le service est injoignable: {erreur}") from erreur
+
+    # Une tentative, puis deux reprises espacées si le service a juste
+    # hoqueté. Au-delà, on rend la main: mieux vaut redemander soi-même
+    # que faire poireauter l'utilisateur devant un écran figé.
+    reponse = None
+    for essai, attente in enumerate((0.0, *ATTENTES)):
+        if attente:
+            time.sleep(attente)
+        try:
+            reponse = httpx.post(
+                env.get("IA_URL", URL_DEFAUT),
+                headers={"Authorization": f"Bearer {cle}",
+                         "Content-Type": "application/json"},
+                json=corps, timeout=DELAI, verify=verifier_ssl(env),
+            )
+        except httpx.ConnectError as erreur:
+            if "CERTIFICATE_VERIFY_FAILED" in str(erreur):
+                raise IAIndisponible(
+                    "Certificat refusé: ton réseau inspecte le HTTPS et Python ne "
+                    "reconnaît pas son certificat. Installe truststore "
+                    "(pip install truststore), ou renseigne IA_CERT dans le .env "
+                    "avec le certificat racine de ton entreprise."
+                ) from erreur
+            if essai == len(ATTENTES):
+                raise IAIndisponible(f"Le service est injoignable: {erreur}") from erreur
+            continue
+        except httpx.RequestError as erreur:
+            if essai == len(ATTENTES):
+                raise IAIndisponible(f"Le service est injoignable: {erreur}") from erreur
+            continue
+
+        if reponse.status_code in CODES_TRANSITOIRES and essai < len(ATTENTES):
+            continue
+        break
 
     if reponse.status_code == 401:
         raise IAIndisponible(
@@ -194,16 +241,27 @@ def demander(consigne: str, message: str, max_tokens: int = 1500,
     donnees = reponse.json()
     journaliser(usage, modele, donnees.get("usage") or {},
                 time.monotonic() - debut)
-    brut = donnees["choices"][0]["message"]["content"]
+
+    choix = donnees["choices"][0]
+    # Réponse coupée par la limite de tokens: le JSON est tronqué, inutile
+    # d'essayer de le recoller. On le dit franchement plutôt que de lever
+    # une "réponse illisible" trompeuse.
+    if choix.get("finish_reason") == "length":
+        raise IAIndisponible(
+            "La réponse a été coupée avant la fin. Relance en demandant "
+            "moins de portions, ou augmente max_tokens dans app/ia.py."
+        )
+
+    brut = choix["message"]["content"]
     try:
         return json.loads(brut)
     except json.JSONDecodeError:
         # Le mode JSON est censé garantir la validité, mais on ne fait
         # jamais confiance à une garantie qu'on ne contrôle pas.
-        debut, fin = brut.find("{"), brut.rfind("}")
-        if debut == -1 or fin == -1:
+        ouvre, ferme = brut.find("{"), brut.rfind("}")
+        if ouvre == -1 or ferme == -1:
             raise IAIndisponible("Réponse illisible, réessaie.")
-        return json.loads(brut[debut:fin + 1])
+        return json.loads(brut[ouvre:ferme + 1])
 
 
 # ------------------------------------------------------------ recette
@@ -248,25 +306,15 @@ def est_proteine_majeure(nom: str) -> bool:
     return _contient(nom, PROTEINES_MAJEURES)
 
 
-def rang_urgence(article: dict) -> int:
-    jours = article.get("jours_restants")
-    if jours is None:
-        return 4
-    if jours <= 0:
-        return 0
-    if jours <= 2:
-        return 1
-    if jours <= 7:
-        return 2
-    return 3
-
-
-MARQUEURS = ["[!!!]", "[!!]", "[!]", "[ ]", "[ ]"]
+# Un marqueur par rang du barème (voir moteur.rang_urgence). Les deux
+# derniers, "plus loin qu'une semaine" et "sans date", ne pressent pas.
+MARQUEURS = ["[!!!]", "[!!]", "[!]", "[!]", "[ ]", "[ ]"]
+SANS_URGENCE = len(moteur.PALIERS_URGENCE)   # rang à partir duquel rien ne presse
 
 
 def trier_par_urgence(stock: list[dict]) -> list[dict]:
     """Le plus pressé en tête: un modèle lit une liste par le haut."""
-    return sorted(stock, key=lambda a: (rang_urgence(a),
+    return sorted(stock, key=lambda a: (rang_urgence(a.get("jours_restants")),
                                         a.get("jours_restants") if a.get("jours_restants") is not None else 999,
                                         a["nom"]))
 
@@ -287,8 +335,9 @@ def decrire_article(article: dict) -> str:
     quantite = article.get("affichage") or "quantité non précisée"
     lieu = article.get("lieu", "")
     marque = " (P)" if est_proteine(article["nom"]) else ""
-    return (f"{MARQUEURS[rang_urgence(article)]} {article['nom']}{marque} "
-            f"— {quantite} — {delai}" + (f" — {lieu}" if lieu else ""))
+    return (f"{MARQUEURS[rang_urgence(article.get('jours_restants'))]} "
+            f"{article['nom']}{marque} — {quantite} — {delai}"
+            + (f" — {lieu}" if lieu else ""))
 
 
 CONSIGNE_RECETTE = """Tu écris des recettes pour une application de cuisine personnelle.
@@ -299,7 +348,7 @@ Schéma:
  "cuisine": str (le pays, pas le continent), "portions_base": int,
  "temps_min": int, "description": str (une phrase), "note": str (le tour de main),
  "ingredients": [{"nom": str, "quantite": number,
-                  "unite": "g"|"ml"|"càs"|"càc"|"",
+                  "unite": "g"|"ml"|"c. à soupe"|"c. à café"|"",
                   "partie": "plat"|"sauce"|"marinade"|"garniture"|"accompagnement",
                   "essentiel": bool}],
  "etapes": [{"titre": str, "texte": str, "secondes": int|null}]}
@@ -313,11 +362,11 @@ Format:
   pas "grosse carotte en julienne". Un jus, une huile ou une farine est un
   aliment distinct de son origine: "jus de citron" n'est pas "citron".
 - unite: "" pour tout ce qui se compte à la pièce, gousse d'ail et oeuf
-  compris. "càs" et "càc" pour les condiments, comme en cuisine.
-- quantite: toujours chiffrée, et c'est le nombre d'unités, jamais une
-  conversion. Deux cuillères à soupe de sauce soja s'écrivent quantite 2
-  et unite "càs", jamais 30. Ne met pas les quantité en ml si tu messure en "cas.".
-  Sans chiffre, retire l'ingrédient.
+  compris. "c. à soupe" et "c. à café" pour les condiments, comme en cuisine.
+- la quantité est toujours chiffrée, et c'est le nombre d'unités, jamais
+  une conversion. Deux cuillères à soupe de sauce soja s'écrivent quantite 2
+  et unite "c. à soupe", jamais 30. Ne mets pas la quantité en ml quand tu
+  mesures en cuillères. Sans chiffre, retire l'ingrédient.
 - Ne liste ni sel, ni poivre, ni eau: écris "salez" dans l'étape.
 - essentiel: false si son absence n'empêche pas le plat.
 - etapes: 5 à 10, chacune répétant ses quantités. Les découpes vont dans une
@@ -344,10 +393,11 @@ Composition:
   et les légumineuses peuvent l'accompagner quand la cuisine le fait vraiment.
 - Assiette visée: moitié légumes, un quart protéines, un quart féculents.
 - Crème, beurre, lait de coco, fromage: seulement si la cuisine les emploie.
-- Important : n'utilise que des ingrédients présents dans le stock fourni, y compris
-  les épices, les huiles et les bouillons: ce qui n'est pas listé, je ne
-  l'ai pas. Si le stock ne permet pas la recette que tu avais en tête,
-  change de recette plutôt que de compléter la liste sauf si cest facultatif.
+- N'utilise que des ingrédients présents dans le stock fourni, épices,
+  huiles et bouillons compris: ce qui n'est pas listé, je ne l'ai pas. Si
+  le stock ne permet pas la recette que tu avais en tête, change de
+  recette plutôt que de compléter la liste, sauf pour un ingrédient
+  facultatif.
 - N'ajoute rien au seul motif que c'est urgent.
 """
 
@@ -382,7 +432,8 @@ def inventer_recette(stock: list[dict], contraintes: str, personnes: int,
     """Invente une recette utilisable avec ce qu'il y a vraiment."""
     presses, tranquilles = [], []
     for a in trier_par_urgence(stock):
-        (tranquilles if rang_urgence(a) >= 3 else presses).append(a)
+        loin = rang_urgence(a.get("jours_restants")) >= SANS_URGENCE
+        (tranquilles if loin else presses).append(a)
 
     # Les produits sans échéance n'ont pas besoin d'une ligne chacun: une
     # énumération suffit et libère la moitié du message pour ce qui compte.

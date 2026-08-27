@@ -12,6 +12,7 @@ import { chargerCarnet } from "./vues/carnet.js";
 import { brancherReglages, chargerBilan } from "./vues/bilan.js";
 import { chargerAliments } from "./vues/aliments.js";
 import { editerRecette } from "./editeur.js";
+import { rafraichirEncours } from "./recette.js";
 
 brancherEcran("idees", chargerIdees);
 brancherEcran("carnet", chargerCarnet);
@@ -47,6 +48,7 @@ async function demarrer() {
       mot(`${encours.titre} est en cours`);
     }
   } catch { /* sans conséquence */ }
+  rafraichirEncours();
 
   brancherServiceWorker();
 }
@@ -76,12 +78,18 @@ function brancherServiceWorker() {
 
   // Quand la relève est faite, on recharge une fois pour repartir sur la
   // version fraîche. Le garde-fou évite la boucle de rechargements.
+  //
+  // Mais jamais en plein repas: on cuisine, les minuteurs tournent, un
+  // rechargement ferait perdre l'étape en cours. On attend que le compte
+  // rendu soit validé (etat.repas repasse à null).
   let rechargeFaite = false;
-  navigator.serviceWorker.addEventListener("controllerchange", () => {
+  const rechargerQuandPossible = () => {
     if (rechargeFaite) return;
+    if (etat.repas) return setTimeout(rechargerQuandPossible, 5000);
     rechargeFaite = true;
     location.reload();
-  });
+  };
+  navigator.serviceWorker.addEventListener("controllerchange", rechargerQuandPossible);
 }
 
 demarrer();

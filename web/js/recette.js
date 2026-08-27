@@ -274,17 +274,26 @@ async function chargerApports(id, portions) {
   }
 }
 
-export async function fermerCuisine() {
+export async function fermerCuisine(abandonnable = true) {
   const r = etat.recetteOuverte;
   $("vue-cuisine").innerHTML = "";
   relacherEcran();
+
   // Une recette inventée qu'on n'a pas cuisinée ne mérite pas de rester
   // en base: elle serait invisible et personne ne la retrouverait.
-  if (r && r.essai && !(etat.repas && etat.repas.recette_id === r.id)) {
+  //
+  // `abandonnable` vaut faux quand on sort d'un repas terminé: à ce
+  // moment-là `etat.repas` a déjà été remis à zéro, et sans ce garde-fou
+  // on effaçait la recette juste avant de demander si on la garde.
+  if (abandonnable && r && r.essai
+      && !(etat.repas && etat.repas.recette_id === r.id)) {
     await api(`/recettes/${r.id}`, { method: "DELETE" }).catch(() => {});
     mot("Essai abandonné. Relance l'assistant quand tu veux.");
   }
   etat.recetteOuverte = null;
+  // Un repas peut rester en cours quand on ferme la vue: le bandeau
+  // prend le relais pour qu'on puisse y revenir.
+  rafraichirEncours();
 }
 
 
@@ -330,6 +339,55 @@ document.addEventListener("visibilitychange", () => {
 
 /* -------------------------------------------------------------- repas */
 
+/* Le bandeau « repas en cours ».
+
+   Un repas commencé et pas validé survit à la fermeture de l'app. Sans
+   ce bandeau, il devenait pourtant introuvable dès qu'on quittait la
+   vue de cuisine, et le serveur refusait tout nouveau repas (409). Il
+   reste donc affiché sur tous les écrans tant que le compte rendu n'a
+   pas été validé. */
+export function rafraichirEncours() {
+  const zone = $("encours");
+  if (!zone) return;
+  const r = etat.repas;
+  document.body.classList.toggle("a-un-repas", !!r);
+
+  if (!r) { zone.hidden = true; zone.innerHTML = ""; return; }
+
+  zone.hidden = false;
+  zone.innerHTML = `
+    <div class="quoi">
+      <b></b><span>Repas en cours, rien n'est encore décompté</span>
+    </div>
+    <button class="laisser" id="enc-laisser">Abandonner</button>
+    <button class="reprendre" id="enc-reprendre">Reprendre</button>`;
+  zone.querySelector("b").textContent = r.titre;
+  $("enc-reprendre").onclick = () => {
+    if (r.recette_id) ouvrirRecette(r.recette_id, r.portions);
+    else mot("La recette de ce repas n'existe plus, mieux vaut l'abandonner.");
+  };
+  $("enc-laisser").onclick = () => confirmerAbandon(r);
+}
+
+function confirmerAbandon(repas) {
+  const p = panneau(`
+    <span class="etiquette">Abandonner le repas</span>
+    <h2 style="margin-top:6px">${echappe(repas.titre)}</h2>
+    <p class="sous">Rien ne sera retiré du stock. Le repas est simplement effacé.</p>
+    <div class="rangee" style="margin-top:16px">
+      <button class="btn" id="ab-oui" style="flex:1">Oui, abandonner</button>
+    </div>
+    <button class="btn calme" id="ab-non" style="width:100%;margin-top:8px">Non, le garder</button>`);
+  p.querySelector("#ab-non").onclick = fermer;
+  p.querySelector("#ab-oui").onclick = async () => {
+    await api(`/repas/${repas.id}`, { method: "DELETE" }).catch(() => {});
+    etat.repas = null;
+    fermer();
+    rafraichirEncours();
+    mot("Repas abandonné");
+  };
+}
+
 export async function demarrerRepas(recetteId) {
   try {
     etat.repas = await api("/repas", {
@@ -337,11 +395,13 @@ export async function demarrerRepas(recetteId) {
     // On reste sur les étapes: c'est le moment où on cuisine, pas celui
     // où on compte ce qu'on a utilisé.
     dessinerBarreCuisine(recetteId);
+    rafraichirEncours();
     lancerModeCuisine(etat.recetteOuverte);
   } catch (e) {
     if (e.message.includes("déjà en cours")) {
       etat.repas = await api("/repas/en-cours");
       dessinerBarreCuisine(recetteId);
+      rafraichirEncours();
       mot("Un repas était déjà en cours, on le reprend.");
     } else mot(e.message);
   }
@@ -354,56 +414,127 @@ export function ouvrirCompteRendu() {
     <h2 style="margin-top:6px">${echappe(r.titre)}</h2>
     <p class="sous">Corrige les quantités si elles ont bougé, puis retire tout ça du stock.</p>
     <div id="cr-lignes"></div>
-    <button class="btn calme" id="cr-ajout" style="width:100%;margin-top:12px">+ Ajouter un ingrédient oublié</button>
-    <div class="rangee" style="margin-top:16px">
-      <button class="btn" id="cr-valider" style="flex:1">Retirer du stock</button>
+
+    <label class="lab">Tu as ajouté autre chose ?</label>
+    <input id="cr-nom" placeholder="poivron rouge" autocomplete="off">
+    <div class="edit-ligne" style="margin-top:8px">
+      <input id="cr-qte" class="q" inputmode="decimal" placeholder="1">
+      <select id="cr-unite" class="u">
+        <option value="">pièce</option>
+        <option value="g">g</option>
+        <option value="ml">ml</option>
+        <option value="càs">c. à soupe</option>
+        <option value="càc">c. à café</option>
+      </select>
     </div>
-    <button class="btn calme" id="cr-plus-tard" style="width:100%;margin-top:8px">Je le ferai plus tard</button>`);
+    <button class="btn calme" id="cr-ajout" style="width:100%">Ajouter à la liste</button>
+
+    <div class="actions-collees">
+      <button class="btn" id="cr-valider">Retirer du stock</button>
+      <button class="btn calme" id="cr-plus-tard">Je le ferai plus tard</button>
+    </div>`);
 
   const zone = $("cr-lignes");
   const dessiner = () => {
     zone.innerHTML = "";
     r.lignes.forEach((l, i) => {
-      const unite = uniteDe(l.famille) || (l.famille === "piece" ? "pc" : "");
+      // L'unité choisie l'emporte: une crème ajoutée en cuillères ne
+      // doit pas se relire en millilitres.
+      const unite = l.unite !== undefined
+        ? (l.unite || "pc")
+        : (uniteDe(l.famille) || (l.famille === "piece" ? "pc" : ""));
       const el = document.createElement("div");
-      el.className = "ing";
-      el.innerHTML = `<span class="n"></span>
-        <span class="mesure">
+      el.className = "cr-ligne" + (l.vider ? " videe" : "");
+      el.innerHTML = `
+        <div class="cr-tete">
+          <span class="n"></span>
+          <button class="sup" aria-label="Retirer de la liste">×</button>
+        </div>
+        <div class="cr-mesure">
           <input inputmode="decimal" aria-label="Quantité utilisée">
           <em></em>
-        </span>`;
+          <button class="tout" aria-pressed="${!!l.vider}">J'ai tout pris</button>
+        </div>`;
+
       el.querySelector(".n").textContent = l.nom + (l.approx ? " ~" : "");
       el.querySelector("em").textContent = unite;
+
+      // Deux paquets du même aliment forment un seul stock: on annonce le
+      // total, et le décompte enchaînera de l'un à l'autre.
+      if (l.paquets > 1 && l.disponible) {
+        el.querySelector(".n").insertAdjacentHTML("beforeend",
+          `<span class="appoint">${nombre(l.disponible)} ${unite} en tout,
+           sur ${l.paquets} paquets</span>`);
+      }
+
       const champ = el.querySelector("input");
       // Les conversions pièce vers gramme tombent juste rarement:
       // 0,5555555 brocoli n'aide personne à corriger quoi que ce soit.
       champ.value = nombre(l.quantite);
+      champ.disabled = !!l.vider;
       champ.oninput = () => {
         const v = parseFloat(champ.value.replace(",", "."));
         r.lignes[i].quantite = Number.isFinite(v) ? v : null;
       };
+
+      // Retirer la ligne: on n'a finalement pas utilisé cet ingrédient,
+      // ou il ne vient pas du stock. Rien ne sera décompté.
+      el.querySelector(".sup").onclick = () => {
+        r.lignes.splice(i, 1);
+        dessiner();
+      };
+
+      // "Tout pris" sort l'article du stock quelle qu'ait été la
+      // quantité: c'est le geste du paquet qu'on termine, et personne ne
+      // va peser les derniers grammes de riz.
+      el.querySelector(".tout").onclick = () => {
+        r.lignes[i].vider = !r.lignes[i].vider;
+        dessiner();
+      };
+
       zone.appendChild(el);
     });
   };
   dessiner();
 
-  p.querySelector("#cr-ajout").onclick = () => {
-    const nom = prompt("Quel ingrédient as-tu ajouté ?");
-    if (!nom) return;
-    r.lignes.push({ nom, quantite: null, famille: null, stock_id: null, improvise: true });
+  // Un champ plutôt qu'un prompt(): les navigateurs le bloquent dans une
+  // application installée, et le bouton ne faisait alors rien du tout.
+  const ajouter = () => {
+    const nom = $("cr-nom").value.trim();
+    if (!nom) return $("cr-nom").focus();
+    const q = parseFloat($("cr-qte").value.replace(",", "."));
+    const unite = $("cr-unite").value;
+    r.lignes.push({
+      nom, quantite: Number.isFinite(q) ? q : null,
+      // On garde l'unité choisie telle quelle: c'est le serveur qui la
+      // ramènera à l'unité de base, comme pour tout le reste.
+      unite, famille: { g: "masse", ml: "volume", "càs": "volume",
+                        "càc": "volume" }[unite] || "piece",
+      stock_id: null, improvise: true,
+    });
+    $("cr-nom").value = ""; $("cr-qte").value = "";
     dessiner();
+    $("cr-nom").focus();
   };
+  p.querySelector("#cr-ajout").onclick = ajouter;
+  ["cr-nom", "cr-qte"].forEach((id) =>
+    $(id).addEventListener("keydown", (e) => { if (e.key === "Enter") ajouter(); }));
   p.querySelector("#cr-plus-tard").onclick = fermer;
   p.querySelector("#cr-valider").onclick = async () => {
     const lignes = r.lignes.map((l) => ({
       stock_id: l.stock_id || null,
       nom: l.nom,
-      quantite: Number.isFinite(l.quantite) ? l.quantite : null,
-      unite: uniteDe(l.famille),
+      quantite: l.vider ? null : (Number.isFinite(l.quantite) ? l.quantite : null),
+      // `unite` est celle qu'on a choisie en ajoutant un ingrédient, ou
+      // celle du stock pour les lignes de la recette.
+      unite: l.unite !== undefined ? l.unite : uniteDe(l.famille),
+      vider: !!l.vider,
     }));
     const bilan = await api(`/repas/${r.id}/terminer`, { method: "POST", corps: { lignes } });
     etat.repas = null;
-    fermer(); fermerCuisine();
+    rafraichirEncours();
+    fermer();
+    await fermerCuisine(false);   // la recette vient d'être cuisinée
     await chargerStock();
     aller("stock");
     const n = bilan.retires.length;

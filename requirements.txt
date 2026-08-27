@@ -1,9 +1,13 @@
-fastapi
-uvicorn
-httpx
-tzdata
-openpyxl
-truststore
+# Versions figées: sur le Pi, une install doit redonner exactement ce qui
+# a été testé. Pour monter une version, le faire ici puis relancer les
+# tests, jamais en laissant pip choisir.
+fastapi==0.141.1
+uvicorn==0.52.3
+httpx==0.28.1
+pydantic==2.13.4
+tzdata==2026.3
+openpyxl==3.1.5
+truststore==0.10.4
 
-# Pour lancer les tests: python -m pytest
-pytest>=8.0
+# Tests: python -m pytest
+pytest==9.1.1

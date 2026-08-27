@@ -146,6 +146,46 @@ UNITES_ECRITES = [
 ECART_TOLERE = 5
 
 
+# Mots d'un titre qui ne désignent pas un ingrédient.
+MOTS_DE_TITRE = {
+    "sauce", "salade", "soupe", "gratin", "poele", "poelee", "sautee", "saute",
+    "roti", "rotie", "grille", "grillee", "farci", "farcie", "croustillant",
+    "croustillante", "maison", "express", "facon", "style", "aux", "au", "a",
+    "la", "le", "les", "de", "du", "des", "et", "en", "sur", "avec", "sans",
+}
+
+
+def titre_trahi(r: dict) -> list[str]:
+    """Un ingrédient qui donne son nom au plat ne peut pas être facultatif.
+
+    L'assistant écrivait des recettes de tofu à l'arachide où le beurre
+    de cacahuète était marqué facultatif. Le contrôle est simple: si un
+    mot du titre ne se retrouve que dans un ingrédient facultatif, c'est
+    que le plat perdrait son nom sans lui.
+    """
+    # normaliser et non mot_nu: c'est lui qui sait qu'une arachide est une
+    # cacahuète, et le titre emploie souvent l'autre nom que la liste.
+    mots = {normaliser(m) for m in r.get("titre", "").replace(",", " ").split()}
+    mots = {m for m in mots if len(m) > 3 and m not in MOTS_DE_TITRE}
+    if not mots:
+        return []
+
+    def mots_de(ing):
+        return set(normaliser(ing.get("nom", "")).split())
+
+    essentiels, facultatifs = set(), {}
+    for ing in r.get("ingredients", []):
+        if ing.get("essentiel", True):
+            essentiels |= mots_de(ing)
+        else:
+            for m in mots_de(ing):
+                facultatifs.setdefault(m, ing["nom"])
+
+    orphelins = {facultatifs[m] for m in mots & set(facultatifs) if m not in essentiels}
+    return [f"'{nom}' donne son nom au plat: il ne peut pas être facultatif"
+            for nom in sorted(orphelins)]
+
+
 def verifier_recette(r: dict) -> list[str]:
     soucis = []
     for champ in ("titre", "categorie", "portions_base", "temps_min",
@@ -181,7 +221,7 @@ def verifier_recette(r: dict) -> list[str]:
         if cle and not set(cle.split()) & mots_etapes:
             soucis.append(f"'{ing['nom']}' n'apparaît dans aucune étape")
 
-    return soucis
+    return soucis + titre_trahi(r)
 
 
 def nettoyer_recette(r: dict) -> dict:

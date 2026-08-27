@@ -426,6 +426,35 @@ input::placeholder { color: var(--texte-faible); }
 .flottant:active { transform: scale(.94); }
 .flottant[hidden] { display: none; }
 
+/* Le bandeau du repas en cours, juste au-dessus de la barre du bas. Il
+   pousse le bouton flottant vers le haut pour ne pas le recouvrir. */
+.encours {
+  position: fixed; left: 0; right: 0;
+  bottom: calc(var(--barre) + env(safe-area-inset-bottom));
+  z-index: var(--z-onglets);
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px calc(10px);
+  background: var(--carte-haute);
+  border-top: 1px solid var(--trait);
+}
+.encours[hidden] { display: none; }
+.encours .quoi { flex: 1; min-width: 0; }
+.encours .quoi b {
+  display: block; font-size: 14px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.encours .quoi span { font-size: 11.5px; color: var(--texte-faible); }
+.encours button {
+  flex: none; padding: 8px 13px; border-radius: 999px;
+  font-size: 12.5px; font-weight: 600;
+}
+.encours .reprendre { background: var(--calme); color: var(--fond); }
+.encours .laisser { background: var(--carte); color: var(--texte-doux); }
+
+body.a-un-repas .flottant {
+  bottom: calc(var(--barre) + env(safe-area-inset-bottom) + 16px + 58px);
+}
+
 /* --------------------------------------------------------------- le panneau */
 
 .voile {
@@ -445,7 +474,9 @@ input::placeholder { color: var(--texte-faible); }
 
 .actions-collees {
   position: sticky;
-  bottom: calc(-24px - env(safe-area-inset-bottom));
+  /* Collé au bas de la fenêtre, pas au-delà: à -24px il recouvrait le
+     dernier bouton du contenu, qui devenait inatteignable. */
+  bottom: 0;
   background: var(--fond);
   padding: 16px 0 calc(10px + env(safe-area-inset-bottom));
   margin-top: 18px;
@@ -596,3 +627,45 @@ input::placeholder { color: var(--texte-faible); }
    de la fiche qui compte, et il a besoin de toute la largeur. */
 #page-aliments .article { padding: 13px 15px; }
 #page-aliments .article .meta { white-space: normal; line-height: 1.35; }
+
+/* Le total disponible quand un aliment occupe plusieurs paquets. */
+.ing .appoint {
+  display: block;
+  font-size: 11px;
+  color: var(--texte-faible);
+  margin-top: 3px;
+}
+
+/* ------------------------------------------- les lignes du compte rendu
+
+   Le nom sur sa ligne, les contrôles en dessous: à trois éléments côte à
+   côte, le nom se faisait tronquer et le bouton devenait inatteignable
+   au pouce. */
+
+.cr-ligne { border-bottom: 1px solid var(--trait); padding: 12px 0; }
+.cr-ligne:last-child { border-bottom: none; }
+.cr-tete { display: flex; align-items: flex-start; gap: 10px; }
+.cr-tete .n { flex: 1; min-width: 0; font-size: 15px; }
+.cr-tete .sup {
+  flex: none; width: 30px; height: 30px; border-radius: var(--r-petit);
+  background: var(--carte); color: var(--texte-faible); font-size: 17px;
+  line-height: 1;
+}
+.cr-mesure { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+.cr-mesure input {
+  width: 88px; flex: none; text-align: right; padding: 9px 11px;
+  background: var(--carte); font-family: "JetBrains Mono", monospace;
+}
+.cr-mesure input:disabled { opacity: .4; }
+.cr-mesure em {
+  font-style: normal; font-size: 11px; color: var(--texte-faible);
+  width: 22px; flex: none;
+}
+.cr-mesure .tout {
+  margin-left: auto; flex: none;
+  padding: 8px 14px; border-radius: 999px;
+  background: var(--carte); color: var(--texte-doux);
+  font-size: 12.5px; font-weight: 500;
+}
+.cr-mesure .tout[aria-pressed="true"] { background: var(--calme); color: var(--fond); }
+.cr-ligne.videe .n { color: var(--calme); }

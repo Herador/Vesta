@@ -1,0 +1,27 @@
+# Service systemd pour Vesta sur le Raspberry Pi.
+#
+#   sudo cp deploiement/vesta.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now vesta
+#
+# Adapte User, WorkingDirectory et le chemin du .venv à ton installation.
+
+[Unit]
+Description=Vesta - garde-manger
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/vesta
+Environment=VESTA_BASE=/home/pi/vesta/donnees/garde-manger.db
+# --host 127.0.0.1 et non 0.0.0.0: l'accès distant passe par
+# "tailscale serve", qui parle au service en local. Rien n'est exposé
+# au reseau du domicile.
+ExecStart=/home/pi/vesta/.venv/bin/uvicorn app.api:app --host 127.0.0.1 --port 8000
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

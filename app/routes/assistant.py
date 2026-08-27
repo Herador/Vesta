@@ -10,22 +10,18 @@ from datetime import timedelta
 
 from fastapi import APIRouter, HTTPException, Query
 
-from app import base as bdd
+from app import base as bdd, ia
 from app.commun import aujourdhui, en_sortie, maintenant, stock_actif
-from app.domaine import moteur, unites
+from app.domaine import cuisines, moteur, nutrition, unites
 from app.modeles import Entree, Field
+from app.routes.aliments import (apports_periode, cles_utilisees, hors_stock,
+                                 lier_ciqual, toutes_les_fiches)
+from app.routes.recettes import charger_recettes
+from outils.verifier_recettes import nettoyer_recette, verifier_recette
 
 # Pas de prefix ici: les chemins portent déjà /api, ce qui les rend
 # lisibles tels quels quand on cherche une route dans le code.
 routeur = APIRouter()
-
-
-from app import ia
-from app.domaine import cuisines, nutrition
-from app.routes.recettes import charger_recettes
-from app.routes.aliments import (apports_periode, cles_utilisees, hors_stock,
-                                 lier_ciqual, toutes_les_fiches)
-from outils.verifier_recettes import nettoyer_recette, verifier_recette
 
 
 # ------------------------------------------------------------------ IA

@@ -10,15 +10,13 @@ from fastapi import APIRouter, HTTPException, Query
 
 from app import base as bdd
 from app.commun import aujourdhui
-from app.domaine import moteur
+from app.domaine import moteur, nutrition
 from app.modeles import Entree, Field
+from app.routes.recettes import charger_recettes, recette_affichee
 
 # Pas de prefix ici: les chemins portent déjà /api, ce qui les rend
 # lisibles tels quels quand on cherche une route dans le code.
 routeur = APIRouter()
-
-
-from app.domaine import nutrition
 
 
 # ---------------------------------------------------------------- apports
@@ -322,8 +320,6 @@ def apports_recette(recette_id: int, portions: int | None = Query(None, ge=1, le
     d'inventer: les unes et les autres ont des ingrédients et des
     quantités, c'est tout ce qu'il faut.
     """
-    from app.routes.recettes import charger_recettes, recette_affichee
-
     with bdd.base() as con:
         trouvees = charger_recettes(con, recette_id)
         if not trouvees:

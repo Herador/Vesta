@@ -29,7 +29,8 @@ ligne.
 
 **La cuisine.** Un mode plein écran présente une étape à la fois, avec
 des minuteurs qui survivent au changement d'étape et un écran qui ne
-s'éteint pas.
+s'éteint pas. Un repas commencé reste accessible depuis un bandeau
+présent sur tous les écrans, jusqu'à ce qu'on valide le compte rendu.
 
 **Le compte rendu.** À la fin, les quantités prévues sont modifiables et
 on peut ajouter ce qu'on a improvisé. C'est seulement à la validation
@@ -158,11 +159,14 @@ directement depuis le téléphone.
 ## Les tests
 
 ```bash
+pip install -r requirements-dev.txt
 python -m pytest
+python -m pyflakes app outils tests
 ```
 
-169 tests, sans réseau ni base de production: chacun travaille sur une
-base jetable, et l'assistant est remplacé par un faux serveur local.
+188 tests, sans réseau ni base de production: chacun travaille sur une
+base jetable, et l'assistant est remplacé par un faux serveur local. La
+CI (`.github/workflows/tests.yml`) rejoue les deux à chaque push.
 
 Ils ne cherchent pas à couvrir des lignes, mais des **erreurs déjà
 commises**. Chaque cas correspond à un bug rencontré pendant le
@@ -191,7 +195,8 @@ les mots avant de les chercher, ce qui les effaçait.
 ## Choix techniques
 
 **SQLite plutôt qu'un serveur de base.** Un fichier, aucune
-administration, et une sauvegarde qui consiste à le copier.
+administration, et une sauvegarde qui tient en une commande
+(`sqlite3 .backup`, la base tournant en WAL).
 
 **Les valeurs nutritionnelles sont calculées, jamais générées.** Un
 modèle qui invente des calories est exactement ce qu'il fallait éviter.
@@ -222,10 +227,12 @@ dans un fichier, moins lourds qu'une requête réseau.
 
 ## Déploiement
 
-Sur le Raspberry Pi, un service systemd pour le redémarrage automatique,
-une copie quotidienne du fichier `.db`, et Tailscale pour l'accès en
-HTTPS depuis le téléphone, y compris hors du domicile. Le HTTPS n'est
-pas un luxe: sans lui, ni service worker ni accès à la caméra.
+Tout est dans [deploiement/](deploiement/) : un service systemd pour le
+redémarrage automatique, une sauvegarde quotidienne (`sqlite3 .backup`,
+et non une copie de fichier : la base tourne en WAL), et Tailscale pour
+l'accès HTTPS depuis le téléphone, y compris hors du domicile. Le HTTPS
+n'est pas un luxe : sans lui, ni service worker complet ni accès à la
+caméra.
 
 ---
 

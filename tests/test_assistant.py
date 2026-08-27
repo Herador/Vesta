@@ -36,16 +36,33 @@ RECETTE = {
 
 @pytest.fixture
 def faux_service(monkeypatch):
-    """Un serveur qui répond ce qu'on lui met dans `reponse`."""
-    etat = {"reponse": RECETTE, "recu": None}
+    """Un serveur qui répond ce qu'on lui met dans `reponse`.
+
+    `finish_reason` simule une réponse coupée par la limite de tokens.
+    `statuts` est une file de codes HTTP à renvoyer avant de servir la
+    réponse: [429, 200] rejoue le cas d'un service qui a hoqueté.
+    """
+    etat = {"reponse": RECETTE, "recu": None,
+            "finish_reason": "stop", "statuts": [], "appels": 0}
 
     class Poignee(http.server.BaseHTTPRequestHandler):
         def do_POST(self):
             taille = int(self.headers["Content-Length"])
             etat["recu"] = json.loads(self.rfile.read(taille))
+            etat["appels"] += 1
+
+            if etat["statuts"]:
+                code = etat["statuts"].pop(0)
+                if code >= 400:
+                    self.send_response(code)
+                    self.send_header("Content-Length", "0")
+                    self.end_headers()
+                    return
+
             corps = json.dumps({
                 "choices": [{"message": {"content": json.dumps(etat["reponse"],
-                                                               ensure_ascii=False)}}],
+                                                               ensure_ascii=False)},
+                             "finish_reason": etat["finish_reason"]}],
                 "usage": {"prompt_tokens": 900, "completion_tokens": 400},
             }).encode()
             self.send_response(200)
@@ -88,6 +105,22 @@ class TestGeneration:
 
         assert rid not in [r["id"] for r in client.get("/api/recettes").json()]
         assert client.get(f"/api/recettes/{rid}").status_code == 200
+
+    def test_une_unite_en_toutes_lettres_est_acceptee(self, client, faux_service,
+                                                       stock_garni):
+        """Le modèle rend "c. à soupe"; le vérificateur ne doit pas la
+        prendre pour une unité inconnue."""
+        client.post("/api/stock", json={"nom": "Sauce soja", "quantite": 200,
+                                        "unite": "ml", "lieu": "placard"})
+        avec = copy.deepcopy(RECETTE)
+        avec["ingredients"].append({"nom": "sauce soja", "quantite": 3,
+                                    "unite": "c. à soupe", "partie": "sauce",
+                                    "essentiel": True})
+        avec["etapes"][1]["texte"] += " Verser 3 c. à soupe de sauce soja."
+        faux_service["reponse"] = avec
+
+        reponse = client.post("/api/ia/recette", json={"portions": 2})
+        assert reponse.status_code == 200
 
     def test_un_format_casse_est_refuse(self, client, faux_service, stock_garni):
         faux_service["reponse"] = {"titre": "x", "categorie": "plat",
@@ -144,6 +177,43 @@ class TestGeneration:
         assert releve["appels"] == 1
         assert releve["tokens"]["entree"] == 900
 
+    def test_un_hoquet_du_service_est_retente(self, client, faux_service,
+                                              stock_garni, monkeypatch):
+        """Un 429 isolé ne doit pas coûter la génération à l'utilisateur."""
+        monkeypatch.setattr("app.ia.ATTENTES", (0.0, 0.0))
+        faux_service["statuts"] = [429]
+
+        reponse = client.post("/api/ia/recette", json={"portions": 2,
+                                                       "enregistrer": False})
+        assert reponse.status_code == 200
+        assert faux_service["appels"] == 2
+
+    def test_service_en_panne_finit_par_abandonner(self, client, faux_service,
+                                                   stock_garni, monkeypatch):
+        monkeypatch.setattr("app.ia.ATTENTES", (0.0, 0.0))
+        faux_service["statuts"] = [500, 500, 500]
+
+        reponse = client.post("/api/ia/recette", json={"portions": 2})
+        assert reponse.status_code == 503
+        assert faux_service["appels"] == 3
+
+    def test_reponse_coupee_est_dite_clairement(self, client, faux_service,
+                                                stock_garni):
+        """Réponse tronquée par la limite de tokens: on le dit, on ne lève
+        pas une 'réponse illisible' trompeuse."""
+        faux_service["finish_reason"] = "length"
+
+        reponse = client.post("/api/ia/recette", json={"portions": 2})
+        assert reponse.status_code == 503
+        assert "coupée" in reponse.json()["detail"]
+
+    def test_plafond_journalier_protege_le_quota(self, client, faux_service,
+                                                 stock_garni, monkeypatch):
+        monkeypatch.setattr("app.ia.PLAFOND_JOUR", 0)
+        reponse = client.post("/api/ia/recette", json={"portions": 2})
+        assert reponse.status_code == 503
+        assert "garde-fou" in reponse.json()["detail"]
+
 
 class TestApresLeRepas:
 
@@ -158,6 +228,19 @@ class TestApresLeRepas:
         assert bilan["a_decider"]["id"] == rid
         client.post(f"/api/recettes/{rid}/garder")
         assert rid in [r["id"] for r in client.get("/api/recettes").json()]
+
+    def test_la_recette_survit_a_la_fin_du_repas(self, client, faux_service,
+                                                 stock_garni):
+        """Elle était effacée juste avant qu'on demande si on la garde,
+        et les deux boutons tombaient alors sur un 404."""
+        rid = client.post("/api/ia/recette",
+                          json={"portions": 2}).json()["recette"]["id"]
+        repas = client.post("/api/repas",
+                            json={"recette_id": rid, "portions": 2}).json()
+        client.post(f"/api/repas/{repas['id']}/terminer", json={"lignes": []})
+
+        assert client.get(f"/api/recettes/{rid}").status_code == 200
+        assert client.post(f"/api/recettes/{rid}/garder").status_code == 200
 
     def test_oublier_une_recette_essayee(self, client, faux_service, stock_garni):
         rid = client.post("/api/ia/recette",

@@ -11,13 +11,59 @@ from app import base as bdd
 from app.commun import aujourdhui, maintenant, stock_actif
 from app.domaine import moteur, unites
 from app.modeles import CompteRendu, RepasEntree
+from app.routes.recettes import charger_recettes, recette_affichee
 
 # Pas de prefix ici: les chemins portent déjà /api, ce qui les rend
 # lisibles tels quels quand on cherche une route dans le code.
 routeur = APIRouter()
 
 
-from app.routes.recettes import charger_recettes, recette_affichee
+def reporter_sur_les_autres(con, article: dict, quantite: float,
+                            actifs: list[dict], retires: list[str]) -> float:
+    """Épuise les autres paquets du même aliment et renvoie ce qui reste
+    à prendre sur celui-ci.
+
+    On garde le paquet visé pour la fin: c'est celui qui périme le plus
+    tôt, et le compte rendu l'a annoncé comme entamé.
+    """
+    autres = [a for a in actifs
+              if a["id"] != article["id"] and a["cle"] == article["cle"]
+              and a["famille"] == article["famille"] and a["quantite"] is not None]
+    autres.sort(key=lambda a: (a["date_limite"] is None, a["date_limite"] or ""))
+
+    reste = quantite - article["quantite"]
+    for autre in autres:
+        if reste <= 0.001:
+            break
+        pris = min(reste, autre["quantite"])
+        if pris >= autre["quantite"] - 0.001:
+            con.execute("UPDATE stock SET consomme_le = ? WHERE id = ?",
+                        (maintenant(), autre["id"]))
+            retires.append(autre["nom"])
+        else:
+            con.execute("UPDATE stock SET quantite = ? WHERE id = ?",
+                        (round(autre["quantite"] - pris, 2), autre["id"]))
+        reste -= pris
+
+    # Ce qui reste après les autres paquets revient sur celui d'origine,
+    # qui sera vidé s'il n'y suffit pas.
+    return article["quantite"] + max(reste, 0)
+
+
+def somme_disponible(articles: list[dict], famille: str | None) -> float | None:
+    """Ce qu'on a en tout de cet aliment, tous paquets confondus.
+
+    None dès qu'un des paquets n'a pas de quantité connue: mieux vaut ne
+    rien annoncer qu'un total faux.
+    """
+    if famille is None:
+        return None
+    total = 0.0
+    for a in articles:
+        if a["quantite"] is None or a["famille"] != famille:
+            return None
+        total += a["quantite"]
+    return round(total, 2)
 
 
 def preparer_lignes(con, recette: dict, portions: int) -> list[dict]:
@@ -47,8 +93,9 @@ def preparer_lignes(con, recette: dict, portions: int) -> list[dict]:
         if not candidats:
             continue
         # à ingrédient égal, on entame d'abord ce qui périme le plus tôt
-        article = min(candidats, key=lambda a: (a["date_limite"] is None,
-                                                a["date_limite"] or ""))
+        candidats.sort(key=lambda a: (a["date_limite"] is None,
+                                      a["date_limite"] or ""))
+        article = candidats[0]
         # Un article sans quantité connue, l'huile ou les épices, n'a pas
         # de famille: on garde alors celle de la recette pour au moins
         # afficher combien en mettre. Le décompte, lui, ne s'appliquera
@@ -60,12 +107,22 @@ def preparer_lignes(con, recette: dict, portions: int) -> list[dict]:
             if ing["famille"] != cible:
                 besoin, approx = unites.convertir(besoin, ing["famille"],
                                                   cible, ing["cle"])
+        # Deux paquets de riz sont un seul stock de riz: on annonce le
+        # total, et le décompte enchaînera d'un paquet à l'autre.
+        disponible = somme_disponible(candidats, cible)
         lignes.append({
             "stock_id": article["id"], "nom": article["nom"], "cle": article["cle"],
             "quantite": besoin, "famille": cible,
+            "disponible": disponible, "paquets": len(candidats),
             "approx": approx, "improvise": False,
         })
     return lignes
+
+
+def paquets_de(actifs: list[dict], cle: str, famille: str | None) -> dict:
+    """Combien on a de cet aliment en tout, et sur combien de paquets."""
+    memes = [a for a in actifs if a["cle"] == cle]
+    return {"disponible": somme_disponible(memes, famille), "paquets": len(memes)}
 
 
 def repas_complet(con, repas_id: int) -> dict:
@@ -74,10 +131,16 @@ def repas_complet(con, repas_id: int) -> dict:
         raise HTTPException(404, "Repas introuvable")
     lignes = con.execute("SELECT * FROM repas_ligne WHERE repas_id = ? ORDER BY id",
                          (repas_id,)).fetchall()
+
+    # Le disponible se recalcule à la lecture plutôt que de dormir en
+    # base: le stock a pu changer depuis, et une quantité périmée
+    # afficherait plus que ce qu'on a vraiment.
+    actifs = stock_actif(con)
     return {
         **dict(repas),
         "lignes": [{
             **dict(l),
+            **paquets_de(actifs, l["cle"], l["famille"]),
             "affichage": unites.afficher(l["quantite"], l["famille"], l["nom"]),
             "approx": bool(l["approx"]), "improvise": bool(l["improvise"]),
         } for l in lignes],
@@ -205,6 +268,15 @@ def terminer_repas(repas_id: int, rendu: CompteRendu):
             else:
                 vide = (ligne.vider or quantite is None
                         or quantite >= article["quantite"] - 0.001)
+
+            # Ce qui dépasse ce paquet part sur les suivants: deux boîtes
+            # de tomates entamées sont un seul stock de tomates, et on ne
+            # peut pas exiger de savoir laquelle on a ouverte.
+            if (not ligne.vider and quantite is not None
+                    and article["quantite"] is not None
+                    and quantite > article["quantite"] + 0.001):
+                quantite = reporter_sur_les_autres(
+                    con, article, quantite, articles_actifs, retires)
 
             if vide:
                 con.execute("UPDATE stock SET consomme_le = ? WHERE id = ?",

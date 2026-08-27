@@ -75,6 +75,11 @@ SYNONYMES = {
     "champignon pari": "champignon",
     "chou chinoi": "chou chinois",
     "gousse ail": "ail",
+    # Le même aliment sous deux noms: une sauce à l'arachide est une
+    # sauce à la cacahuète, et les deux figurent dans les recettes.
+    "arachide": "cacahuete",
+    "pate arachide": "beurre cacahuete",
+    "beurre arachide": "beurre cacahuete",
     # "citron" est inclus dans "citron vert", donc les deux se
     # confondaient. Une lime n'est pas un citron: on la renomme.
     "citron vert": "lime",
@@ -183,19 +188,38 @@ def correspond(cle_a: str, cle_b: str) -> bool:
     return a <= b or b <= a
 
 
+# Le barème d'urgence, en jours restants. Un seul pour tout le projet:
+# le poids (score des suggestions) et le rang (tri et marqueurs de
+# l'assistant) en sortent tous les deux, donc un seuil ne bouge qu'ici.
+PALIERS_URGENCE: list[tuple[int, float]] = [
+    (0, 4.0),   # aujourd'hui ou dépassé
+    (2, 3.0),   # sous deux jours
+    (4, 1.5),
+    (7, 0.6),   # cette semaine
+]
+POIDS_LOINTAIN = 0.3     # au-delà d'une semaine
+POIDS_SANS_DATE = 0.2    # les épices, l'huile: aucune échéance
+
+
 def poids_urgence(jours: int | None) -> float:
     """Combien vaut le fait d'utiliser cet article ce soir."""
     if jours is None:
-        return 0.2
-    if jours <= 0:
-        return 4.0
-    if jours <= 2:
-        return 3.0
-    if jours <= 4:
-        return 1.5
-    if jours <= 7:
-        return 0.6
-    return 0.3
+        return POIDS_SANS_DATE
+    for seuil, poids in PALIERS_URGENCE:
+        if jours <= seuil:
+            return poids
+    return POIDS_LOINTAIN
+
+
+def rang_urgence(jours: int | None) -> int:
+    """Position dans le barème, 0 = le plus pressé. Sert à trier une
+    liste et à choisir un marqueur. Sans date = le moins pressé."""
+    if jours is None:
+        return len(PALIERS_URGENCE) + 1
+    for rang, (seuil, _) in enumerate(PALIERS_URGENCE):
+        if jours <= seuil:
+            return rang
+    return len(PALIERS_URGENCE)
 
 
 @dataclass
@@ -210,7 +234,6 @@ class Suggestion:
 def proposer(
     stock: list[dict],
     recettes: list[dict],
-    basiques: list[str],
     imposes: list[int] | None = None,
     limite: int = 6,
 ) -> list[Suggestion]:
@@ -218,12 +241,12 @@ def proposer(
 
     stock:     [{id, nom, jours_restants, ...}]
     recettes:  [{id, titre, ingredients: [{nom, cle, essentiel}], ...}]
-    basiques:  libellés supposés disponibles sans figurer au stock.
-               Vide désormais: ce qu'on a toujours au placard est saisi
-               dans le stock, sans quantité. Un manque devient visible.
     imposes:   ids d'articles du stock qui doivent absolument être utilisés
+
+    Il n'y a plus de liste de "basiques" supposés au placard: ce qu'on a
+    toujours sous la main est saisi dans le stock, sans quantité, et un
+    manque redevient visible.
     """
-    cles_basiques = [normaliser(b) for b in basiques]
     stock_cles = [(a, a.get("cle") or normaliser(a["nom"])) for a in stock]
     imposes = imposes or []
 
@@ -246,9 +269,6 @@ def proposer(
                 utilise.append(trouve)
                 urgences.append(poids_urgence(trouve.get("jours_restants")))
                 continue
-
-            if any(correspond(ing["cle"], b) for b in cles_basiques):
-                continue  # supposé au placard, on n'en parle pas
 
             (manquants if ing["essentiel"] else manquants_secondaires).append(ing["nom"])
 

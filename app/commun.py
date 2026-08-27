@@ -63,10 +63,3 @@ def en_sortie(ligne) -> StockSortie:
 
 def stock_actif(con) -> list:
     return con.execute("SELECT * FROM stock WHERE consomme_le IS NULL").fetchall()
-
-
-def lire_basiques(con) -> list[str]:
-    """Plus de liste séparée: ce qui est toujours au placard y est aussi
-    en stock, saisi sans quantité. Un ingrédient absent du stock est donc
-    vraiment manquant, et ça se voit."""
-    return []

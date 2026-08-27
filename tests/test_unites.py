@@ -32,6 +32,16 @@ class TestVersBase:
         l'accepter plutôt que de rejeter une recette pour si peu."""
         assert unites.vers_base(1, unite) == (1, "piece")
 
+    @pytest.mark.parametrize("unite", [
+        "c. à soupe", "c. à soupe.", "cuillère à soupe", "cuillères à soupe",
+        "CÀS", "c.a.s",
+    ])
+    def test_la_cuillere_a_soupe_ecrite_en_toutes_lettres(self, unite):
+        """Le modèle rend "c. à soupe"; le vérificateur ne connaissait que
+        "càs" et refusait la recette comme unité inconnue."""
+        assert unites.normaliser_unite(unite) == "càs"
+        assert unites.vers_base(2, unite) == (30, "volume")
+
     def test_une_pincee_ne_se_decompte_pas(self):
         assert unites.vers_base(1, "pincée") == (None, None)
 

@@ -3,7 +3,7 @@
    Les données, elles, ne le sont jamais: un stock périmé affiché comme
    frais serait pire que pas de stock du tout. */
 
-const CACHE = "vesta-v10";
+const CACHE = "vesta-v13";
 const COQUILLE = [
   "/", "/index.html", "/style.css", "/manifest.webmanifest",
   "/js/app.js", "/js/noyau.js", "/js/navigation.js", "/js/recette.js",
@@ -35,21 +35,24 @@ self.addEventListener("fetch", (e) => {
 
   // Les appels à l'API vont toujours au réseau.
   if (url.pathname.startsWith("/api/")) return;
+  if (url.origin !== location.origin) return;
 
-  // Le réseau d'abord, le cache en secours. L'inverse servait une
-  // version périmée du code après chaque modification, et il fallait
-  // vider le cache du navigateur à la main pour voir ses changements.
-  // Le cache reste indispensable, mais comme filet: hors ligne, ou quand
-  // le Pi ne répond pas.
+  // Coquille: on sert le cache tout de suite et on rafraîchit derrière
+  // (stale-while-revalidate). Sur un Pi qui rame, attendre le réseau à
+  // chaque changement d'écran se sentait. La fraîcheur du code ne
+  // dépend pas de ça: à chaque chargement, app.js redemande sw.js, une
+  // nouvelle version prend la main et recharge la page une fois.
   e.respondWith(
-    fetch(e.request)
-      .then((r) => {
-        if (r.ok && url.origin === location.origin) {
-          const copie = r.clone();
-          caches.open(CACHE).then((c) => c.put(e.request, copie));
-        }
-        return r;
+    caches.open(CACHE).then((cache) =>
+      cache.match(e.request).then((enCache) => {
+        const reseau = fetch(e.request)
+          .then((r) => {
+            if (r.ok) cache.put(e.request, r.clone());
+            return r;
+          })
+          .catch(() => enCache);
+        return enCache || reseau;
       })
-      .catch(() => caches.match(e.request))
+    )
   );
 });

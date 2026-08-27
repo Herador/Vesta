@@ -33,6 +33,20 @@ SYNONYMES_PIECE = {
 IGNOREES = {"pincée", "pincee", "poignée", "poignee", "trait", "filet",
             "qs", "au goût", "au gout"}
 
+# La cuillère s'écrit de dix façons. On les ramène toutes à "càs"/"càc",
+# la forme courte que le reste du code connaît: un modèle rend volontiers
+# "c. à soupe", que le vérificateur refusait comme unité inconnue.
+CUILLERES = {
+    "càs": "càs", "cas": "càs", "cs": "càs",
+    "c. à soupe": "càs", "c à soupe": "càs", "c.à.s": "càs", "c.a.s": "càs",
+    "cuillère à soupe": "càs", "cuillere à soupe": "càs",
+    "cuillères à soupe": "càs", "cuilleres à soupe": "càs",
+    "càc": "càc", "cac": "càc", "cc": "càc",
+    "c. à café": "càc", "c à café": "càc", "c.à.c": "càc", "c.a.c": "càc",
+    "cuillère à café": "càc", "cuillere à café": "càc",
+    "cuillères à café": "càc", "cuilleres à café": "càc",
+}
+
 # Poids moyen d'une pièce, en grammes. Sert uniquement quand une recette
 # demande des grammes alors que le stock est compté en pièces, ou
 # l'inverse. Toujours approximatif, et signalé comme tel.
@@ -49,8 +63,10 @@ EQUIVALENCES: dict[str, float] = {
 
 def normaliser_unite(unite: str) -> str:
     """Ramène une unité écrite librement à l'une des unités connues."""
-    u = (unite or "").strip().lower()
-    return "" if u in SYNONYMES_PIECE else u
+    u = (unite or "").strip().lower().rstrip(".")
+    if u in SYNONYMES_PIECE:
+        return ""
+    return CUILLERES.get(u, u)
 
 
 def vers_base(quantite: float | None, unite: str) -> tuple[float | None, str | None]:

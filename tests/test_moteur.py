@@ -98,7 +98,7 @@ class TestProposer:
 
     def test_ignore_les_recettes_sans_lien_avec_le_stock(self):
         pistes = proposer([stock("saumon", 1)],
-                          [recette("Gratin de courge", [("courge", True)])], [])
+                          [recette("Gratin de courge", [("courge", True)])])
         assert pistes == []
 
     def test_l_urgence_maximale_domine(self):
@@ -111,20 +111,20 @@ class TestProposer:
             recette("Poêlée de légumes", [("carotte", True), ("courgette", True),
                                           ("poivron", True)]),
         ]
-        pistes = proposer(articles, recettes, [])
+        pistes = proposer(articles, recettes)
         assert pistes[0].recette["titre"] == "Saumon vapeur"
 
     def test_un_ingredient_facultatif_absent_coute_peu(self):
         articles = [stock("saumon", 1)]
-        avec = proposer(articles, [recette("A", [("saumon", True), ("aneth", False)])], [])
-        sans = proposer(articles, [recette("B", [("saumon", True)])], [])
+        avec = proposer(articles, [recette("A", [("saumon", True), ("aneth", False)])])
+        sans = proposer(articles, [recette("B", [("saumon", True)])])
         assert sans[0].score - avec[0].score < 1
 
     def test_les_imposes_filtrent(self):
         articles = [stock("saumon", 1), stock("poulet", 3)]
         recettes = [recette("Au saumon", [("saumon", True)]),
                     recette("Au poulet", [("poulet", True)])]
-        pistes = proposer(articles, recettes, [], imposes=[articles[0]["id"]])
+        pistes = proposer(articles, recettes, imposes=[articles[0]["id"]])
         assert [p.recette["titre"] for p in pistes] == ["Au saumon"]
 
     def test_une_recette_faite_hier_recule(self):
@@ -133,10 +133,10 @@ class TestProposer:
         frais = recette("Jamais faite", [("saumon", True)])
         hier = recette("Faite hier", [("saumon", True)],
                        derniere_fois=date.today().isoformat())
-        pistes = proposer(articles, [hier, frais], [])
+        pistes = proposer(articles, [hier, frais])
         assert pistes[0].recette["titre"] == "Jamais faite"
 
     def test_la_phrase_nomme_ce_qui_presse(self):
         pistes = proposer([stock("saumon", 0)],
-                          [recette("Saumon vapeur", [("saumon", True)])], [])
+                          [recette("Saumon vapeur", [("saumon", True)])])
         assert "saumon" in pistes[0].pourquoi.lower()

@@ -202,6 +202,41 @@ Assiette: moitié légumes, un quart protéines, un quart féculents pesés 50 �
 Style: cuisine du monde, du goût, jamais de plat fade."""
 
 
+def colonnes(con, table: str) -> set[str]:
+    return {ligne["name"] for ligne in con.execute(f"PRAGMA table_info({table})")}
+
+
+def ajouter_colonne(con, table: str, colonne: str, definition: str) -> None:
+    """ALTER TABLE idempotent: ne fait rien si la colonne est déjà là.
+
+    SCHEMA crée toujours les tables dans leur forme du jour; une base
+    déjà en place, elle, a besoin qu'on lui ajoute après coup les
+    colonnes venues plus tard. On vérifie donc avant d'ajouter, ce qui
+    rend une migration rejouable sur une base neuve comme ancienne.
+    """
+    if colonne not in colonnes(con, table):
+        con.execute(f"ALTER TABLE {table} ADD COLUMN {colonne} {definition}")
+
+
+# Les changements de schéma que `SCHEMA` ne peut pas faire seul: ajout de
+# colonne à une table existante, remplissage d'une valeur. Chaque entrée
+# est (numéro, fonction). `PRAGMA user_version` retient le dernier
+# numéro appliqué, donc on ne rejoue rien inutilement. Exemple:
+#   (1, lambda con: ajouter_colonne(con, "recette", "moment", "TEXT")),
+MIGRATIONS: list = [
+]
+
+
+def migrer(con) -> None:
+    version = con.execute("PRAGMA user_version").fetchone()[0]
+    for numero, appliquer in MIGRATIONS:
+        if numero > version:
+            appliquer(con)
+    cible = MIGRATIONS[-1][0] if MIGRATIONS else 0
+    if cible > version:
+        con.execute(f"PRAGMA user_version = {cible}")
+
+
 def connexion() -> sqlite3.Connection:
     con = sqlite3.connect(chemin_base())
     con.row_factory = sqlite3.Row
@@ -226,6 +261,7 @@ def base():
 def initialiser() -> None:
     with base() as con:
         con.executescript(SCHEMA)
+        migrer(con)
         for cle, valeur in (
             ("contraintes", CONTRAINTES_DEFAUT),
             ("personnes", "2"),
