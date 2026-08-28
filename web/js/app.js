@@ -4,7 +4,7 @@
    appelé par elle: c'est ce qui permet d'en ajouter un sans toucher au
    reste. */
 
-import { $, api, etat, mot } from "./noyau.js";
+import { $, api, etat } from "./noyau.js";
 import { aller, brancherEcran, dessinerOnglets } from "./navigation.js";
 import { chargerStock, ouvrirSaisie } from "./vues/stock.js";
 import { chargerIdees, chargerCuisines, dessinerTemps } from "./vues/menu.js";
@@ -42,11 +42,9 @@ async function demarrer() {
   // Un repas laissé en plan doit se retrouver: on cuisine, on pose le
   // téléphone, on y revient une heure plus tard.
   try {
-    const encours = await api("/repas/en-cours");
-    if (encours) {
-      etat.repas = encours;
-      mot(`${encours.titre} est en cours`);
-    }
+    // Le bandeau « repas en cours » prend le relais: pas besoin d'un
+    // message en plus au démarrage.
+    etat.repas = await api("/repas/en-cours");
   } catch { /* sans conséquence */ }
   rafraichirEncours();
 

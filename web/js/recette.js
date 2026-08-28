@@ -407,6 +407,11 @@ export async function demarrerRepas(recetteId) {
   }
 }
 
+const FAMILLE_UNITE = { g: "masse", ml: "volume", "càs": "volume", "càc": "volume" };
+const UNITE_FAMILLE = { masse: "g", volume: "ml", piece: "" };
+const sansAccents = (s) =>
+  s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
 export function ouvrirCompteRendu() {
   const r = etat.repas;
   const p = panneau(`
@@ -419,17 +424,20 @@ export function ouvrirCompteRendu() {
 
       <div class="cr-ajout">
         <label class="lab" for="cr-nom">Tu as ajouté autre chose ?</label>
-        <input id="cr-nom" placeholder="poivron rouge" autocomplete="off">
+        <div class="cr-nom-wrap">
+          <input id="cr-nom" placeholder="poivron rouge" autocomplete="off">
+          <div class="cr-suggest" id="cr-suggest" hidden></div>
+        </div>
+        <div class="cr-unites" id="cr-unites" role="group" aria-label="Unité">
+          <button type="button" data-u="" class="on">pièce</button>
+          <button type="button" data-u="g">g</button>
+          <button type="button" data-u="ml">ml</button>
+          <button type="button" data-u="càs">c. à s.</button>
+          <button type="button" data-u="càc">c. à c.</button>
+        </div>
         <div class="cr-ajout-ligne">
           <input id="cr-qte" inputmode="decimal" placeholder="1" aria-label="Quantité">
-          <select id="cr-unite" aria-label="Unité">
-            <option value="">pièce</option>
-            <option value="g">g</option>
-            <option value="ml">ml</option>
-            <option value="càs">c. à soupe</option>
-            <option value="càc">c. à café</option>
-          </select>
-          <button class="btn calme" id="cr-ajout-btn">Ajouter</button>
+          <button class="btn calme" id="cr-ajout-btn">Ajouter à la liste</button>
         </div>
       </div>
     </div>
@@ -458,16 +466,16 @@ export function ouvrirCompteRendu() {
       el.className = "cr-ligne" + (l.vider ? " videe" : "");
       el.innerHTML = `
         <div class="cr-tete">
-          <span class="n"></span>
+          <span class="n"><span class="nom"></span></span>
+          <span class="champ"><input inputmode="decimal" aria-label="Quantité utilisée"><em></em></span>
           <button class="sup" aria-label="Retirer de la liste">✕</button>
         </div>
-        <div class="cr-mesure">
-          <span class="champ"><input inputmode="decimal" aria-label="Quantité utilisée"><em></em></span>
+        <div class="cr-bas">
           <button class="tout" aria-pressed="${!!l.vider}">${
             l.vider ? "Tout pris" : "J'ai tout pris"}</button>
         </div>`;
 
-      el.querySelector(".n").textContent = l.nom + (l.approx ? " ~" : "");
+      el.querySelector(".nom").textContent = l.nom + (l.approx ? " ~" : "");
       el.querySelector("em").textContent = unite;
 
       if (l.paquets > 1 && total !== null) {
@@ -513,28 +521,90 @@ export function ouvrirCompteRendu() {
   };
   dessiner();
 
-  // Un champ plutôt qu'un prompt(): les navigateurs le bloquent dans une
-  // application installée, et le bouton ne faisait alors rien du tout.
+  // L'unité: une rangée de pastilles, pas un menu déroulant natif qu'on
+  // ne peut pas mettre au thème.
+  let uAjout = "";
+  const barreUnites = p.querySelector("#cr-unites");
+  const choisirUnite = (u) => {
+    uAjout = u;
+    barreUnites.querySelectorAll("button").forEach(
+      (b) => b.classList.toggle("on", b.dataset.u === u));
+  };
+  barreUnites.querySelectorAll("button").forEach(
+    (b) => { b.onclick = () => choisirUnite(b.dataset.u); });
+
+  // Suggestion depuis le stock: on tape « pou », on voit « Poulet » avec
+  // ce qu'il en reste, et le choisir relie la ligne au bon article.
+  let refAjout = null;
+  const champNom = $("cr-nom");
+  const boite = $("cr-suggest");
+  const fermerSuggest = () => { boite.hidden = true; boite.innerHTML = ""; };
+
+  champNom.oninput = () => {
+    refAjout = null;
+    const q = sansAccents(champNom.value.trim());
+    const dejaLa = new Set(r.lignes.map((l) => l.cle).filter(Boolean));
+    const trouve = q ? (etat.stock || []).filter(
+      (a) => sansAccents(a.nom).includes(q) && !dejaLa.has(a.cle)).slice(0, 6) : [];
+    if (!trouve.length) return fermerSuggest();
+
+    boite.innerHTML = "";
+    trouve.forEach((a) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "cr-sug";
+      b.innerHTML = `<span></span><em>${echappe(a.affichage || "")}</em>`;
+      b.querySelector("span").textContent = a.nom;
+      b.onmousedown = (e) => e.preventDefault();   // garde le focus le temps du clic
+      b.onclick = () => {
+        champNom.value = a.nom;
+        refAjout = a;
+        choisirUnite(UNITE_FAMILLE[a.famille] ?? "");
+        fermerSuggest();
+        $("cr-qte").focus();
+      };
+      boite.appendChild(b);
+    });
+    boite.hidden = false;
+    boite.scrollIntoView({ block: "nearest" });
+  };
+  champNom.addEventListener("blur", () => setTimeout(fermerSuggest, 120));
+
   const ajouter = () => {
     const nom = $("cr-nom").value.trim();
     if (!nom) return $("cr-nom").focus();
     const q = parseFloat($("cr-qte").value.replace(",", "."));
-    const unite = $("cr-unite").value;
-    r.lignes.push({
+    const ligne = {
       nom, quantite: Number.isFinite(q) ? q : null,
-      // On garde l'unité choisie telle quelle: c'est le serveur qui la
-      // ramènera à l'unité de base, comme pour tout le reste.
-      unite, famille: { g: "masse", ml: "volume", "càs": "volume",
-                        "càc": "volume" }[unite] || "piece",
+      unite: uAjout, famille: FAMILLE_UNITE[uAjout] || "piece",
       stock_id: null, improvise: true,
-    });
+    };
+    // Choisi dans le stock: on relie la ligne à l'article, et on annonce
+    // le total pour que « tout pris » enchaîne sur les autres paquets.
+    if (refAjout && sansAccents(refAjout.nom) === sansAccents(nom)) {
+      ligne.stock_id = refAjout.id;
+      ligne.cle = refAjout.cle;
+      ligne.famille = refAjout.famille || ligne.famille;
+      const memes = (etat.stock || []).filter(
+        (a) => a.cle === refAjout.cle && a.famille === refAjout.famille);
+      if (memes.length && memes.every((a) => a.quantite != null)) {
+        ligne.disponible = Math.round(
+          memes.reduce((s, a) => s + a.quantite, 0) * 100) / 100;
+        ligne.paquets = memes.length;
+      }
+    }
+    r.lignes.push(ligne);
     $("cr-nom").value = ""; $("cr-qte").value = "";
+    refAjout = null;
+    fermerSuggest();
     dessiner();
     $("cr-nom").focus();
   };
   p.querySelector("#cr-ajout-btn").onclick = ajouter;
   ["cr-nom", "cr-qte"].forEach((id) =>
-    $(id).addEventListener("keydown", (e) => { if (e.key === "Enter") ajouter(); }));
+    $(id).addEventListener("keydown", (e) => {
+      if (e.key === "Enter") { e.preventDefault(); ajouter(); }
+    }));
   p.querySelector("#cr-plus-tard").onclick = fermer;
   p.querySelector("#cr-valider").onclick = async () => {
     const lignes = r.lignes.map((l) => {
