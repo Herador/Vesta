@@ -11,7 +11,7 @@ cuisine étape par étape, décompte le stock une fois le plat terminé.
 - **Développement**: Windows au bureau, pas de droits administrateur
 - **Contrainte absolue**: zéro coût récurrent. Tout le reste en découle.
 - **Taille**: 29 fichiers Python (5 600 lignes), 12 modules JS (1 950 lignes),
-  188 tests, 35 recettes
+  197 tests, 35 recettes
 - **Lancement**: `uvicorn app.api:app --reload --host 0.0.0.0 --port 8000`
 - **Langue**: tout en français, y compris le code (noms de variables,
   fonctions, commentaires). À conserver.
@@ -90,7 +90,10 @@ présélectionnées par le moteur local, commenter des tendances.
 **Ce qui vient du modèle est vérifié par du code, pas par une consigne.**
 Une consigne se néglige, un contrôle non. Toute recette générée passe le
 même contrôle de forme que celles écrites à la main, plus deux règles:
-une seule protéine principale, rien qui ne soit dans le stock.
+une seule protéine principale, rien qui ne soit dans le stock. Un défaut
+de forme n'est plus un 422 direct: la recette et la liste de ses
+problèmes repartent une fois au modèle, qui les corrige presque toujours
+(`ia.reparer_recette`). Le 422 ne survient que si la reprise échoue.
 
 **Les erreurs de forme bloquent, les jugements de cuisine informent.**
 Une recette inaffichable est refusée (422). Un ingrédient manquant ou deux
@@ -160,11 +163,18 @@ Presque tous les bugs sérieux viennent de là. Chacun a son test.
   les repères sensoriels, et **une recette du carnet injectée en exemple**
   à chaque demande (jamais une recette générée, sinon le niveau ne remonte
   pas).
-- **Quantités en millilitres avec unité cuillère**: « 20 càs » de sauce soja
-  pour 2 cuillères, systématique sur les cuisines à sauces. J'ai empilé
-  trois mécanismes pour corriger ça, tous supprimés depuis. La solution
-  retenue est **une consigne claire** (la quantité est le nombre d'unités,
-  jamais une conversion) et rien d'autre.
+- **Quantités en millilitres avec unité cuillère**: « 30 càs » de sauce soja
+  pour 2 cuillères, systématique sur les cuisines à sauces. Longtemps traité
+  par la seule consigne; revenu en force avec `mistral-medium` (plus faible
+  que `-large`). Deux garde-fous ajoutés: `controler_mesure` refuse une
+  cuillère au-delà de 8 (càs) / 12 (càc), et le refus déclenche la reprise
+  décrite plus haut. `nettoyer_recette` met 1 quand le chiffre manque.
+- **Fautes de frappe du modèle** (« corianadre » dans la liste, « coriandre »
+  dans l'étape): l'ingrédient passait pour absent. Tolérance à une coquille
+  (`difflib`) dans le contrôle « apparaît dans une étape ».
+- **Ingrédient imposé**: on passe la clé (`poulet`) et non le libellé du
+  stock (`Filet de poulet`), sinon le modèle écrit « filet de poulet » que
+  le contrôle rejette.
 - **Abus du facultatif**: beurre de cacahuète marqué facultatif dans une
   recette de tofu à l'arachide. → contrôle `titre_trahi()`: si un mot du
   titre ne se retrouve que dans un ingrédient facultatif, la recette est
@@ -204,7 +214,7 @@ Presque tous les bugs sérieux viennent de là. Chacun a son test.
 ## État actuel
 
 **Ce qui marche**
-- 188 tests passent (`python -m pytest`), sans réseau ni base de production
+- 197 tests passent (`python -m pytest`), sans réseau ni base de production
 - pyflakes propre sur `app/`, `outils/`, `tests/`
 - CI GitHub Actions: pyflakes + pytest à chaque push et PR
 - Parcours complet vérifié au navigateur: stock → suggestions → mode cuisine

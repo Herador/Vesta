@@ -146,20 +146,26 @@ def inventer_recette(entree: InventionEntree):
     if not articles:
         raise HTTPException(400, "Le stock est vide, il n'y a rien à cuisiner.")
 
-    # Rien n'est imposé sans que tu le demandes. Les dates partent quand
-    # même au modèle, marquées par leur urgence: il sait ce qui presse et
-    # décide lui-même si ça a un sens de le cuisiner ensemble.
-    imposes = [a["nom"] for a in articles if a["id"] in entree.imposes]
+    # Rien n'est imposé sans que tu le demandes. On passe la clé et non le
+    # libellé du stock: "Filet de poulet" ferait écrire "filet de poulet"
+    # au modèle, que le contrôle de forme rejette ("filet" est une découpe).
+    imposes = [a["cle"] for a in articles if a["id"] in entree.imposes]
 
     try:
         brute = ia.inventer_recette(articles, reglages["contraintes"],
                                     entree.portions, imposes, deja,
                                     entree.cuisine, recentes, entree.temps_max,
                                     exemple)
+        recette = nettoyer_recette(brute)
+        soucis = verifier_recette(recette)
+        # Une reprise: on renvoie au modèle sa recette et ses défauts de
+        # forme. Il les corrige presque toujours, et l'utilisateur ne voit
+        # ni le 422 ni l'aller-retour.
+        if soucis:
+            brute = ia.reparer_recette(brute, soucis)
+            recette = nettoyer_recette(brute)
     except ia.IAIndisponible as erreur:
         raise HTTPException(503, str(erreur))
-
-    recette = nettoyer_recette(brute)
 
     # Deux natures de problèmes, qu'il ne faut pas confondre. Un format
     # cassé rend la recette inaffichable: on refuse. Un ail manquant ou

@@ -373,15 +373,16 @@ Format:
   aliment distinct de son origine: "jus de citron" n'est pas "citron".
 - unite: "" pour tout ce qui se compte à la pièce, gousse d'ail et oeuf
   compris. "c. à soupe" et "c. à café" pour les condiments, comme en cuisine.
-- la quantité est toujours chiffrée, et c'est le nombre d'unités, jamais
+- la quantité est toujours chiffrée, et c'est le NOMBRE d'unités, jamais
   une conversion. Deux cuillères à soupe de sauce soja s'écrivent quantite 2
-  et unite "c. à soupe", jamais 30. Ne mets pas la quantité en ml quand tu
-  mesures en cuillères. Sans chiffre, retire l'ingrédient.
+  et unite "c. à soupe". Jamais quantite 30. Jamais la valeur en ml quand
+  l'unité est une cuillère. Un même condiment dépasse rarement 3 cuillères.
 - Ne liste ni sel, ni poivre, ni eau: écris "salez" dans l'étape.
 - essentiel: false si son absence n'empêche pas le plat.
 - etapes: 5 à 10, chacune répétant ses quantités. Les découpes vont dans une
   étape de mise en place. secondes uniquement quand l'étape attend.
-- Chaque ingrédient listé apparaît dans au moins une étape.
+- Chaque ingrédient de la liste apparaît dans au moins une étape, écrit
+  avec exactement les mêmes lettres (orthographe comprise).
 - La liste et les étapes disent la même quantité, dans la même unité.
 
 Ce qui sépare une vraie recette d'une liste d'instructions:
@@ -478,6 +479,31 @@ def inventer_recette(stock: list[dict], contraintes: str, personnes: int,
                      f"{', '.join(deja_vus)}.")
     return demander(CONSIGNE_RECETTE, "\n\n".join(blocs), max_tokens=3000,
                     usage="recette", temperature=0.85)
+
+
+CONSIGNE_REPARATION = """Voici une recette JSON que tu viens de produire, et
+les problèmes de forme qu'elle pose. Corrige-les tous et renvoie la recette
+entière, même schéma, rien d'autre. Ne change que ce qui pose problème.
+
+Les erreurs les plus fréquentes:
+- une quantité en cuillères écrite comme une conversion (30 au lieu de 2);
+  la quantité est le nombre de cuillères, jamais des millilitres.
+- un ingrédient de la liste absent des étapes, ou orthographié autrement
+  d'un côté que de l'autre: écris-le pareil aux deux endroits.
+- un condiment sans quantité: mets 1, ne le retire pas.
+"""
+
+
+def reparer_recette(brute: dict, soucis: list[str]) -> dict:
+    """Renvoie la recette au modèle avec la liste de ses défauts de forme.
+
+    Une seule reprise: le modèle rate rarement deux fois la même
+    correction, et si ça arrive on préfère refuser que boucler.
+    """
+    message = (json.dumps(brute, ensure_ascii=False)
+               + "\n\nProblèmes à corriger:\n- " + "\n- ".join(soucis))
+    return demander(CONSIGNE_REPARATION, message, max_tokens=3000,
+                    usage="recette", temperature=0.3)
 
 
 def origine(cuisine: str | None, recentes: list[str]) -> str:

@@ -82,6 +82,21 @@ class TestNettoyer:
         })
         assert propre["etapes"][0]["secondes"] == 600
 
+    def test_un_condiment_en_cuillere_sans_chiffre_prend_un(self):
+        """Le modèle oublie parfois le chiffre. « Une cuillère » est le
+        défaut évident, bien mieux que de perdre l'ingrédient."""
+        propre = nettoyer_recette({
+            "titre": "Essai", "categorie": "plat", "description": "d",
+            "portions_base": 2, "temps_min": 20,
+            "ingredients": [
+                {"nom": "riz", "quantite": 150, "unite": "g"},
+                {"nom": "sauce soja", "quantite": None, "unite": "c. à soupe"},
+            ],
+            "etapes": [{"titre": "a", "texte": "Cuire le riz et verser la sauce soja."}],
+        })
+        soja = [i for i in propre["ingredients"] if i["nom"] == "sauce soja"][0]
+        assert soja["quantite"] == 1
+
 
 class TestRecette:
 
@@ -106,6 +121,22 @@ class TestRecette:
     def test_un_champ_manquant_est_signale(self, valide):
         del valide["description"]
         assert any("description" in s for s in verifier_recette(valide))
+
+    def test_une_quantite_en_ml_sous_une_unite_cuillere_est_refusee(self, valide):
+        """« 30 c. à soupe » de sauce soja: le modèle a écrit la valeur en
+        ml. On refuse pour que la reprise corrige."""
+        valide["ingredients"].append(
+            {"nom": "sauce soja", "quantite": 30, "unite": "càs", "partie": "sauce"})
+        valide["etapes"][1]["texte"] += " Verser la sauce soja."
+        assert any("erreur d'unité" in s for s in verifier_recette(valide))
+
+    def test_une_faute_de_frappe_ne_fait_pas_croire_a_un_ingredient_absent(self, valide):
+        """« corianadre » dans la liste, « coriandre » dans l'étape: c'est
+        une coquille, pas un ingrédient oublié."""
+        valide["ingredients"].append(
+            {"nom": "corianadre", "quantite": 20, "unite": "g", "partie": "garniture"})
+        valide["etapes"][2]["texte"] += " Parsemer de coriandre ciselée avant de servir."
+        assert verifier_recette(valide) == []
 
     def test_l_oeuf_avec_ligature_est_reconnu_dans_les_etapes(self, valide):
         """L'assistant écrit « œuf » dans la liste et « œufs » (ou l'inverse

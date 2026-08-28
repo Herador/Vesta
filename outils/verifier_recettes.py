@@ -9,6 +9,7 @@ servir dans au moins une étape. C'est ce garde-fou qui permet d'ajouter
 une recette sans repasser derrière soi.
 """
 
+import difflib
 import json
 import sys
 import unicodedata
@@ -116,14 +117,24 @@ def verifier_ingredient(ing: dict) -> list[str]:
     return soucis + controler_mesure(ing, nom)
 
 
+# Au-delà, ce n'est plus une recette mais une erreur d'unité: le modèle a
+# écrit la valeur en millilitres alors que l'unité est une cuillère.
+# Personne ne met neuf cuillères à soupe d'un même condiment.
+CUILLERE_MAX = {"càs": 8, "càc": 12}
+
+
 def controler_mesure(ing: dict, nom: str) -> list[str]:
     """La quantité, l'unité et la partie: contrôlés dans tous les cas."""
     soucis = []
-    if unites.normaliser_unite(ing.get("unite", "")) not in UNITES:
+    unite = unites.normaliser_unite(ing.get("unite", ""))
+    if unite not in UNITES:
         soucis.append(f"'{nom}': unité inconnue '{ing.get('unite')}'")
     quantite = ing.get("quantite")
     if quantite is None or quantite <= 0:
         soucis.append(f"'{nom}': quantité manquante ou nulle")
+    elif unite in CUILLERE_MAX and quantite > CUILLERE_MAX[unite]:
+        soucis.append(f"'{nom}': {quantite} {unite} est une erreur d'unité, "
+                      "écris le nombre de cuillères (1 à 3), pas la valeur en ml")
     if ing.get("partie", "plat") not in PARTIES:
         soucis.append(f"'{nom}': partie inconnue '{ing.get('partie')}'")
     return soucis
@@ -219,8 +230,14 @@ def verifier_recette(r: dict) -> list[str]:
     mots_etapes = set(cle_ciqual(" ".join(e.get("texte", "") for e in r["etapes"])).split())
     for ing in r["ingredients"]:
         cle = cle_ciqual(ing.get("nom", ""))
-        if cle and not set(cle.split()) & mots_etapes:
-            soucis.append(f"'{ing['nom']}' n'apparaît dans aucune étape")
+        mots = set(cle.split())
+        if not cle or mots & mots_etapes:
+            continue
+        # Tolère une faute de frappe: "corianadre" dans la liste pour
+        # "coriandre" dans l'étape ne veut pas dire que l'ingrédient manque.
+        if any(difflib.get_close_matches(m, mots_etapes, 1, 0.85) for m in mots):
+            continue
+        soucis.append(f"'{ing['nom']}' n'apparaît dans aucune étape")
 
     return soucis + titre_trahi(r)
 
@@ -250,15 +267,22 @@ def nettoyer_recette(r: dict) -> dict:
         # Le sel et le poivre s'ajoutent au jugé, on ne les liste pas.
         if cle in ASSAISONNEMENTS:
             continue
-        # Un condiment sans quantité est un geste, pas un ingrédient:
-        # on le laisse dans les étapes et on le retire de la liste.
-        if not i.get("quantite") and cle_negligeable(cle):
+        # "1 gousse d'ail" devient "1 ail": récupérable, donc récupéré.
+        unite = unites.normaliser_unite(i.get("unite", ""))
+        quantite = i.get("quantite")
+        # Un condiment en cuillères sans quantité: le modèle a juste
+        # oublié le chiffre. "Une cuillère" est le défaut évident, bien
+        # meilleur que de perdre l'ingrédient ou de refuser la recette.
+        if not quantite and unite in ("càs", "càc"):
+            quantite = 1
+        # Un condiment vraiment sans mesure (huile "un filet") est un
+        # geste, pas un ingrédient: il reste dans les étapes.
+        if not quantite and cle_negligeable(cle):
             continue
         propre["ingredients"].append({
             "nom": str(i["nom"]).strip(),
-            "quantite": i.get("quantite"),
-            # "1 gousse d'ail" devient "1 ail": récupérable, donc récupéré.
-            "unite": unites.normaliser_unite(i.get("unite", "")),
+            "quantite": quantite,
+            "unite": unite,
             "partie": i.get("partie") if i.get("partie") in PARTIES else "plat",
             "essentiel": bool(i.get("essentiel", True)),
         })

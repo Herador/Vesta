@@ -41,14 +41,17 @@ def faux_service(monkeypatch):
     `finish_reason` simule une réponse coupée par la limite de tokens.
     `statuts` est une file de codes HTTP à renvoyer avant de servir la
     réponse: [429, 200] rejoue le cas d'un service qui a hoqueté.
+    `reponses` est une file de corps successifs (la reprise en renvoie un
+    autre que la génération): à défaut, `reponse` sert à chaque appel.
     """
-    etat = {"reponse": RECETTE, "recu": None,
+    etat = {"reponse": RECETTE, "reponses": [], "recu": None, "recus": [],
             "finish_reason": "stop", "statuts": [], "appels": 0}
 
     class Poignee(http.server.BaseHTTPRequestHandler):
         def do_POST(self):
             taille = int(self.headers["Content-Length"])
             etat["recu"] = json.loads(self.rfile.read(taille))
+            etat["recus"].append(etat["recu"])
             etat["appels"] += 1
 
             if etat["statuts"]:
@@ -59,8 +62,9 @@ def faux_service(monkeypatch):
                     self.end_headers()
                     return
 
+            reponse = etat["reponses"].pop(0) if etat["reponses"] else etat["reponse"]
             corps = json.dumps({
-                "choices": [{"message": {"content": json.dumps(etat["reponse"],
+                "choices": [{"message": {"content": json.dumps(reponse,
                                                                ensure_ascii=False)},
                              "finish_reason": etat["finish_reason"]}],
                 "usage": {"prompt_tokens": 900, "completion_tokens": 400},
@@ -127,6 +131,33 @@ class TestGeneration:
                                    "ingredients": [], "etapes": []}
         reponse = client.post("/api/ia/recette", json={"portions": 2})
         assert reponse.status_code == 422
+
+    def test_une_recette_mal_formee_est_reparee(self, client, faux_service, stock_garni):
+        """Un défaut de forme est renvoyé au modèle avec la liste des
+        problèmes; s'il corrige, l'utilisateur ne voit rien."""
+        cassee = copy.deepcopy(RECETTE)
+        cassee["ingredients"].append({"nom": "corianadre", "quantite": 20,
+                                      "unite": "g", "partie": "garniture",
+                                      "essentiel": False})
+        faux_service["reponses"] = [cassee, RECETTE]   # génération, puis reprise
+
+        reponse = client.post("/api/ia/recette", json={"portions": 2})
+        assert reponse.status_code == 200
+        assert faux_service["appels"] == 2
+        assert "corriger" in faux_service["recus"][1]["messages"][1]["content"]
+
+    def test_l_ingredient_impose_part_sous_sa_forme_courte(self, client, faux_service,
+                                                           stock_garni):
+        """« Filet de poulet » imposé doit arriver au modèle comme
+        « poulet »: sinon il écrit « filet de poulet », que le contrôle
+        de forme rejette (« filet » est une découpe)."""
+        art = client.post("/api/stock", json={"nom": "Filet de poulet",
+                                              "quantite": 400, "unite": "g",
+                                              "lieu": "frigo"}).json()
+        client.post("/api/ia/recette",
+                    json={"portions": 2, "imposes": [art["id"]], "enregistrer": False})
+        envoye = faux_service["recu"]["messages"][1]["content"]
+        assert "obligatoirement: poulet" in envoye
 
     def test_deux_proteines_sont_signalees_sans_bloquer(self, client, faux_service,
                                                         stock_garni):
