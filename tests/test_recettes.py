@@ -21,6 +21,8 @@ class TestIngredient:
     @pytest.mark.parametrize("nom", [
         "carotte", "pomme de terre", "sauce soja", "jus de citron vert",
         "poivron rouge", "champignon de Paris",
+        # une découpe qui nomme l'aliment, pas une taille
+        "filet de poulet", "pavé de saumon", "escalope de dinde",
     ])
     def test_les_noms_acceptes(self, nom):
         assert verifier_ingredient(
@@ -30,6 +32,7 @@ class TestIngredient:
         "grosses carottes en julienne",   # une taille et une découpe
         "carotte moyenne",                # une taille
         "oignons émincés",                # une préparation
+        "poivron en filets",              # là "filet" est bien une découpe
     ])
     def test_les_noms_refuses(self, nom):
         assert verifier_ingredient(

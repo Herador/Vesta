@@ -146,18 +146,17 @@ class TestGeneration:
         assert faux_service["appels"] == 2
         assert "corriger" in faux_service["recus"][1]["messages"][1]["content"]
 
-    def test_l_ingredient_impose_part_sous_sa_forme_courte(self, client, faux_service,
-                                                           stock_garni):
-        """« Filet de poulet » imposé doit arriver au modèle comme
-        « poulet »: sinon il écrit « filet de poulet », que le contrôle
-        de forme rejette (« filet » est une découpe)."""
+    def test_l_ingredient_impose_garde_son_libelle(self, client, faux_service,
+                                                   stock_garni):
+        """« Filet de poulet » part tel quel: « poulet » perdrait la
+        découpe, et « 2 filets » deviendrait « 2 poulets »."""
         art = client.post("/api/stock", json={"nom": "Filet de poulet",
-                                              "quantite": 400, "unite": "g",
+                                              "quantite": 2, "unite": "",
                                               "lieu": "frigo"}).json()
         client.post("/api/ia/recette",
                     json={"portions": 2, "imposes": [art["id"]], "enregistrer": False})
         envoye = faux_service["recu"]["messages"][1]["content"]
-        assert "obligatoirement: poulet" in envoye
+        assert "obligatoirement: Filet de poulet" in envoye
 
     def test_deux_proteines_sont_signalees_sans_bloquer(self, client, faux_service,
                                                         stock_garni):

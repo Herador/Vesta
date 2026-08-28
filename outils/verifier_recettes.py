@@ -35,6 +35,13 @@ MOTS_INTERDITS = {"en", "coupe", "coupé", "avec", "sans", "pour", "ou", "et"}
 # Ce qu'on n'écrit jamais dans une liste d'ingrédients.
 ASSAISONNEMENTS = {"sel", "poivre", "sel poivre", "poivre sel", "eau"}
 
+# "filet de poulet", "darne de saumon", "escalope de dinde": le premier
+# mot nomme une découpe qui fait partie du nom de l'aliment, pas une
+# taille. On ne le confond pas avec "un filet d'huile".
+DECOUPES_NOMMANTES = {"filet", "pave", "darne", "escalope", "tranche",
+                      "cuisse", "magret", "aiguillette", "cotelette",
+                      "manchon", "blanc", "coeur"}
+
 
 # Des noms composés où un mot de taille ou de préparation appartient à
 # l'aliment lui-même: "petits pois" n'est pas une taille de pois, et le
@@ -95,19 +102,25 @@ def verifier_ingredient(ing: dict) -> list[str]:
     if " ".join(mots) in NOMS_ADMIS:
         return controler_mesure(ing, nom)
 
+    # "filet de poulet", "pavé de saumon": une découpe qui nomme
+    # l'aliment. Le premier mot ne compte alors ni comme taille ni dans
+    # la limite de longueur.
+    decoupe_nommante = (len(mots) == 3 and mots[1] in ("de", "d")
+                        and mots[0] in DECOUPES_NOMMANTES)
+
     # Quatre mots sont permis quand le nom désigne une transformation:
     # "jus de citron vert" est un ingrédient à part entière. On regarde
     # le premier mot écrit, pas la clé normalisée: celle-ci peut avoir
     # remplacé "jus de citron vert" par un synonyme.
     limite = 4 if mots and mots[0] in TRANSFORMATIONS else 3
-    if len(nom.split()) > limite:
+    if len(nom.split()) > limite and not decoupe_nommante:
         soucis.append(f"'{nom}': nom trop long, garde l'aliment nu")
 
     for brut, mot in zip(nom.lower().split(), mots):
         if mot in MOTS_INTERDITS and len(mots) > 2:
             soucis.append(f"'{nom}': '{brut}' décrit une préparation, à mettre dans l'étape")
             break
-        if mot in TAILLE:
+        if mot in TAILLE and not decoupe_nommante:
             soucis.append(f"'{nom}': '{brut}' est une taille ou une découpe, à mettre dans l'étape")
             break
     if len(mots) > 1 and mots[-1] in PARTICIPES_PREPARATION:

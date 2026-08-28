@@ -146,10 +146,11 @@ def inventer_recette(entree: InventionEntree):
     if not articles:
         raise HTTPException(400, "Le stock est vide, il n'y a rien à cuisiner.")
 
-    # Rien n'est imposé sans que tu le demandes. On passe la clé et non le
-    # libellé du stock: "Filet de poulet" ferait écrire "filet de poulet"
-    # au modèle, que le contrôle de forme rejette ("filet" est une découpe).
-    imposes = [a["cle"] for a in articles if a["id"] in entree.imposes]
+    # Rien n'est imposé sans que tu le demandes. On passe le libellé du
+    # stock tel quel: "filet de poulet" reste "filet de poulet", pas
+    # "poulet" (2 filets ne font pas 2 poulets). Le contrôle de forme
+    # sait désormais qu'une découpe peut nommer l'aliment.
+    imposes = [a["nom"] for a in articles if a["id"] in entree.imposes]
 
     try:
         brute = ia.inventer_recette(articles, reglages["contraintes"],
