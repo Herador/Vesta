@@ -107,6 +107,15 @@ class TestRecette:
         del valide["description"]
         assert any("description" in s for s in verifier_recette(valide))
 
+    def test_l_oeuf_avec_ligature_est_reconnu_dans_les_etapes(self, valide):
+        """L'assistant écrit « œuf » dans la liste et « œufs » (ou l'inverse
+        « oeuf ») dans les étapes: le œ tombait au filtre a-z et devenait
+        « uf », donc l'ingrédient passait pour absent des étapes."""
+        valide["ingredients"].append(
+            {"nom": "oeuf", "quantite": 2, "unite": "", "partie": "plat"})
+        valide["etapes"][1]["texte"] += " Ajouter 2 œufs battus et mélanger."
+        assert verifier_recette(valide) == []
+
 
 class TestCarnetLivre:
     """Le carnet fourni doit rester conforme à son propre format."""

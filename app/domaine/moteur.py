@@ -98,6 +98,9 @@ def normaliser(texte: str, garder_chiffres: bool = False) -> str:
     compte la cohérence entre les deux côtés de la comparaison.
     """
     texte = texte.lower()
+    # Les ligatures que NFD ne défait pas: "œuf" deviendrait sinon "uf"
+    # (le œ tombe au filtre a-z) et ne rencontrerait jamais "oeuf".
+    texte = texte.replace("œ", "oe").replace("æ", "ae")
     # Ce qui suit une parenthèse, une virgule ou un "ou" est une précision,
     # pas l'aliment: "citron (zeste et jus)" et "muesli ou flocons" doivent
     # donner "citron" et "muesli".

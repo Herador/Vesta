@@ -53,7 +53,8 @@ def mot_nu(mot: str) -> str:
     les mots qu'on cherche à repérer. "moyenne" et "émincés" en
     ressortaient vides, et n'étaient donc jamais signalés.
     """
-    sans = unicodedata.normalize("NFD", mot.lower())
+    sans = mot.lower().replace("œ", "oe").replace("æ", "ae")
+    sans = unicodedata.normalize("NFD", sans)
     sans = "".join(c for c in sans if unicodedata.category(c) != "Mn")
     sans = "".join(c for c in sans if c.isalnum())
     return sans[:-1] if len(sans) > 3 and sans[-1] in "sx" else sans

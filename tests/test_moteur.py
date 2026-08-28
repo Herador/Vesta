@@ -26,9 +26,16 @@ class TestNormaliser:
         ("protéines de soja texturées", "pst"),
         ("pommes de terre en cubes", "pomme de terre"),
         ("feuilles de laitue", "laitue"),
+        ("œuf", "oeuf"),
+        ("2 œufs battus", "oeuf"),
     ])
     def test_reduit_a_l_aliment(self, ecrit, attendu):
         assert normaliser(ecrit) == attendu
+
+    def test_la_ligature_oe_rejoint_l_ecriture_en_deux_lettres(self):
+        """L'assistant mélange « œuf » et « oeuf »: sans traiter la
+        ligature, le œ tombait au filtre a-z et « œuf » devenait « uf »."""
+        assert normaliser("œuf") == normaliser("oeuf")
 
     def test_la_negation_ne_s_inverse_pas(self):
         """Le bug le plus grave rencontré: "non salées" devenait "salées",

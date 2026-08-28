@@ -111,7 +111,10 @@ MALUS_HORS_SUJET = 6.0  # groupes écartés: glaces, boissons, plats préemball�
 
 
 def sans_accents(texte: str) -> str:
-    texte = unicodedata.normalize("NFD", texte.lower())
+    # œ et æ ne sont pas défaits par NFD et tomberaient au filtre a-z:
+    # "œuf" doit rester rapprochable de "oeuf".
+    texte = texte.lower().replace("œ", "oe").replace("æ", "ae")
+    texte = unicodedata.normalize("NFD", texte)
     return "".join(c for c in texte if unicodedata.category(c) != "Mn")
 
 
