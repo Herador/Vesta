@@ -11,7 +11,7 @@ cuisine étape par étape, décompte le stock une fois le plat terminé.
 - **Développement**: Windows au bureau, pas de droits administrateur
 - **Contrainte absolue**: zéro coût récurrent. Tout le reste en découle.
 - **Taille**: 29 fichiers Python (5 600 lignes), 12 modules JS (1 950 lignes),
-  197 tests, 35 recettes
+  204 tests, 35 recettes
 - **Lancement**: `uvicorn app.api:app --reload --host 0.0.0.0 --port 8000`
 - **Langue**: tout en français, y compris le code (noms de variables,
   fonctions, commentaires). À conserver.
@@ -214,7 +214,7 @@ Presque tous les bugs sérieux viennent de là. Chacun a son test.
 ## État actuel
 
 **Ce qui marche**
-- 197 tests passent (`python -m pytest`), sans réseau ni base de production
+- 204 tests passent (`python -m pytest`), sans réseau ni base de production
 - pyflakes propre sur `app/`, `outils/`, `tests/`
 - CI GitHub Actions: pyflakes + pytest à chaque push et PR
 - Parcours complet vérifié au navigateur: stock → suggestions → mode cuisine
@@ -270,8 +270,10 @@ Développable sur `localhost` dès maintenant. La table `produit` existe déjà
 et se remplit à la volée quand un code barre inconnu est saisi.
 
 **4. Confirmer les rattachements CIQUAL**
-30 aliments en attente, dont fromage blanc, flocons d'avoine, fruits rouges
-et graines de chia qui sont absents des bilans faute de fiche.
+~30 aliments en attente. Ceux sans fiche CIQUAL (pâte de sésame, etc.)
+peuvent désormais être saisis à la main ou marqués « non compté » depuis
+l'écran des aliments. Un légume compté à la pièce (concombre, avocat) a
+maintenant un poids moyen dans `unites.EQUIVALENCES` et entre dans le bilan.
 
 **5. Plus tard**
 - Réintégrer les petits déjeuners avec une notion de moment de la journée

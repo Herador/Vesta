@@ -47,9 +47,10 @@ CUILLERES = {
     "cuillères à café": "càc", "cuilleres à café": "càc",
 }
 
-# Poids moyen d'une pièce, en grammes. Sert uniquement quand une recette
-# demande des grammes alors que le stock est compté en pièces, ou
-# l'inverse. Toujours approximatif, et signalé comme tel.
+# Poids moyen d'une pièce (portion comestible), en grammes. Sert quand
+# une recette compte en grammes et le stock en pièces, ou l'inverse, et
+# pour le bilan: un concombre « à la pièce » sans cette entrée n'était
+# pas comptabilisé du tout. Toujours approximatif, et signalé comme tel.
 EQUIVALENCES: dict[str, float] = {
     "oeuf": 55, "gousse ail": 5, "ail": 5, "oignon": 130, "oignon rouge": 130,
     "oignon nouveau": 18, "echalote": 30, "carotte": 90, "poivron": 160,
@@ -58,6 +59,13 @@ EQUIVALENCES: dict[str, float] = {
     "kiwi": 80, "pak choi": 150, "pain burger": 60, "pain pita": 70,
     "tranche pain": 35, "sucrine": 120, "laitue": 250, "brocoli": 450,
     "pave saumon": 130, "filet poulet": 150, "champignon": 20,
+    # légumes et fruits comptés à la pièce
+    "concombre": 350, "avocat": 145, "banane": 120, "orange": 130,
+    "clementine": 65, "mandarine": 70, "pamplemousse": 230, "poire": 160,
+    "peche": 150, "nectarine": 140, "abricot": 55, "prune": 35,
+    "endive": 125, "fenouil": 250, "betterave": 130, "navet": 110,
+    "poireau": 130, "chou fleur": 700, "chou": 900,
+    "artichaut": 120, "panais": 130, "figue": 45, "mangue": 200,
 }
 
 

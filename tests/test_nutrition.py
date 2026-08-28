@@ -122,6 +122,18 @@ class TestApports:
         calcul = nutrition.apports(lignes, compositions, 2)
         assert "Saumon" in calcul["couverture"]["approximatifs"]
 
+    def test_un_legume_compte_a_la_piece_est_bien_pris_en_compte(self):
+        """Le concombre à la pièce, lié mais absent de EQUIVALENCES, ne
+        se convertissait pas en grammes et disparaissait du bilan."""
+        compo = {"concombre": {"kcal": 11, "proteines": 0.6, "lipides": 0.1,
+                               "glucides": 1.9, "sucres": 1.4, "satures": 0,
+                               "fibres": 0.9, "sel": 0}}
+        lignes = [{"nom": "Concombre", "cle": "concombre", "quantite": 0.5,
+                   "famille": "piece"}]
+        calcul = nutrition.apports(lignes, compo, 2)
+        assert calcul["couverture"]["ignores"] == []
+        assert calcul["total"]["kcal"] > 0
+
 
 class TestFamilles:
     """Le pictogramme d'un aliment."""

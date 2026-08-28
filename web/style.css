@@ -651,6 +651,22 @@ body.panneau-ouvert { overflow: hidden; }
 #page-aliments .article { padding: 13px 15px; }
 #page-aliments .article .meta { white-space: normal; line-height: 1.35; }
 
+/* La saisie à la main, quand aucune fiche CIQUAL ne convient. */
+.ch-manuel { margin-top: 16px; }
+.ch-manuel > summary {
+  cursor: pointer; font-size: 13px; color: var(--texte-doux);
+  padding: 10px 0;
+}
+.ch-grille { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ch-grille label {
+  display: flex; flex-direction: column; gap: 4px;
+  font-size: 11px; color: var(--texte-faible);
+}
+.ch-grille input {
+  text-align: right; font-family: "JetBrains Mono", monospace;
+  background: var(--carte-haute);
+}
+
 /* Le total disponible quand un aliment occupe plusieurs paquets. */
 .appoint {
   display: block;

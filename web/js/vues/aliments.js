@@ -111,12 +111,47 @@ function ouvrirChoix(a) {
     <input id="ch-recherche" placeholder="fromage blanc nature" autocomplete="off">
     <div id="ch-resultats"></div>
 
+    <details class="ch-manuel">
+      <summary>Rien ne convient : saisir les valeurs à la main</summary>
+      <p class="sous" style="margin:8px 0">Pour 100 g. Laisse vide ce que tu ne sais pas ;
+        au minimum les kcal.</p>
+      <div class="ch-grille">
+        ${["kcal", "proteines", "glucides", "lipides", "fibres", "sel"].map((n) =>
+          `<label>${n === "proteines" ? "protéines" : n}
+             <input id="m-${n}" inputmode="decimal" placeholder="0"></label>`).join("")}
+      </div>
+      <button class="btn calme" id="m-enregistrer" style="width:100%;margin-top:10px">
+        Enregistrer ces valeurs</button>
+    </details>
+
     <div class="actions-collees">
       <button class="btn calme" id="ch-ia">Demander à l'assistant</button>
-      <button class="btn calme" id="ch-passer">Passer</button>
+      <button class="btn calme" id="ch-ignorer">Ne pas compter cet aliment</button>
+      <button class="btn calme" id="ch-passer">Passer pour l'instant</button>
     </div>`);
 
   dessinerFiches($("ch-propositions"), a.propositions, a);
+
+  p.querySelector("#m-enregistrer").onclick = async () => {
+    const corps = { libelle: a.nom };
+    for (const n of ["kcal", "proteines", "glucides", "lipides", "fibres", "sel"]) {
+      const v = parseFloat($("m-" + n).value.replace(",", "."));
+      if (Number.isFinite(v) && v >= 0) corps[n] = v;
+    }
+    if (corps.kcal === undefined) return mot("Renseigne au moins les kcal.");
+    await api(`/aliments/${encodeURIComponent(a.cle)}`, { method: "PUT", corps });
+    fermer();
+    mot(`${a.nom} : valeurs enregistrées`);
+    chargerAliments();
+  };
+
+  p.querySelector("#ch-ignorer").onclick = async () => {
+    await api(`/aliments/${encodeURIComponent(a.cle)}`,
+              { method: "PUT", corps: { ignorer: true } });
+    fermer();
+    mot(`${a.nom} ne sera plus compté dans le bilan`);
+    chargerAliments();
+  };
 
   let minuteur;
   $("ch-recherche").oninput = () => {

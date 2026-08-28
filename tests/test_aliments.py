@@ -82,6 +82,25 @@ class TestRattachement:
         lies = {a["cle"]: a for a in client.get("/api/aliments").json()}
         assert lies["haricot rouge"]["kcal"] == 108
 
+    def test_saisir_les_valeurs_a_la_main(self, client, ciqual):
+        """La pâte de sésame n'a pas de fiche propre dans CIQUAL: on doit
+        pouvoir entrer les valeurs plutôt que de forcer une fiche fausse."""
+        ajouter(client, "Pâte de sésame", 200, "g")
+        r = client.put("/api/aliments/pate sesame",
+                       json={"kcal": 595, "proteines": 17, "lipides": 53})
+        assert r.status_code == 200
+        assert r.json()["source"] == "manuel"
+        assert r.json()["kcal"] == 595
+
+    def test_marquer_un_aliment_non_compte(self, client, ciqual):
+        ajouter(client, "Concombre", 1, "")
+        r = client.put("/api/aliments/concombre", json={"ignorer": True})
+        assert r.status_code == 200
+        assert r.json()["source"] == "ignore"
+        # et il ne réapparaît plus dans la file d'attente
+        attente = [a["cle"] for a in client.get("/api/aliments/a-confirmer").json()]
+        assert "concombre" not in attente
+
 
 class TestConfirmation:
 

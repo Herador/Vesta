@@ -164,7 +164,7 @@ python -m pytest
 python -m pyflakes app outils tests
 ```
 
-197 tests, sans réseau ni base de production: chacun travaille sur une
+204 tests, sans réseau ni base de production: chacun travaille sur une
 base jetable, et l'assistant est remplacé par un faux serveur local. La
 CI (`.github/workflows/tests.yml`) rejoue les deux à chaque push.
 
