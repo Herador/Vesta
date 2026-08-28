@@ -706,6 +706,12 @@ body.panneau-ouvert { overflow: hidden; }
 }
 .cr-ajout .lab { margin-top: 0; }
 
+/* Le champ nom occupe toute la largeur, sur sa propre ligne: c'est la
+   barre de recherche. Il n'est jamais dans un conteneur flex, donc son
+   width:100% est respecté tel quel. */
+.cr-nom-wrap { display: block; }
+#cr-nom { width: 100%; }
+
 .cr-suggest {
   margin-top: 6px;
   background: var(--carte-haute);
@@ -714,7 +720,7 @@ body.panneau-ouvert { overflow: hidden; }
 }
 .cr-suggest[hidden] { display: none; }
 .cr-sug {
-  display: flex; align-items: baseline; gap: 8px; width: 100%;
+  display: flex; align-items: baseline; gap: 8px; 
   padding: 11px 13px; text-align: left;
   border-bottom: 1px solid var(--trait);
   color: var(--texte); font-size: 14px;
@@ -724,15 +730,23 @@ body.panneau-ouvert { overflow: hidden; }
 .cr-sug span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .cr-sug em { flex: none; font-style: normal; font-size: 11.5px; color: var(--texte-faible); }
 
-/* Les unités: une rangée de pastilles, pas un menu déroulant natif. */
-.cr-unites { display: flex; gap: 6px; margin-top: 10px; }
+/* Ligne « combien » : le champ quantité à gauche, les unités en pastilles
+   à droite. Le champ a une largeur fixe et flex:none, sinon flexbox le
+   laisse s'étirer et il devient impossible à distinguer du champ nom. */
+.cr-mesure-ajout { display: flex; gap: 8px; margin-top: 10px; align-items: stretch; }
+.cr-mesure-ajout .cr-qte {
+  flex: none; width: 60px;
+  text-align: right; padding: 13px 10px;
+  font-family: "JetBrains Mono", monospace; font-weight: 600;
+}
+
+.cr-unites { flex: 1; min-width: 0; display: flex; gap: 5px; }
 .cr-unites button {
-  flex: 1; padding: 9px 4px; border-radius: 999px;
+  flex: 1; min-width: 0; padding: 0 2px; border-radius: 999px;
+  display: grid; place-items: center;
   background: var(--carte); color: var(--texte-doux);
-  font-size: 12px; font-weight: 600;
+  font-size: 11.5px; font-weight: 600; white-space: nowrap;
 }
 .cr-unites button.on { background: var(--texte); color: var(--fond); }
 
-.cr-ajout-ligne { display: flex; gap: 8px; margin-top: 10px; margin-bottom: 6px; }
-.cr-ajout-ligne #cr-qte { width: 62px; flex: none; text-align: right; padding: 13px 10px; }
-.cr-ajout-ligne #cr-ajout-btn { flex: 1; padding: 13px 12px; }
+#cr-ajout-btn { width: 100%; margin-top: 10px; margin-bottom: 4px; }

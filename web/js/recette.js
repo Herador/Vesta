@@ -428,17 +428,17 @@ export function ouvrirCompteRendu() {
           <input id="cr-nom" placeholder="poivron rouge" autocomplete="off">
           <div class="cr-suggest" id="cr-suggest" hidden></div>
         </div>
-        <div class="cr-unites" id="cr-unites" role="group" aria-label="Unité">
-          <button type="button" data-u="" class="on">pièce</button>
-          <button type="button" data-u="g">g</button>
-          <button type="button" data-u="ml">ml</button>
-          <button type="button" data-u="càs">c. à s.</button>
-          <button type="button" data-u="càc">c. à c.</button>
+        <div class="cr-mesure-ajout">
+          <input id="cr-qte" class="cr-qte" inputmode="decimal" placeholder="1" aria-label="Quantité">
+          <div class="cr-unites" id="cr-unites" role="group" aria-label="Unité">
+            <button type="button" data-u="" class="on">pièce</button>
+            <button type="button" data-u="g">g</button>
+            <button type="button" data-u="ml">ml</button>
+            <button type="button" data-u="càs">c. à s.</button>
+            <button type="button" data-u="càc">c. à c.</button>
+          </div>
         </div>
-        <div class="cr-ajout-ligne">
-          <input id="cr-qte" inputmode="decimal" placeholder="1" aria-label="Quantité">
-          <button class="btn calme" id="cr-ajout-btn">Ajouter à la liste</button>
-        </div>
+        <button class="btn calme" id="cr-ajout-btn">Ajouter à la liste</button>
       </div>
     </div>
 
