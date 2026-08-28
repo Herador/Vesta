@@ -12,7 +12,7 @@ invente des calories est exactement ce qu'on veut éviter.
 Configuration, dans un fichier .env à côté du code:
 
     IA_CLE=xxxxxxxx
-    IA_MODELE=mistral-large-latest      (optionnel)
+    IA_MODELE=mistral-medium-latest     (optionnel, défaut)
     IA_URL=https://api.mistral.ai/v1/chat/completions   (optionnel)
     IA_CERT=C:/chemin/vers/ca-entreprise.pem            (optionnel)
     IA_VERIFIER=non                                     (dernier recours)
@@ -41,7 +41,11 @@ from app.domaine.moteur import normaliser, rang_urgence
 
 FICHIER_ENV = Path(__file__).resolve().parent.parent / ".env"
 URL_DEFAUT = "https://api.mistral.ai/v1/chat/completions"
-MODELE_DEFAUT = "mistral-large-latest"
+# mistral-medium et non -large: sur l'offre gratuite, -large finit
+# régulièrement en timeout (la requête part, aucune réponse ne revient),
+# alors que -medium répond en moins d'une seconde pour une qualité de
+# recette équivalente. Surchargeable par IA_MODELE dans le .env.
+MODELE_DEFAUT = "mistral-medium-latest"
 DELAI = 60.0
 
 # Garde-fou, pas une vraie limite d'usage: un frontend qui boucle ou un
@@ -205,7 +209,8 @@ def demander(consigne: str, message: str, max_tokens: int = 1500,
                          "Content-Type": "application/json"},
                 json=corps, timeout=DELAI, verify=verifier_ssl(env),
             )
-        except httpx.ConnectError as erreur:
+        except (httpx.ConnectError, httpx.ConnectTimeout) as erreur:
+            # La connexion ne s'établit pas: ça peut se rétablir, on retente.
             if "CERTIFICATE_VERIFY_FAILED" in str(erreur):
                 raise IAIndisponible(
                     "Certificat refusé: ton réseau inspecte le HTTPS et Python ne "
@@ -217,9 +222,14 @@ def demander(consigne: str, message: str, max_tokens: int = 1500,
                 raise IAIndisponible(f"Le service est injoignable: {erreur}") from erreur
             continue
         except httpx.RequestError as erreur:
-            if essai == len(ATTENTES):
-                raise IAIndisponible(f"Le service est injoignable: {erreur}") from erreur
-            continue
+            # Requête partie, pas de réponse (ReadTimeout surtout). Retenter
+            # avec le même délai ne ferait que tripler l'attente pour le
+            # même échec: on rend la main tout de suite.
+            raise IAIndisponible(
+                "Le service met trop longtemps à répondre. Si IA_MODELE vise "
+                "mistral-large, bascule sur mistral-medium-latest dans le "
+                f".env: il répond bien plus vite. ({erreur})"
+            ) from erreur
 
         if reponse.status_code in CODES_TRANSITOIRES and essai < len(ATTENTES):
             continue

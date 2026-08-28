@@ -735,7 +735,7 @@ body.panneau-ouvert { overflow: hidden; }
    laisse s'étirer et il devient impossible à distinguer du champ nom. */
 .cr-mesure-ajout { display: flex; gap: 8px; margin-top: 10px; align-items: stretch; }
 .cr-mesure-ajout .cr-qte {
-  flex: none; width: 60px;
+  flex: none; width: 85px;
   text-align: right; padding: 13px 10px;
   font-family: "JetBrains Mono", monospace; font-weight: 600;
 }

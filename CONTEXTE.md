@@ -209,7 +209,8 @@ Presque tous les bugs sérieux viennent de là. Chacun a son test.
 - CI GitHub Actions: pyflakes + pytest à chaque push et PR
 - Parcours complet vérifié au navigateur: stock → suggestions → mode cuisine
   → compte rendu → décompte
-- Assistant fonctionnel avec Mistral (offre gratuite, `mistral-large-latest`)
+- Assistant fonctionnel avec Mistral (offre gratuite, `mistral-medium-latest` ;
+  `mistral-large` répond en 60-120 s sur l'offre gratuite et dépasse le délai)
 
 **Ce qui est en place mais peu utilisé**
 - Le rattachement CIQUAL: 69 aliments liés automatiquement, 30 en attente de

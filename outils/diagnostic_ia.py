@@ -131,6 +131,11 @@ def main() -> None:
         print(f"   Attention: '{demande}' n'est pas dans la liste.")
         print(f"   Disponibles et adaptés: {proches}")
         print("   Renseigne IA_MODELE dans le .env avec l'un d'eux.")
+    elif "large" in demande:
+        print(f"   Modèle configuré: {demande}")
+        print("   Attention: sur l'offre gratuite, mistral-large répond en "
+              "60 à 120 s et dépasse souvent le délai (503). "
+              "mistral-medium-latest répond en ~1 s pour une qualité proche.")
     else:
         print(f"   Modèle configuré: {demande}")
 
